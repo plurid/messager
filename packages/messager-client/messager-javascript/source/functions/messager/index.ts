@@ -12,48 +12,23 @@
     } from '#data/constants';
 
 
-    import getGraphqlClient from '#services/graphql/client';
+    import getGraphqlClient, {
+        globalGraphqlClient,
+    } from '#services/graphql/client';
 
     import {
         PUBLISH,
         SEND,
         SUBSCRIBE,
     } from '#services/graphql/mutate';
+
+    import defaultLogger from '#services/logger';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const getGlobalGraphqlClient = () => {
-    if (!ENDPOINT || !TOKEN) {
-        return;
-    }
-
-    const graphqlClient = getGraphqlClient(
-        ENDPOINT,
-        TOKEN,
-    );
-
-    return graphqlClient;
-}
-
-const globalGraphqlClient = getGlobalGraphqlClient();
-
-
-const defaultLogger = (
-    message: string,
-    error?: any,
-) => {
-    if (error) {
-        console.log(message + ' ', error);
-        return;
-    }
-
-    console.log(message);
-}
-
-
 const messager = <T = any>(
     configuration: MessagerConfiguration,
 ) => {

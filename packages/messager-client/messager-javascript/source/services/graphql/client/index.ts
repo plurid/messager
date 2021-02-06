@@ -8,6 +8,14 @@
         InMemoryCache,
     } from '@apollo/client/core';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        ENDPOINT,
+        TOKEN,
+    } from '#data/constants';
+    // #endregion external
 // #endregion imports
 
 
@@ -31,10 +39,30 @@ const client = (
         cache: new InMemoryCache(),
     });
 };
+
+
+const getGlobalGraphqlClient = () => {
+    if (!ENDPOINT || !TOKEN) {
+        return;
+    }
+
+    const graphqlClient = client(
+        ENDPOINT,
+        TOKEN,
+    );
+
+    return graphqlClient;
+}
+
+const globalGraphqlClient = getGlobalGraphqlClient();
 // #endregion module
 
 
 
 // #region exports
+export {
+    globalGraphqlClient,
+};
+
 export default client;
 // #endregion exports
