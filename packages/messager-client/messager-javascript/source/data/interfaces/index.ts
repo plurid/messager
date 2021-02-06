@@ -1,6 +1,6 @@
 // #region module
 export interface MessagerMetadata {
-    sender: string,
+    sender: string;
 }
 
 

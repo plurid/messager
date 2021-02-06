@@ -4,6 +4,7 @@
         MessagerMetadata,
     } from '#data/interfaces';
 
+
     import {
         ENDPOINT,
         TOKEN,
@@ -23,6 +24,20 @@
 
 
 // #region module
+const getGlobalGraphqlClient = () => {
+    if (!ENDPOINT || !TOKEN) {
+        return;
+    }
+
+    const graphqlClient = getGraphqlClient(
+        ENDPOINT,
+        TOKEN,
+    );
+
+    return graphqlClient;
+}
+
+
 const messager = <T = any>(
     endpoint?: string,
     token?: string,
@@ -31,18 +46,34 @@ const messager = <T = any>(
     const accessToken = token ?? TOKEN;
 
 
-    const checkAccess = () => {
+    const getSpecificGraphqlClient = () => {
         if (!endpointURL) {
             console.log('No messager endpoint.');
-            return false;
+            return;
         }
 
         if (!accessToken) {
             console.log('No messager token.');
-            return false;
+            return;
         }
 
-        return true;
+        try {
+            const globalGraphqlClient = getGlobalGraphqlClient();
+
+            if (globalGraphqlClient) {
+                return globalGraphqlClient;
+            }
+
+            const graphqlClient = getGraphqlClient(
+                endpointURL,
+                accessToken,
+            );
+
+            return graphqlClient;
+        } catch (error) {
+            console.log('Messager client error ', error);
+            return;
+        }
     }
 
 
@@ -50,16 +81,12 @@ const messager = <T = any>(
         topic: string,
         data: T,
     ) => {
-        if (!checkAccess()) {
+        const graphqlClient = getSpecificGraphqlClient();
+        if (!graphqlClient) {
             return false;
         }
 
         try {
-            const graphqlClient = getGraphqlClient(
-                endpointURL,
-                accessToken,
-            );
-
             const mutation = await graphqlClient.mutate({
                 mutation: PUBLISH,
                 variables: {
@@ -92,16 +119,12 @@ const messager = <T = any>(
             metadata: MessagerMetadata,
         ) => void,
     ) => {
-        if (!checkAccess()) {
+        const graphqlClient = getSpecificGraphqlClient();
+        if (!graphqlClient) {
             return;
         }
 
         try {
-            const graphqlClient = getGraphqlClient(
-                endpointURL,
-                accessToken,
-            );
-
             const observable = graphqlClient.subscribe({
                 query: SUBSCRIBE,
                 variables: {
@@ -138,16 +161,12 @@ const messager = <T = any>(
         destination: string,
         data: T,
     ) => {
-        if (!checkAccess()) {
+        const graphqlClient = getSpecificGraphqlClient();
+        if (!graphqlClient) {
             return false;
         }
 
         try {
-            const graphqlClient = getGraphqlClient(
-                endpointURL,
-                accessToken,
-            );
-
             const mutation = await graphqlClient.mutate({
                 mutation: SEND,
                 variables: {
