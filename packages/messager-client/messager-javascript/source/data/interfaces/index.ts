@@ -1,4 +1,14 @@
 // #region module
+export interface MessagerConfiguration {
+    endpoint?: string;
+    token?: string;
+    logger?: (
+        message: string,
+        error?: any,
+    ) => void;
+}
+
+
 export interface MessagerMetadata {
     sender: string;
 }

@@ -1,6 +1,7 @@
 // #region imports
     // #region external
     import {
+        MessagerConfiguration,
         MessagerMetadata,
     } from '#data/interfaces';
 
@@ -40,22 +41,45 @@ const getGlobalGraphqlClient = () => {
 const globalGraphqlClient = getGlobalGraphqlClient();
 
 
-const messager = <T = any>(
-    endpoint?: string,
-    token?: string,
+const defaultLogger = (
+    message: string,
+    error?: any,
 ) => {
+    if (error) {
+        console.log(message + ' ', error);
+        return;
+    }
+
+    console.log(message);
+}
+
+
+const messager = <T = any>(
+    configuration: MessagerConfiguration,
+) => {
+    const {
+        endpoint,
+        token,
+        logger,
+    } = configuration;
+
     const endpointURL = endpoint ?? ENDPOINT;
     const accessToken = token ?? TOKEN;
+    const activeLogger = logger || defaultLogger;
 
 
     const getSpecificGraphqlClient = () => {
         if (!endpointURL) {
-            console.log('No messager endpoint.');
+            activeLogger(
+                'No messager endpoint.',
+            );
             return;
         }
 
         if (!accessToken) {
-            console.log('No messager token.');
+            activeLogger(
+                'No messager token.',
+            );
             return;
         }
 
@@ -74,7 +98,10 @@ const messager = <T = any>(
 
             return graphqlClient;
         } catch (error) {
-            console.log('Messager client error ', error);
+            activeLogger(
+                'Messager client error.',
+                error,
+            );
             return;
         }
     }
@@ -110,7 +137,10 @@ const messager = <T = any>(
 
             return true;
         } catch (error) {
-            console.log('Messager publish error: ', error);
+            activeLogger(
+                'Messager publish error.',
+                error,
+            );
             return false;
         }
     }
@@ -148,14 +178,20 @@ const messager = <T = any>(
                             },
                         );
                     } catch (error) {
-                        console.log('Messager subscribe error: ', error);
+                        activeLogger(
+                            'Messager subscribe error.',
+                            error,
+                        );
                     }
                 }
             });
 
             return;
         } catch (error) {
-            console.log('Messager subscribe error: ', error);
+            activeLogger(
+                'Messager subscribe error.',
+                error,
+            );
             return;
         }
     }
@@ -190,7 +226,10 @@ const messager = <T = any>(
 
             return true;
         } catch (error) {
-            console.log('Messager send error: ', error);
+            activeLogger(
+                'Messager send error.',
+                error,
+            );
             return false;
         }
     }
