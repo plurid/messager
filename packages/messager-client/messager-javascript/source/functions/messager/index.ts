@@ -54,8 +54,8 @@ const messager = <T = any>(
 
         try {
             if (globalGraphqlClient
-                && !endpoint
-                && !token
+                && !configuration?.endpoint
+                && !configuration?.token
             ) {
                 return globalGraphqlClient;
             }
