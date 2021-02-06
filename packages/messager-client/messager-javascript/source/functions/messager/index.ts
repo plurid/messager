@@ -37,6 +37,8 @@ const getGlobalGraphqlClient = () => {
     return graphqlClient;
 }
 
+const globalGraphqlClient = getGlobalGraphqlClient();
+
 
 const messager = <T = any>(
     endpoint?: string,
@@ -58,9 +60,10 @@ const messager = <T = any>(
         }
 
         try {
-            const globalGraphqlClient = getGlobalGraphqlClient();
-
-            if (globalGraphqlClient) {
+            if (globalGraphqlClient
+                && !endpoint
+                && !token
+            ) {
                 return globalGraphqlClient;
             }
 
