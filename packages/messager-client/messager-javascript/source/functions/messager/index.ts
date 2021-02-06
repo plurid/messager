@@ -30,17 +30,11 @@
 
 // #region module
 const messager = <T = any>(
-    configuration: MessagerConfiguration,
+    configuration?: MessagerConfiguration,
 ) => {
-    const {
-        endpoint,
-        token,
-        logger,
-    } = configuration;
-
-    const endpointURL = endpoint ?? ENDPOINT;
-    const accessToken = token ?? TOKEN;
-    const activeLogger = logger || defaultLogger;
+    const endpointURL = configuration?.endpoint ?? ENDPOINT;
+    const accessToken = configuration?.token ?? TOKEN;
+    const activeLogger = configuration?.logger || defaultLogger;
 
 
     const getSpecificGraphqlClient = () => {
