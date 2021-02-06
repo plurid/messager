@@ -1,0 +1,30 @@
+{
+    #packages
+    #package
+    #commit
+    yarnWorkspace false
+    runFrom ../
+}
+
+
+packages [
+    ./packages/messager-client/messager-cli
+    ./packages/messager-client/messager-javascript
+    ./packages/messager-server
+]
+
+package {
+    manager yarn
+    publisher npm
+}
+
+yarnWorkspace false
+
+commit {
+    engine git
+    combine true
+    root ''
+    fullFolder false
+    divider ' > '
+    message setup: package
+}
