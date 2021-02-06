@@ -1,10 +1,10 @@
 // #region imports
     // #region external
     import {
-        DelogContextCall,
-        DelogInputRecordContextCall,
-        DelogInputRecordContextRepository,
-        DelogInputRecordContextCaller,
+        MesagerContextCall,
+        MesagerInputRecordContextCall,
+        MesagerInputRecordContextRepository,
+        MesagerInputRecordContextCaller,
     } from '../../../data/interfaces';
 
     import {
@@ -35,7 +35,7 @@ const callsites = () => {
 
 
 const getCallContext = (
-    call?: DelogContextCall,
+    call?: MesagerContextCall,
 ) => {
     if (!call && !CALL_CONTEXT) {
         return;
@@ -47,7 +47,7 @@ const getCallContext = (
         const callDepth = call?.depth || DEFAULT_CALL_DEPTH;
         const calls = callsites();
 
-        const caller: DelogInputRecordContextCaller = {
+        const caller: MesagerInputRecordContextCaller = {
             file: calls[callDepth].getFileName() || '',
             line: calls[callDepth].getLineNumber() || -1,
             column: calls[callDepth].getColumnNumber() || -1,
@@ -71,7 +71,7 @@ const getCallContext = (
 
         const filepath = file.replace(repositoryBasePath, '');
 
-        const repository: DelogInputRecordContextRepository = {
+        const repository: MesagerInputRecordContextRepository = {
             provider,
             name: repositoryName,
             branch: repositoryBranch,
@@ -79,7 +79,7 @@ const getCallContext = (
             basePath: repositoryBasePath,
         };
 
-        const callContext: DelogInputRecordContextCall = {
+        const callContext: MesagerInputRecordContextCall = {
             repository,
             caller: {
                 file: filepath,

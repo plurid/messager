@@ -1,135 +1,16 @@
-// #region imports
-    // #region libraries
-    import {
-        ApolloClient,
-        NormalizedCacheObject,
-    } from '@apollo/client/core';
-    // #endregion libraries
-// #endregion imports
-
-
-
 // #region module
-export interface DelogData {
-    // Required.
-    text: string;
-
-
-    // Configuration optionals.
-    graphqlClient?: ApolloClient<NormalizedCacheObject>,
-
-    endpoint?: string;
-    token?: string;
-
-    project?: string;
-    space?: string;
-
-    format?: string;
-
-
-    // Logging optionals.
-    /**
-     * Log level:
-     *
-     * + NONE: 7;
-     * + FATAL: 6;
-     * + ERROR: 5;
-     * + WARN: 4;
-     * + INFO: 3;
-     * + DEBUG: 2;
-     * + TRACE: 1;
-     * + ALL: 0.
-     */
-    level?: number;
-
-    /**
-     * To be used if the `delog` is meant to be fired only in 'TESTING' `mode` (`context.mode`),
-     * and the `mode` is set dinamically/from outside the enclosing function.
-     */
-    tester?: boolean;
-
-    /**
-     * Name of the method from where the log originates.
-     */
-    method?: string;
-
-    error?: Error;
-
-    /**
-     * Arbitrary data: a simple string, stringified JSON or deon.
-     */
-    extradata?: string;
-
-    context?: DelogContext;
+export interface MessagerMetadata {
+    sender: string,
 }
 
 
-
-export type RequiredDelogData = Required<
-    Omit<DelogData, 'graphqlClient' | 'project' | 'space' | 'format' | 'tester' | 'method' | 'error' | 'extradata' | 'context'>
-> & {
-    graphqlClient?: ApolloClient<NormalizedCacheObject>,
-
-    time: number;
-
-    groundLevel: number;
-
-    project?: string;
-    space?: string;
-
-    format?: string;
-
-    tester?: boolean;
-    method?: string;
-    error?: string;
-    extradata?: string;
-    context?: DelogContext;
-}
-
-
-export interface DelogLevels {
-    fatal: number;
-    error: number;
-    warn: number;
-    info: number;
-    debug: number;
-    trace: number;
-}
-
-
-export interface DelogTestingContext {
-    mode?: 'TESTING' | 'LOGGING';
-    suite?: string;
-    scenario?: string;
-
-    /**
-     * ID shared by multiple logs, used to identify a request spanning multiple services.
-     */
-    sharedID?: string;
-}
-
-
-export interface DelogContext extends DelogTestingContext {
-    /**
-     * If using the `sharedID`, the logs can be assigned an ordering number.
-     * If not given, the logs will be ordered by time.
-     *
-     * The value should be greater than 0. If two or more logs have the same value,
-     * they will be ordered by time.
-     */
-    sharedOrder?: number;
-
-    call?: DelogContextCall;
-}
-
-
-export interface DelogContextCall {
+export interface MesagerContextCall {
     depth?: number;
-    repository?: DelogContextCallRepository;
+    repository?: MesagerContextCallRepository;
 }
 
 
-export interface DelogContextCallRepository {
+export interface MesagerContextCallRepository {
     provider?: string;
     name?: string;
     branch?: string;
@@ -138,7 +19,7 @@ export interface DelogContextCallRepository {
 }
 
 
-export interface DelogInputRecord {
+export interface MesagerInputRecord {
     text: string;
     time: number;
     level: number;
@@ -151,20 +32,16 @@ export interface DelogInputRecord {
     method?: string;
     error?: string;
     extradata?: string;
-    context?: DelogInputRecordContext;
+    context?: MesagerInputRecordContextCall;
 }
 
-export interface DelogInputRecordContext extends DelogTestingContext {
-    sharedOrder?: number;
-    call?: DelogInputRecordContextCall;
+
+export interface MesagerInputRecordContextCall {
+    repository: MesagerInputRecordContextRepository;
+    caller: MesagerInputRecordContextCaller;
 }
 
-export interface DelogInputRecordContextCall {
-    repository: DelogInputRecordContextRepository;
-    caller: DelogInputRecordContextCaller;
-}
-
-export interface DelogInputRecordContextRepository {
+export interface MesagerInputRecordContextRepository {
     provider: string;
     name: string;
     branch: string;
@@ -172,7 +49,7 @@ export interface DelogInputRecordContextRepository {
     basePath: string;
 }
 
-export interface DelogInputRecordContextCaller {
+export interface MesagerInputRecordContextCaller {
     file: string;
     line: number;
     column: number;

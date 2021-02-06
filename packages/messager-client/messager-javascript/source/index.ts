@@ -1,12 +1,8 @@
 // #region imports
     // #region internal
     import {
-        delog,
+        messager,
     } from './functions';
-
-    import {
-        stringifyError,
-    } from './services/utilities';
     // #endregion internal
 // #endregion imports
 
@@ -16,9 +12,5 @@
 export * from './data/interfaces';
 export * from './data/constants';
 
-export {
-    stringifyError,
-};
-
-export default delog;
+export default messager;
 // #endregion exports

@@ -1,6 +1,6 @@
 // #region imports
     // #region internal
-    import delog from './delog';
+    import messager from './messager';
     // #endregion internal
 // #endregion imports
 
@@ -8,6 +8,6 @@
 
 // #region exports
 export {
-    delog,
+    messager,
 };
 // #endregion exports
