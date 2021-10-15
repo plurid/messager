@@ -15,7 +15,7 @@
 
 
     // #region external
-    import delogLogo from '../../assets/delog-logo.png';
+    import messagerLogo from '../../assets/messager-logo.png';
 
     import client from '~kernel-services/graphql/client';
 
@@ -155,14 +155,14 @@ const PrivateView: React.FC<PrivateViewProperties> = (
         <StyledPrivateView>
             <div>
                 <img
-                    src={delogLogo}
-                    alt="delog logo"
+                    src={messagerLogo}
+                    alt="messager logo"
                     height={250}
                 />
             </div>
 
             <h1>
-                delog private usage
+                messager private usage
             </h1>
 
             <StyledLoginButtons>

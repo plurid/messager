@@ -5,7 +5,7 @@
 
 
     // #region external
-    import delogLogo from '../../assets/delog-logo.png';
+    import messagerLogo from '../../assets/messager-logo.png';
 
     import {
         PluridPureButton,
@@ -40,18 +40,18 @@ const InitialView: React.FC<InitialViewProperties> = (
         <StyledInitialView>
             <div>
                 <img
-                    src={delogLogo}
-                    alt="delog logo"
+                    src={messagerLogo}
+                    alt="messager logo"
                     height={250}
                 />
             </div>
 
             <h1>
-                delog
+                messager
             </h1>
 
             <h2>
-                Cloud-Native Logger
+                Cloud Service for Centralized Message Queuing
             </h2>
 
             <div
