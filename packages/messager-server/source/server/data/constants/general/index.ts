@@ -14,6 +14,9 @@
 
 
 // #region module
+export const PORT = parseInt(process.env.PORT || '') || 56865;
+
+
 export const COOKIE_PRIVATE_TOKEN = 'PVTTKN';
 
 export const HEALTH_CHECK_ENDPOINT = '/service-check/health';
