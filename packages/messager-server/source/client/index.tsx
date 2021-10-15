@@ -4,6 +4,14 @@
     import ReactDOM from 'react-dom';
     // #endregion libraries
 
+
+    // #region external
+    import {
+        APPLICATION_ROOT,
+    } from '~shared/data/constants';
+    // #endregion external
+
+
     // #region internal
     import Client from './Client';
     // #endregion internal
@@ -17,11 +25,11 @@
 //     navigator.serviceWorker.register('/service-worker.js');
 // }
 
-const delogApp = document.getElementById('delog-application');
+const messagerApp = document.getElementById(APPLICATION_ROOT);
 
 
 ReactDOM.hydrate(
     <Client />,
-    delogApp,
+    messagerApp,
 );
 // #endregion module
