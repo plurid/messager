@@ -36,6 +36,8 @@ const setupHandlers = async (
         instance,
         logic,
     );
+
+    return true;
 }
 // #endregion module
 
