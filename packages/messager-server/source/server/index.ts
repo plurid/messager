@@ -3,7 +3,6 @@
     import PluridServer, {
         PluridServerMiddleware,
         PluridServerService,
-        PluridServerServicesData,
         PluridServerPartialOptions,
         PluridServerTemplateConfiguration,
     } from '@plurid/plurid-react-server';
@@ -11,6 +10,8 @@
     import helmet from '~kernel-services/helmet';
 
     import reduxStore from '~kernel-services/state/store';
+    import reduxContext from '~kernel-services/state/context';
+
     import apolloClient from '~kernel-services/graphql/client';
     // #endregion libraries
 
@@ -19,20 +20,24 @@
     import {
         routes,
         shell,
-    } from '../shared';
+    } from '~shared/index';
+
+    import {
+        APPLICATION_ROOT,
+    } from '~shared/data/constants';
     // #endregion external
 
 
     // #region internal
     import {
-        DelogLogic,
-    } from './data/interfaces';
+        PORT,
+    } from './data/constants';
 
     import preserves from './preserves';
 
     import setupHandlers from './handlers';
 
-    // import mockLogic from './logic/mock';
+    import * as Models from './api/models';
     // #endregion internal
 // #endregion imports
 
@@ -43,10 +48,9 @@
 /** ENVIRONMENT */
 const watchMode = process.env.PLURID_WATCH_MODE === 'true';
 const isProduction = process.env.ENV_MODE === 'production';
-const buildDirectory = __dirname;
-const port = process.env.PORT || 56965;
+const buildDirectory = process.env.PLURID_BUILD_DIRECTORY || 'build';
 
-const applicationRoot = 'delog-application';
+const applicationRoot = APPLICATION_ROOT;
 const openAtStart = watchMode
     ? false
     : isProduction
@@ -71,24 +75,33 @@ const middleware: PluridServerMiddleware[] = [
 
 /** Services to be used in the application. */
 const services: PluridServerService[] = [
-    'Apollo',
-    'Redux',
+    {
+        name: 'Apollo',
+        package: '@apollo/client',
+        provider: 'ApolloProvider',
+        properties: {
+            client: apolloClient,
+        },
+    },
+    {
+        name: 'Redux',
+        package: 'react-redux',
+        provider: 'Provider',
+        properties: {
+            store: reduxStore({}),
+            context: reduxContext,
+        },
+    },
 ];
 
 
-const servicesData: PluridServerServicesData = {
-    apolloClient,
-    reduxStore,
-    reduxStoreValue: {},
-};
-
 const options: PluridServerPartialOptions = {
-    serverName: 'Delog Server',
+    serverName: 'Messager Server',
     buildDirectory,
     open: openAtStart,
     debug,
     ignore: [
-        '/delog',
+        '/connect',
     ],
 };
 
@@ -99,7 +112,7 @@ const template: PluridServerTemplateConfiguration = {
 
 
 // #region server
-const delogServer = new PluridServer({
+const messagerServer = new PluridServer({
     helmet,
     routes,
     preserves,
@@ -107,19 +120,23 @@ const delogServer = new PluridServer({
     styles,
     middleware,
     services,
-    servicesData,
     options,
     template,
 });
 
 
-const delogSetup = (
-    logic?: DelogLogic,
+const messagerSetup = async (
+    callback?: () => Promise<void>,
 ) => {
-    setupHandlers(
-        delogServer,
-        logic,
+    const successfulSetup = await setupHandlers(
+        messagerServer,
     );
+
+    if (successfulSetup && callback) {
+        await callback();
+    }
+
+    return successfulSetup;
 }
 // #endregion server
 // #endregion module
@@ -135,11 +152,11 @@ const delogSetup = (
  * for programmatic usage.
  */
 if (require.main === module) {
-    delogSetup(
-        // mockLogic,
+    messagerSetup(
+        async () => {
+            messagerServer.start(PORT);
+        },
     );
-
-    delogServer.start(port);
 }
 // #endregion run
 
@@ -149,8 +166,9 @@ if (require.main === module) {
 export * from './data/interfaces';
 
 export {
-    delogSetup,
+    messagerSetup,
+    Models,
 };
 
-export default delogServer;
+export default messagerServer;
 // #endregion exports
