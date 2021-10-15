@@ -1,3 +1,12 @@
+// #region imports
+    // #region libraries
+    import Deon from '@plurid/deon';
+    // #endregion libraries
+// #endregion imports
+
+
+
+// #region module
 export type MessagerType = 'socket' | 'event';
 
 export interface MessagerOptions {
@@ -16,6 +25,8 @@ export type MessagerSubscribeAction<D = any> = (
 
 
 class Messager {
+    private deon = new Deon();
+
     private connection: undefined | EventSource | WebSocket;
 
     private options: MessagerOptions;
@@ -147,7 +158,7 @@ class Messager {
                 data,
             };
 
-            const eventDataString = JSON.stringify(eventData);
+            const eventDataString = this.deon.stringify(eventData);
 
             if (typeof window !== 'undefined') {
                 (this.connection as WebSocket).send(eventDataString);
@@ -170,20 +181,10 @@ class Messager {
         this.subscribers[topic].push(action);
     }
 }
+// #endregion module
 
 
 
-const messager = new Messager(
-    'messager.plurid.cloud',
-    'token',
-);
-
-
-messager.publish(
-    'topic',
-    { data: true },
-);
-
-messager.subscribe<boolean>('topic', (data) => {
-    // do things with data
-});
+// #region exports
+export default Messager;
+// #endregion exports
