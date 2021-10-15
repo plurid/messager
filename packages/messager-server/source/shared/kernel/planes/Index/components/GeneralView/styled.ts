@@ -122,11 +122,11 @@ export const StyledGeneralSelected = styled.div<IStyledGeneralSelected>`
 `;
 
 
-export interface IStyledGeneralPeformer {
+export interface IStyledGeneralMessager {
     compactSelectors: boolean;
 }
 
-export const StyledGeneralPeformer = styled.div<IStyledGeneralPeformer>`
+export const StyledGeneralMessager = styled.div<IStyledGeneralMessager>`
     display: grid;
     place-content: center;
     grid-gap: 0.5rem;

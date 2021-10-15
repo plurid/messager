@@ -47,20 +47,13 @@
     import AnalyticsView from './components/AnalyticsView';
     import TokensView from './components/TokensView';
     import ProjectsView from './components/ProjectsView';
-    import ProvidersView from './components/ProvidersView';
-    import RepositoriesView from './components/RepositoriesView';
     import SpacesView from './components/SpacesView';
-    import FormatsView from './components/FormatsView';
-    import NotifiersView from './components/NotifiersView';
-    import TestersView from './components/TestersView';
-    import RecordsView from './components/RecordsView';
-    import TestsView from './components/TestsView';
 
     import {
         StyledGeneralView,
         StyledGeneralSelectors,
         StyledGeneralSelectorItem,
-        StyledGeneralPeformer,
+        StyledGeneralMessager,
         StyledGeneralHelp,
         StyledGeneralHelpItem,
         StyledGeneralSelected,
@@ -76,13 +69,6 @@ export const generalSelectors = [
     'tokens',
     'projects',
     'spaces',
-    'providers',
-    'repositories',
-    'formats',
-    'notifiers',
-    'testers',
-    'records',
-    'tests',
 ];
 
 export const generalSelectorsIcons = {
@@ -90,13 +76,6 @@ export const generalSelectorsIcons = {
     tokens: PluridIconLocked,
     projects: PluridIconApps,
     spaces: PluridIconFrame,
-    providers: PluridIconToolbox,
-    repositories: PluridIconRepository,
-    formats: PluridIconEdit,
-    notifiers: PluridIconContact,
-    testers: PluridIconCommand,
-    records: PluridIconInfo,
-    tests: PluridIconNewStateline,
 };
 
 
@@ -121,51 +100,9 @@ export const renderSelectedView = (
                     setGeneralView={setGeneralView}
                 />
             );
-        case 'providers':
-            return (
-                <ProvidersView
-                    setGeneralView={setGeneralView}
-                />
-            );
-        case 'repositories':
-            return (
-                <RepositoriesView
-                    setGeneralView={setGeneralView}
-                />
-            );
         case 'spaces':
             return (
                 <SpacesView
-                    setGeneralView={setGeneralView}
-                />
-            );
-        case 'formats':
-            return (
-                <FormatsView
-                    setGeneralView={setGeneralView}
-                />
-            );
-        case 'notifiers':
-            return (
-                <NotifiersView
-                    setGeneralView={setGeneralView}
-                />
-            );
-        case 'testers':
-            return (
-                <TestersView
-                    setGeneralView={setGeneralView}
-                />
-            );
-        case 'records':
-            return (
-                <RecordsView
-                    setGeneralView={setGeneralView}
-                />
-            );
-        case 'tests':
-            return (
-                <TestsView
                     setGeneralView={setGeneralView}
                 />
             );
@@ -222,7 +159,7 @@ export const renderGeneralView = (
                         compactSelectors={stateViewCompactSelectors}
                         viewUsageType={stateViewUsageType}
                     >
-                        <StyledGeneralPeformer
+                        <StyledGeneralMessager
                             compactSelectors={stateViewCompactSelectors}
                         >
                             {!stateViewCompactSelectors && (
@@ -249,7 +186,7 @@ export const renderGeneralView = (
                                     atClick={() => setCompactSelectors(false)}
                                 />
                             )}
-                        </StyledGeneralPeformer>
+                        </StyledGeneralMessager>
 
                         <ul>
                             {generalSelectors.map(selector => {

@@ -12,7 +12,7 @@
 
     // #region external
     import {
-        DELOG_MANUAL_LINK,
+        MESSAGER_MANUAL_LINK,
     } from '~kernel-data/constants';
 
     import client from '~kernel-services/graphql/client';
@@ -87,7 +87,7 @@ const GeneralView: React.FC<GeneralViewProperties> = (
 
     // #region handlers
     const openManual = () => {
-        window.open(DELOG_MANUAL_LINK, '_blank');
+        window.open(MESSAGER_MANUAL_LINK, '_blank');
     }
 
     const logout = async () => {

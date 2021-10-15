@@ -1,3 +1,3 @@
 // #region module
-export const DELOG_MANUAL_LINK = 'https://manual.plurid.com/delog';
+export const MESSAGER_MANUAL_LINK = 'https://manual.plurid.com/messager';
 // #endregion module
