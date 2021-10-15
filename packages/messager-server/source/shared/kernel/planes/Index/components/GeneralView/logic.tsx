@@ -120,7 +120,6 @@ export const renderGeneralView = (
     const stateViewCompactSelectors = selectors.view.getViewCompactSelectors(state);
     const stateViewOwnerID = selectors.view.getViewOwnerID(state);
     const stateViewUsageType = selectors.view.getViewUsageType(state);
-    const stateViewActiveProviderID = selectors.data.getActiveProviderID(state);
 
     const dispatchAddEntity = (
         payload: any,
