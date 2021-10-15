@@ -39,7 +39,7 @@ export interface Space {
 }
 
 
-export interface DelogOwner {
+export interface MessagerOwner {
     id: string;
     tokens: Token[];
     projects: Project[];

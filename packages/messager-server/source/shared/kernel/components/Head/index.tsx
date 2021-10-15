@@ -35,10 +35,10 @@ const Head: React.FC<HeadProperties> = (
         canonicalURL,
     } = properties;
 
-    const titleValue = title || `delog`;
-    const descriptionValue = description || 'Cloud-Native Logger';
-    const ogTitleValue = ogTitle || title || `delog`;
-    const ogDescriptionValue = ogDescription || description || 'Cloud-Native Logger';
+    const titleValue = title || `messager`;
+    const descriptionValue = description || 'Cloud Service for Centralized Message Queuing';
+    const ogTitleValue = ogTitle || title || `messager`;
+    const ogDescriptionValue = ogDescription || description || 'Cloud Service for Centralized Message Queuing';
     const ogImageValue = ogImage || '/icon-192x192.png';
     const ogURLValue = ogURL || '/';
     // #endregion properties

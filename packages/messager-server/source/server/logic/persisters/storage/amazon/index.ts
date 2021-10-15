@@ -137,7 +137,7 @@ const storageReadDirectory: StorageReadDirectory = async (
         return [];
     } catch (error) {
         if (!QUIET) {
-            console.log(`[Delog Error 500] :: Filesystem could not read directory ${directoryPath}.`);
+            console.log(`[Messager Error 500] :: Filesystem could not read directory ${directoryPath}.`);
         }
 
         return [];

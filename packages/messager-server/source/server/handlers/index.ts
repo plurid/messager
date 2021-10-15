@@ -6,7 +6,7 @@
 
     // #region external
     import {
-        DelogLogic,
+        MessagerLogic,
     } from '~server/data/interfaces';
     // #endregion external
 
@@ -23,7 +23,7 @@
 // #region module
 const setupHandlers = async (
     server: PluridServer,
-    logic?: DelogLogic,
+    logic?: MessagerLogic,
 ) => {
     const instance = server.instance();
 

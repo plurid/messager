@@ -2,7 +2,7 @@
     // #region libraries
     import {
         MongoClient,
-        ObjectID,
+        ObjectId,
     } from 'mongodb';
 
     import {
@@ -41,9 +41,9 @@
 // #region module
 let connection: MongoClient | undefined;
 
-const mongoNoConnectionError = 'Delog Error :: No mongo connection.';
+const mongoNoConnectionError = 'Messager Error :: No mongo connection.';
 
-const DATABASE = 'delog';
+const DATABASE = 'messager';
 
 
 const createConnection = async () => {
@@ -146,7 +146,7 @@ const query: DatabaseQuery = async (
                 });
 
                 if (item) {
-                    const lastID = new ObjectID(item._id);
+                    const lastID = new ObjectId(item._id);
                     filter['_id'] = {
                         '$lt': lastID,
                     };

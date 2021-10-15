@@ -19,7 +19,7 @@ const getCurrentOwner = async (
             privateOwnerIdentonym,
         } = context;
 
-        const logic = request.delogLogic;
+        const logic = request.messagerLogic;
 
         if (logic) {
             const owner = await logic.getCurrentOwner();

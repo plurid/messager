@@ -40,7 +40,7 @@ export const obliterateDirectory = async (
         });
     } catch (error) {
         if (logLevel <= logLevels.error) {
-            console.log('[Delog Error] :: obliterateDirectory', error);
+            console.log('[Messager Error] :: obliterateDirectory', error);
         }
 
         return;

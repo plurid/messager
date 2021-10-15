@@ -10,13 +10,6 @@
         PluridIconLocked,
         PluridIconApps,
         PluridIconFrame,
-        PluridIconToolbox,
-        PluridIconRepository,
-        PluridIconEdit,
-        PluridIconContact,
-        PluridIconCommand,
-        PluridIconInfo,
-        PluridIconNewStateline,
         PluridIconArrowRight,
         PluridIconDocuments,
         PluridIconExternalLink,
@@ -26,16 +19,11 @@
 
 
     // #region external
-    import delogLogo from '../../assets/delog-logo.png';
+    import messagerLogo from '../../assets/messager-logo.png';
 
     import Token from '~kernel-components/Token';
     import Project from '~kernel-components/Project';
     import Space from '~kernel-components/Space';
-    import Provider from '~kernel-components/Provider';
-    import Repositories from '~kernel-components/Repositories';
-    import Format from '~kernel-components/Format';
-    import Notifier from '~kernel-components/Notifier';
-    import Tester from '~kernel-components/Tester';
 
     import { AppState } from '~kernel-services/state/store';
     import selectors from '~kernel-services/state/selectors';
@@ -166,15 +154,15 @@ export const renderGeneralView = (
                                 <>
                                     <div>
                                         <img
-                                            src={delogLogo}
-                                            alt="delog"
+                                            src={messagerLogo}
+                                            alt="messager"
                                             height={30}
                                             onClick={() => setCompactSelectors(true)}
                                         />
                                     </div>
 
                                     <div>
-                                        delog
+                                        messager
                                     </div>
                                 </>
                             )}
@@ -298,84 +286,6 @@ export const renderGeneralView = (
                         dispatchAddEntity({
                             type: 'space',
                             data: space,
-                        });
-
-                        setGeneralView('general');
-                    }}
-                    cancel={() => setGeneralView('general')}
-                />
-            );
-        case 'add-provider':
-            return (
-                <Provider
-                    theme={stateInteractionTheme}
-                    action={(provider) => {
-                        dispatchAddEntity({
-                            type: 'provider',
-                            data: provider,
-                        });
-
-                        setGeneralView('general');
-                    }}
-                    cancel={() => setGeneralView('general')}
-                />
-            );
-        case 'link-repositories':
-            return (
-                <Repositories
-                    theme={stateInteractionTheme}
-                    providerID={stateViewActiveProviderID}
-                    action={(repositories) => {
-                        for (const repository of repositories) {
-                            dispatchAddEntity({
-                                type: 'repository',
-                                data: repository,
-                            });
-                        }
-
-                        setGeneralView('general');
-                    }}
-                    cancel={() => setGeneralView('general')}
-                />
-            );
-        case 'generate-format':
-            return (
-                <Format
-                    theme={stateInteractionTheme}
-                    action={(format) => {
-                        dispatchAddEntity({
-                            type: 'format',
-                            data: format,
-                        });
-
-                        setGeneralView('general');
-                    }}
-                    cancel={() => setGeneralView('general')}
-                />
-            );
-        case 'generate-notifier':
-            return (
-                <Notifier
-                    theme={stateInteractionTheme}
-                    action={(notifier) => {
-                        dispatchAddEntity({
-                            type: 'notifier',
-                            data: notifier,
-                        });
-
-                        setGeneralView('general');
-                    }}
-                    cancel={() => setGeneralView('general')}
-                />
-            );
-        case 'generate-tester':
-            return (
-                <Tester
-                    theme={stateInteractionTheme}
-                    action={(tester) => {
-                        dispatchAddEntity({
-                            type: 'tester',
-                            data: tester,
                         });
 
                         setGeneralView('general');

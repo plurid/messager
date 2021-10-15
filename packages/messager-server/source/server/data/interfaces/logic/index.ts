@@ -1,7 +1,7 @@
 // #region imports
     // #region external
     import {
-        DelogOwner,
+        MessagerOwner,
         OwnerToken,
     } from '../general';
 
@@ -15,7 +15,7 @@
 
 // #region module
 export interface MessagerLogic {
-    getCurrentOwner: () => Promise<DelogOwner>;
+    getCurrentOwner: () => Promise<MessagerOwner>;
     checkOwnerToken: (
         token: string,
     ) => Promise<boolean>;

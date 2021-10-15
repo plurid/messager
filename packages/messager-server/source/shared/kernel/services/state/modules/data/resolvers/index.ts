@@ -31,24 +31,6 @@ export const addEntity = (
     let spaces = [
         ...newState.spaces,
     ];
-    let providers = [
-        ...newState.providers,
-    ];
-    let repositories = [
-        ...newState.repositories,
-    ];
-    let formats = [
-        ...newState.formats,
-    ];
-    let notifiers = [
-        ...newState.notifiers,
-    ];
-    let testers = [
-        ...newState.testers,
-    ];
-    let code = {
-        ...newState.code,
-    };
 
 
     switch (type) {
@@ -76,54 +58,6 @@ export const addEntity = (
                 },
             ];
             break;
-        case 'provider':
-            providers = [
-                ...providers,
-                {
-                    ...data,
-                },
-            ];
-            break;
-        case 'repository':
-            repositories = [
-                ...repositories,
-                {
-                    ...data,
-                },
-            ];
-            break;
-        case 'format':
-            formats = [
-                ...formats,
-                {
-                    ...data,
-                },
-            ];
-            break;
-        case 'notifier':
-            notifiers = [
-                ...notifiers,
-                {
-                    ...data,
-                },
-            ];
-            break;
-        case 'tester':
-            testers = [
-                ...testers,
-                {
-                    ...data,
-                },
-            ];
-            break;
-        case 'code':
-            code = {
-                ...code,
-            };
-            code[data.id] = {
-                ...data.value,
-            };
-            break;
     }
 
     return {
@@ -137,24 +71,6 @@ export const addEntity = (
         spaces: [
             ...spaces,
         ],
-        providers: [
-            ...providers,
-        ],
-        repositories: [
-            ...repositories,
-        ],
-        formats: [
-            ...formats,
-        ],
-        notifiers: [
-            ...notifiers,
-        ],
-        testers: [
-            ...testers,
-        ],
-        code: {
-            ...code,
-        },
     };
 }
 
@@ -181,30 +97,6 @@ export const removeEntity = (
     let spaces = [
         ...newState.spaces,
     ];
-    let providers = [
-        ...newState.providers,
-    ];
-    let repositories = [
-        ...newState.repositories,
-    ];
-    let formats = [
-        ...newState.formats,
-    ];
-    let notifiers = [
-        ...newState.notifiers,
-    ];
-    let testers = [
-        ...newState.testers,
-    ];
-    let records = [
-        ...newState.records,
-    ];
-    let tests = [
-        ...newState.tests,
-    ];
-    const code = {
-        ...newState.code,
-    };
 
 
     switch (type) {
@@ -223,44 +115,6 @@ export const removeEntity = (
                 space => space.id !== id
             );
             break;
-        case 'provider':
-            providers = providers.filter(
-                provider => provider.id !== id
-            );
-            break;
-        case 'repository':
-            repositories = repositories.filter(
-                repository => repository.id !== id
-            );
-            break;
-        case 'format':
-            formats = formats.filter(
-                format => format.id !== id
-            );
-            break;
-        case 'notifier':
-            notifiers = notifiers.filter(
-                notifier => notifier.id !== id
-            );
-            break;
-        case 'tester':
-            testers = testers.filter(
-                tester => tester.id !== id
-            );
-            break;
-        case 'record':
-            records = records.filter(
-                record => record.id !== id
-            );
-            break;
-        case 'test':
-            tests = tests.filter(
-                test => test.id !== id
-            );
-            break;
-        case 'code':
-            delete code[id];
-            break;
     }
 
     return {
@@ -274,30 +128,6 @@ export const removeEntity = (
         spaces: [
             ...spaces,
         ],
-        providers: [
-            ...providers,
-        ],
-        repositories: [
-            ...repositories,
-        ],
-        formats: [
-            ...formats,
-        ],
-        notifiers: [
-            ...notifiers,
-        ],
-        testers: [
-            ...testers,
-        ],
-        records: [
-            ...records,
-        ],
-        tests: [
-            ...tests,
-        ],
-        code: {
-            ...code,
-        },
     };
 }
 
@@ -328,27 +158,6 @@ export const addEntities = (
     ];
     let spaces = [
         ...newState.spaces,
-    ];
-    let providers = [
-        ...newState.providers,
-    ];
-    let repositories = [
-        ...newState.repositories,
-    ];
-    let formats = [
-        ...newState.formats,
-    ];
-    let notifiers = [
-        ...newState.notifiers,
-    ];
-    let testers = [
-        ...newState.testers,
-    ];
-    let records = [
-        ...newState.records,
-    ];
-    let tests = [
-        ...newState.tests,
     ];
 
 
@@ -392,48 +201,6 @@ export const addEntities = (
                 ...data,
             ];
             break;
-        case 'providers':
-            providers = [
-                ...data,
-            ];
-            break;
-        case 'repositories':
-            repositories = [
-                ...data,
-            ];
-            break;
-        case 'formats':
-            formats = [
-                ...data,
-            ];
-            break;
-        case 'notifiers':
-            notifiers = [
-                ...data,
-            ];
-            break;
-        case 'testers':
-            testers = [
-                ...data,
-            ];
-            break;
-        case 'records':
-            if (push === 'CONCATENATE') {
-                records = [
-                    ...records,
-                    ...data,
-                ];
-            } else {
-                records = [
-                    ...data,
-                ];
-            }
-            break;
-        case 'tests':
-            tests = [
-                ...data,
-            ];
-            break;
     }
 
     return {
@@ -449,27 +216,6 @@ export const addEntities = (
         ],
         spaces: [
             ...spaces,
-        ],
-        providers: [
-            ...providers,
-        ],
-        repositories: [
-            ...repositories,
-        ],
-        formats: [
-            ...formats,
-        ],
-        notifiers: [
-            ...notifiers,
-        ],
-        testers: [
-            ...testers,
-        ],
-        records: [
-            ...records,
-        ],
-        tests: [
-            ...tests,
         ],
     };
 }
@@ -488,68 +234,8 @@ export const removeEntities = (
         ...state,
     };
 
-    let records = [
-        ...newState.records,
-    ];
-    let tests = [
-        ...newState.tests,
-    ];
-
-
-    switch (type) {
-        case 'records':
-            records = records.filter(record => !ids.includes(record.id));
-            break;
-        case 'tests':
-            tests = tests.filter(test => !ids.includes(test.id));
-            break;
-    }
-
     return {
         ...newState,
-        records: [
-            ...records,
-        ],
-        tests: [
-            ...tests,
-        ],
-    };
-}
-
-
-export const setActiveProviderID = (
-    state: Types.State,
-    action: Types.SetActiveProviderIDAction,
-): Types.State => {
-    return {
-        ...state,
-        activeProviderID: action.payload,
-    };
-}
-
-
-export const setProviders = (
-    state: Types.State,
-    action: Types.SetProvidersAction,
-): Types.State => {
-    return {
-        ...state,
-        providers: [
-            ...action.payload,
-        ],
-    };
-}
-
-
-export const setRepositories = (
-    state: Types.State,
-    action: Types.SetRepositoriesAction,
-): Types.State => {
-    return {
-        ...state,
-        repositories: [
-            ...action.payload,
-        ],
     };
 }
 
@@ -570,9 +256,6 @@ const resolvers = {
     removeEntity,
     addEntities,
     removeEntities,
-    setActiveProviderID,
-    setProviders,
-    setRepositories,
     clearData,
 };
 // #endregion module

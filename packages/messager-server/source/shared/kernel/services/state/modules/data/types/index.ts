@@ -4,13 +4,6 @@
         ClientToken,
         Project,
         Space,
-        ClientProvider,
-        Repository,
-        Format,
-        ClientNotifier,
-        Tester,
-        LoggedRecord,
-        Test,
     } from '~server/data/interfaces';
     // #endregion libraries
 
@@ -29,15 +22,7 @@
 export type AddableEntityType =
     | 'token'
     | 'project'
-    | 'space'
-    | 'provider'
-    | 'repository'
-    | 'format'
-    | 'notifier'
-    | 'tester'
-    | 'record'
-    | 'test'
-    | 'code';
+    | 'space';
 
 export const ADD_ENTITY = 'ADD_ENTITY';
 export interface AddEntityPayload {
@@ -53,15 +38,8 @@ export interface AddEntityAction {
 export type RemovableEntityType =
     | 'token'
     | 'project'
-    | 'space'
-    | 'provider'
-    | 'repository'
-    | 'format'
-    | 'notifier'
-    | 'tester'
-    | 'record'
-    | 'test'
-    | 'code';
+    | 'space';
+
 
 export const REMOVE_ENTITY = 'REMOVE_ENTITY';
 export interface RemoveEntityPayload {
@@ -116,27 +94,6 @@ export interface RemoveEntitiesAction {
 }
 
 
-export const SET_ACTIVE_PROVIDER_ID = 'SET_ACTIVE_PROVIDER_ID';
-export interface SetActiveProviderIDAction {
-    type: typeof SET_ACTIVE_PROVIDER_ID;
-    payload: string;
-}
-
-
-export const SET_PROVIDERS = 'SET_PROVIDERS';
-export interface SetProvidersAction {
-    type: typeof SET_PROVIDERS;
-    payload: ClientProvider[];
-}
-
-
-export const SET_REPOSITORIES = 'SET_REPOSITORIES';
-export interface SetRepositoriesAction {
-    type: typeof SET_REPOSITORIES;
-    payload: Repository[];
-}
-
-
 export const CLEAR_DATA = 'CLEAR_DATA';
 export interface ClearDataAction {
     type: typeof CLEAR_DATA;
@@ -153,15 +110,6 @@ export interface State {
     tokens: ClientToken[];
     projects: Project[];
     spaces: Space[];
-    activeProviderID: string;
-    providers: ClientProvider[];
-    repositories: Repository[];
-    formats: Format[];
-    notifiers: ClientNotifier[];
-    testers: Tester[];
-    records: LoggedRecord[];
-    tests: Test[];
-    code: Record<string, string[]>;
 }
 
 
@@ -170,8 +118,5 @@ export type Actions =
     | RemoveEntityAction
     | AddEntitiesAction
     | RemoveEntitiesAction
-    | SetActiveProviderIDAction
-    | SetProvidersAction
-    | SetRepositoriesAction
     | ClearDataAction;
 // #endregion module

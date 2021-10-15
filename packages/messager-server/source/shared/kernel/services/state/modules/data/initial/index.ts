@@ -27,15 +27,6 @@ const initialState: Types.State = {
     tokens: [],
     projects: [],
     spaces: [],
-    activeProviderID: '',
-    providers: [],
-    repositories: [],
-    formats: [],
-    notifiers: [],
-    testers: [],
-    records: [],
-    tests: [],
-    code: {},
 };
 // #endregion module
 

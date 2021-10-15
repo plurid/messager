@@ -87,7 +87,7 @@ const getAnalyticsSize = async (
 
 
         // #region logic usage
-        const logic = request.delogLogic;
+        const logic = request.messagerLogic;
 
         if (customLogicUsage && logic) {
             logger.log(

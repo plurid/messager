@@ -11,10 +11,6 @@
 
     // #region external
     import {
-        InputQuery,
-    } from '~server/data/interfaces';
-
-    import {
         AnalyticsRecordsCount,
     } from '~kernel-data/interfaces';
 
@@ -23,11 +19,8 @@
     import {
         GET_CURRENT_OWNER,
         GET_USAGE_TYPE,
-        GET_RECORDS,
-        GET_TESTS,
         GET_ANALYTICS_LAST_PERIOD,
         GET_ANALYTICS_SIZE,
-        GET_CODE,
         VERIFY_UNIQUE_ID,
     } from '~kernel-services/graphql/query';
 
@@ -50,11 +43,6 @@ const getCurrentOwner = async (
         payload,
     ) => dispatch(
         actions.view.setViewOwnerID(payload),
-    );
-    const dispatchDataSetActiveProviderID: typeof actions.data.setActiveProviderID = (
-        payload,
-    ) => dispatch(
-        actions.data.setActiveProviderID(payload),
     );
     const dispatchDataAddEntities: typeof actions.data.addEntities = (
         payload,
@@ -79,12 +67,6 @@ const getCurrentOwner = async (
             analytics,
             tokens,
             projects,
-            spaces,
-            providers,
-            repositories,
-            formats,
-            notifiers,
-            testers,
         } = graphql.deleteTypenames(response.data);
 
         const {
@@ -94,10 +76,6 @@ const getCurrentOwner = async (
         } = analytics;
 
         dispatchSetOwnerID(id);
-
-        if (providers.length > 0) {
-            dispatchDataSetActiveProviderID(providers[0].id);
-        }
 
         dispatchDataAddEntities({
             type: 'analytics.entries',
@@ -118,30 +96,6 @@ const getCurrentOwner = async (
         dispatchDataAddEntities({
             type: 'projects',
             data: projects,
-        });
-        dispatchDataAddEntities({
-            type: 'spaces',
-            data: spaces,
-        });
-        dispatchDataAddEntities({
-            type: 'providers',
-            data: providers,
-        });
-        dispatchDataAddEntities({
-            type: 'repositories',
-            data: repositories,
-        });
-        dispatchDataAddEntities({
-            type: 'formats',
-            data: formats,
-        });
-        dispatchDataAddEntities({
-            type: 'notifiers',
-            data: notifiers,
-        });
-        dispatchDataAddEntities({
-            type: 'testers',
-            data: testers,
         });
 
         return true;
@@ -180,96 +134,6 @@ const getUsageType = async (
     }
 
     return;
-}
-
-
-const getRecords = async (
-    dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    pagination?: InputQuery,
-) => {
-    const dispatchDataAddEntities: typeof actions.data.addEntities = (
-        payload,
-    ) => dispatch(
-        actions.data.addEntities(payload),
-    );
-
-    try {
-        const input = {
-            count: pagination?.count,
-            start: pagination?.start,
-        };
-
-        const query = await client.query({
-            query: GET_RECORDS,
-            fetchPolicy: 'no-cache',
-            variables: {
-                input,
-            },
-        });
-
-        const response = query.data.getRecords;
-
-        if (!response.status) {
-            return false;
-        }
-
-        const records = graphql.deleteTypenames(response.data);
-
-        dispatchDataAddEntities({
-            type: 'records',
-            data: records,
-            push: pagination ? 'CONCATENATE' : '',
-        });
-
-        return true;
-    } catch (error) {
-        return false;
-    }
-}
-
-
-const getTests = async (
-    dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    pagination?: InputQuery,
-) => {
-    const dispatchDataAddEntities: typeof actions.data.addEntities = (
-        payload,
-    ) => dispatch(
-        actions.data.addEntities(payload),
-    );
-
-    try {
-        const input = {
-            count: pagination?.count,
-            start: pagination?.start,
-        };
-
-        const query = await client.query({
-            query: GET_TESTS,
-            fetchPolicy: 'no-cache',
-            variables: {
-                input,
-            },
-        });
-
-        const response = query.data.getTests;
-
-        if (!response.status) {
-            return false;
-        }
-
-        const tests = graphql.deleteTypenames(response.data);
-
-        dispatchDataAddEntities({
-            type: 'tests',
-            data: tests,
-            push: pagination ? 'CONCATENATE' : '',
-        });
-
-        return true;
-    } catch (error) {
-        return false;
-    }
 }
 
 
@@ -454,63 +318,6 @@ const getAnalyticsSize = async (
 }
 
 
-const getCode = async (
-    dispatch: ThunkDispatch<{}, {}, AnyAction>,
-    input: any,
-) => {
-    const dispatchDataAddEntity: typeof actions.data.addEntity = (
-        payload,
-    ) => dispatch(
-        actions.data.addEntity(payload),
-    );
-
-    try {
-        const {
-            id,
-            repository,
-            context,
-        } = input;
-
-        const query = await client.query({
-            query: GET_CODE,
-            variables: {
-                input: {
-                    repository,
-                    context,
-                },
-            },
-            fetchPolicy: 'no-cache',
-        });
-
-        const response = query.data.getCode;
-
-        if (!response.status) {
-            return false;
-        }
-
-        const {
-            lines
-        } = graphql.deleteTypenames(response.data);
-
-        dispatchDataAddEntity({
-            type: 'code',
-            data: {
-                id,
-                value: [
-                    ...lines,
-                ],
-            },
-        });
-
-        return [
-            ...lines,
-        ];
-    } catch (error) {
-        return false;
-    }
-}
-
-
 const verifyUniqueID = async (
     input: any,
 ) => {
@@ -542,12 +349,9 @@ const verifyUniqueID = async (
 export {
     getCurrentOwner,
     getUsageType,
-    getRecords,
-    getTests,
     getProjects,
     getAnalyticsLastPeriod,
     getAnalyticsSize,
-    getCode,
     verifyUniqueID,
 };
 // #endregion exports

@@ -74,7 +74,7 @@ const storageDownload: StorageDownload = async (
         return data.toString('utf-8');
     } catch (error) {
         if (!QUIET) {
-            console.log(`[Delog Error 500] :: Filesystem could not download ${filename}.`);
+            console.log(`[Messager Error 500] :: Filesystem could not download ${filename}.`);
         }
 
         return;
@@ -96,7 +96,7 @@ const storageDownloadAll: StorageDownloadAll = async (
         return items;
     } catch (error) {
         if (!QUIET) {
-            console.log(`[Delog Error 500] :: Filesystem could not download ${directory}.`);
+            console.log(`[Messager Error 500] :: Filesystem could not download ${directory}.`);
         }
 
         return [];
@@ -133,7 +133,7 @@ const storageUpload: StorageUpload = async (
         return true;
     } catch (error) {
         if (!QUIET) {
-            console.log(`[Delog Error 500] :: Filesystem could not upload ${filename}.`);
+            console.log(`[Messager Error 500] :: Filesystem could not upload ${filename}.`);
         }
 
         return;
@@ -155,7 +155,7 @@ const storageObliterate: StorageObliterate = async (
         return true;
     } catch (error) {
         if (!QUIET) {
-            console.log(`[Delog Error 500] :: Filesystem could not obliterate ${filename}.`);
+            console.log(`[Messager Error 500] :: Filesystem could not obliterate ${filename}.`);
         }
 
         return;
@@ -191,7 +191,7 @@ const storageObliterateAll: StorageObliterateAll = async (
         return true;
     } catch (error) {
         if (!QUIET) {
-            console.log(`[Delog Error 500] :: Filesystem could not obliterate all ${pathway}.`);
+            console.log(`[Messager Error 500] :: Filesystem could not obliterate all ${pathway}.`);
         }
 
         return;
@@ -212,7 +212,7 @@ const storageGenerateLocations: StorageGenerateLocations = async () => {
         return true;
     } catch (error) {
         if (!QUIET) {
-            console.log('[Delog Error 500] :: Filesystem could not generate locations.');
+            console.log('[Messager Error 500] :: Filesystem could not generate locations.');
         }
 
         return;
@@ -234,7 +234,7 @@ const storageReadDirectory: StorageReadDirectory = async (
         return files;
     } catch (error) {
         if (!QUIET) {
-            console.log(`[Delog Error 500] :: Filesystem could not read directory ${directoryPath}.`);
+            console.log(`[Messager Error 500] :: Filesystem could not read directory ${directoryPath}.`);
         }
 
         return [];
