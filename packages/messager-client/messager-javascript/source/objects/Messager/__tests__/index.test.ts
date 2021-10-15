@@ -8,21 +8,34 @@
 
 // #region module
 describe('Messager', () => {
-    it('works', () => {
+    it('works', async () => {
         const messager = new Messager(
             // 'messager.plurid.cloud',
             'localhost:6655',
             'token',
         );
 
-        messager.publish(
-            'topic',
-            { data: true },
+        let value: boolean | undefined;
+
+        interface Data {
+            value: boolean;
+        }
+
+        messager.subscribe<Data>('some.topic', (data) => {
+            // do things with data
+            console.log(data);
+
+            value = data.value;
+        });
+
+        messager.publish<Data>(
+            'some.topic',
+            { value: true },
         );
 
-        messager.subscribe<boolean>('topic', (data) => {
-            // do things with data
-        });
+        setTimeout(() => {
+            expect(value).toBeTruthy();
+        }, 1000);
     })
 });
 // #endregion module
