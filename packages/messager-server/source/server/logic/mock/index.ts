@@ -8,7 +8,7 @@
 
     // #region external
     import {
-        DelogLogic,
+        MessagerLogic,
     } from '~server/data/interfaces';
 
     import {
@@ -22,18 +22,13 @@
 
 
 // #region module
-const delogLogic: DelogLogic = {
+const messagerLogic: MessagerLogic = {
     getCurrentOwner: async () => {
         return {
             id: uuid.generate(),
             tokens: [],
             projects: [],
             spaces: [],
-            providers: [],
-            repositories: [],
-            formats: [],
-            notifiers: [],
-            testers: [],
         };
     },
     checkOwnerToken: async (
@@ -55,24 +50,11 @@ const delogLogic: DelogLogic = {
     },
 
     logger: new Logger(logLevel),
-
-    provider: {
-        register: async (
-            input,
-        ) => {
-            return undefined;
-        },
-        deregister: async (
-            input,
-        ) => {
-            return true;
-        },
-    },
 };
 // #endregion module
 
 
 
 // #region exports
-export default delogLogic;
+export default messagerLogic;
 // #endregion exports

@@ -5,15 +5,7 @@
         ClientToken,
         Project,
         Space,
-        Provider,
-        Repository,
-        Format,
-        ClientNotifier,
     } from '~server/data/interfaces';
-
-    import {
-        extractClientNotifierData,
-    } from '~server/logic/operators/notifiers';
 
     import database from '~server/services/database';
     // #endregion external
@@ -77,95 +69,6 @@ export const loadSpaces = async (
 }
 
 
-export const loadProviders = async (
-    ownerID: string,
-) => {
-    const providers: Provider[] = await database.query(
-        'providers',
-        'ownedBy',
-        ownerID,
-    );
-
-    return providers || [];
-}
-
-
-export const loadRepositories = async (
-    ownerID: string,
-) => {
-    const repositories: Repository[] = await database.query(
-        'repositories',
-        'ownedBy',
-        ownerID,
-    );
-
-    return repositories || [];
-}
-
-
-export const loadFormats = async (
-    ownerID: string,
-) => {
-    const formats: Format[] = await database.query(
-        'formats',
-        'ownedBy',
-        ownerID,
-    );
-
-    return formats;
-}
-
-
-export const loadNotifiers = async (
-    ownerID: string,
-) => {
-    const notifiers: any[] = await database.query(
-        'notifiers',
-        'ownedBy',
-        ownerID,
-    );
-
-    const clientNotifiers = notifiers.map(notifier => {
-        const {
-            id,
-            name,
-            notifyOn,
-            type,
-            data,
-        } = notifier;
-
-        const clientData = extractClientNotifierData(
-            type,
-            data,
-        );
-
-        const clientNotifier = {
-            id,
-            name,
-            notifyOn,
-            type,
-            data: clientData,
-        };
-
-        return clientNotifier;
-    });
-
-    return clientNotifiers;
-}
-
-
-export const loadTesters = async (
-    ownerID: string,
-) => {
-    const testers: any[] = await database.query(
-        'testers',
-        'ownedBy',
-        ownerID,
-    );
-
-    return testers;
-}
-
 
 const loadData = async (
     ownerID: string | undefined,
@@ -175,11 +78,6 @@ const loadData = async (
             tokens: [],
             projects: [],
             spaces: [],
-            providers: [],
-            repositories: [],
-            formats: [],
-            notifiers: [],
-            testers: [],
         };
     }
 
@@ -195,36 +93,11 @@ const loadData = async (
         ownerID,
     );
 
-    const providers = await loadProviders(
-        ownerID,
-    );
-
-    const repositories = await loadRepositories(
-        ownerID,
-    );
-
-    const formats = await loadFormats(
-        ownerID,
-    );
-
-    const notifiers = await loadNotifiers(
-        ownerID,
-    );
-
-    const testers = await loadTesters(
-        ownerID,
-    );
-
 
     const data = {
         tokens,
         projects,
         spaces,
-        providers,
-        repositories,
-        formats,
-        notifiers,
-        testers,
     };
 
     return data;

@@ -52,9 +52,6 @@ const createConnection = async () => {
 
         const connection = await MongoClient.connect(
             uri,
-            {
-                useUnifiedTopology: true,
-            },
         );
 
         return connection;

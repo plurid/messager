@@ -11,8 +11,8 @@
 
     // #region external
     import {
-        DelogLogic,
-        DelogRequest,
+        MessagerLogic,
+        MessagerRequest,
     } from '~server/data/interfaces';
 
     import {
@@ -29,14 +29,14 @@
 // #region module
 const setupMiddleware = async (
     instance: Express,
-    logic?: DelogLogic,
+    logic?: MessagerLogic,
 ) => {
     instance.use(
         cookieParser(),
         /** Attach logic */
         (request, _, next) => {
             if (logic) {
-                (request as DelogRequest).delogLogic = {
+                (request as MessagerRequest).messagerLogic = {
                     ...logic,
                 };
             }

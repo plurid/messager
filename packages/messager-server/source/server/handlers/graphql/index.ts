@@ -13,7 +13,7 @@
     // #region external
     import {
         Context,
-        DelogLogic,
+        MessagerLogic,
     } from '~server/data/interfaces';
 
     import {
@@ -48,7 +48,7 @@
 // #region module
 const setupGraphQLServer = async (
     instance: Application,
-    logic?: DelogLogic,
+    logic?: MessagerLogic,
 ) => {
     const playground = {
         faviconUrl: GRAPHQL_FAVICON,
@@ -65,7 +65,7 @@ const setupGraphQLServer = async (
     const graphQLServer = new ApolloServer({
         typeDefs: schemas,
         resolvers,
-        playground,
+        // playground,
         context: async ({
             req,
             res,
@@ -78,11 +78,6 @@ const setupGraphQLServer = async (
                 tokens,
                 projects,
                 spaces,
-                providers,
-                repositories,
-                formats,
-                notifiers,
-                testers,
             } = await loadData(
                 privateOwnerIdentonym,
             );
@@ -96,11 +91,6 @@ const setupGraphQLServer = async (
                 tokens,
                 projects,
                 spaces,
-                providers,
-                repositories,
-                formats,
-                notifiers,
-                testers,
 
                 customLogicUsage,
 
@@ -114,7 +104,12 @@ const setupGraphQLServer = async (
 
             return context;
         },
+        // plugins: {
+        //     playground,
+        // },
     });
+
+    await graphQLServer.start();
 
     graphQLServer.applyMiddleware({
         app: instance,

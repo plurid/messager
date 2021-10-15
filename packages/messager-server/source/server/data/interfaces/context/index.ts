@@ -13,18 +13,10 @@
         ClientToken,
         Project,
         Space,
-        Provider,
-        Repository,
-        Format,
-        Tester,
     } from '../general';
 
     import {
-        ClientNotifier,
-    } from '../notifier';
-
-    import {
-        DelogLogic,
+        MessagerLogic,
     } from '../logic';
 
     import {
@@ -38,7 +30,7 @@
 
 // #region module
 export interface Context {
-    request: DelogRequest;
+    request: MessagerRequest;
     response: Response;
 
     instance: Application;
@@ -46,12 +38,6 @@ export interface Context {
     tokens: ClientToken[];
     projects: Project[];
     spaces: Space[];
-    providers: Provider[];
-    repositories: Repository[];
-    formats: Format[];
-    // notifiers: ClientNotifier[];
-    notifiers: any[];
-    testers: Tester[];
 
     customLogicUsage: boolean;
 
@@ -64,8 +50,8 @@ export interface Context {
 }
 
 
-export type DelogRequest = Request & {
-    delogLogic: DelogLogic | undefined;
+export type MessagerRequest = Request & {
+    messagerLogic: MessagerLogic | undefined;
     rawBody: string | undefined;
 }
 // #endregion module
