@@ -8,12 +8,16 @@ const createStyledComponentsTransformer = require('typescript-plugin-styled-comp
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 
+const {
+    BUILD_DIRECTORY,
+    ASSETS_DIRECTORY,
+
+    isProduction,
+} = require ('./shared');
+
+
 
 /** CONSTANTS */
-const BUILD_DIRECTORY = process.env.PLURID_BUILD_DIRECTORY || 'build';
-
-const isProduction = process.env.ENV_MODE === 'production';
-
 const entryIndex = path.resolve(__dirname, '../../source/client/index.tsx');
 const outputPath = path.resolve(__dirname, `../../${BUILD_DIRECTORY}/client`);
 
@@ -43,9 +47,8 @@ const compressionPluginBrotli = new CompressionPlugin({
     deleteOriginalAssets: false,
 });
 const compressionPluginGzip = new CompressionPlugin({
-    include: 'vendor.js',
-    filename: 'vendor.js.gzip',
-    deleteOriginalAssets: false,
+    include: /vendor.js$/,
+    // filename: 'vendor.js.gzip',
 });
 
 const processEnvironmentPlugin = new webpack.DefinePlugin({
@@ -75,14 +78,10 @@ const styleRule = {
 
 const fileRule = {
     test: /\.(jpe?g|gif|png|svg|eof|otf|woff|ttf|wav|mp3|pdf|mov|mp4)$/i,
-    use: [
-        {
-            loader: 'file-loader',
-            options: {
-                name: '/assets/[name].[ext]',
-            },
-        },
-    ],
+    type: 'asset/resource',
+    generator: {
+        filename: `${ASSETS_DIRECTORY}/[name][ext]`,
+    },
 };
 
 
@@ -132,8 +131,7 @@ const baseConfig = {
         ],
 
         alias: {
-            'crypto': false,
-            'stream': false,
+            crypto: false,
         },
     },
 
@@ -141,6 +139,18 @@ const baseConfig = {
         modules: false,
         chunks: false,
         assets: false,
+    },
+
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendor',
+                    chunks: 'initial',
+                },
+            },
+        },
     },
 
     module: {
