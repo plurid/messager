@@ -23,8 +23,6 @@
     import {
         QUIET,
         BASE_PATH,
-
-        repositoriesPath,
     } from '~server/data/constants';
 
     import {
@@ -201,8 +199,7 @@ const storageObliterateAll: StorageObliterateAll = async (
 
 const storageGenerateLocations: StorageGenerateLocations = async () => {
     try {
-        const directories = [
-            repositoriesPath,
+        const directories: string[] = [
         ];
 
         directories.forEach(directory => {
