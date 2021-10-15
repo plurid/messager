@@ -3,16 +3,13 @@
     import React from 'react';
 
     import {
-        PluridRoute,
-    } from '@plurid/plurid-data';
+        PluridReactRoute,
+    } from '@plurid/plurid-react';
     // #endregion libraries
 
 
     // #region external
     import IndexPlane from '~kernel-planes/Index';
-    import RecordPlane from '~kernel-planes/Record';
-    import CodePlane from '~kernel-planes/Code';
-    import TestPlane from '~kernel-planes/Test';
     import NotFoundPlane from '~kernel-planes/NotFound';
 
     import Head from '~kernel-components/Head';
@@ -24,40 +21,13 @@
 
 
 // #region module
-const indexRoute: PluridRoute = {
+const indexRoute: PluridReactRoute = {
     value: '/',
-    exterior: {
-        kind: 'react',
-        element: Home,
-    },
+    exterior: Home,
     planes: [
         {
             value: '/dashboard',
-            component: {
-                kind: 'react',
-                element: IndexPlane,
-            },
-        },
-        {
-            value: '/record/:id',
-            component: {
-                kind: 'react',
-                element: RecordPlane,
-            },
-        },
-        {
-            value: '/code/:id',
-            component: {
-                kind: 'react',
-                element: CodePlane,
-            },
-        },
-        {
-            value: '/test/:id',
-            component: {
-                kind: 'react',
-                element: TestPlane,
-            },
+            component: IndexPlane,
         },
     ],
     view: [
@@ -76,16 +46,13 @@ const indexRoute: PluridRoute = {
 }
 
 
-const notFoundRoute: PluridRoute = {
+const notFoundRoute: PluridReactRoute = {
     value: '/not-found',
-    exterior: {
-        kind: 'react',
-        element: () => (
-            <Head
-                title="not found · performer"
-            />
-        ),
-    },
+    exterior: () => (
+        <Head
+            title="not found · messager"
+        />
+    ),
     spaces: [
         {
             value: 'default',
@@ -98,10 +65,7 @@ const notFoundRoute: PluridRoute = {
                             planes: [
                                 {
                                     value: '/',
-                                    component: {
-                                        kind: 'react',
-                                        element: NotFoundPlane,
-                                    },
+                                    component: NotFoundPlane,
                                 },
                             ],
                         },
@@ -113,7 +77,7 @@ const notFoundRoute: PluridRoute = {
 };
 
 
-const routes: PluridRoute[] = [
+const routes: PluridReactRoute[] = [
     indexRoute,
     notFoundRoute,
 ];
