@@ -97,7 +97,8 @@
         "redux": "^4.1.1",
         "redux-thunk": "^2.3.0",
         "styled-components": "^5.3.1",
-        "subscriptions-transport-ws": "^0.9.19"
+        "subscriptions-transport-ws": "^0.9.19",
+        "ws": "^8.2.3"
     },
     "devDependencies": {
         "@rollup/plugin-commonjs": "^21.0.0",
