@@ -9,5 +9,5 @@ http.createServer((request, response) => {
     response.write(fs.readFileSync(__dirname + '/index.html'));
     response.end();
 }).listen(8080, () => {
-    console.log('test server started at http://localhost:8080');
+    console.log('events test server started at http://localhost:8080');
 });
