@@ -13,9 +13,14 @@ export interface MessagerOptions {
     /**
      * Path to connect on the host.
      *
-     * default: '/'
+     * default: '/socket'
      */
-    path: string;
+    socketPath: string;
+
+    /**
+     * default: `'/event'`
+     */
+    eventPath: string;
 }
 
 export type MessagerSubscribeAction<D = any> = (
@@ -28,6 +33,7 @@ class Messager {
     private deon = new Deon();
 
     private connection: undefined | EventSource | WebSocket;
+    private endpoint: undefined | string;
 
     private options: MessagerOptions;
     private host: string;
@@ -57,7 +63,8 @@ class Messager {
         options?: Partial<MessagerOptions>,
     ) {
         const resolvedOptions: MessagerOptions = {
-            path: options?.path || '/',
+            socketPath: options?.socketPath || '/',
+            eventPath: options?.eventPath || '/',
         };
 
         return resolvedOptions;
@@ -68,10 +75,10 @@ class Messager {
             typeof window !== 'undefined'
             && this.kind === 'event'
         ) {
-            const endpoint = this.host + this.options.path + `?token=${this.token || ''}`;
+            this.endpoint = this.host + this.options.eventPath + `?token=${this.token || ''}`;
 
             this.connection = new EventSource(
-                endpoint,
+                this.endpoint,
                 {
                     withCredentials: true,
                 },
@@ -99,9 +106,9 @@ class Messager {
             typeof window !== 'undefined'
             && this.kind === 'socket'
         ) {
-            const endpoint = 'ws://' + this.host + this.options.path + `?token=${this.token || ''}`;
+            this.endpoint = 'ws://' + this.host + this.options.socketPath + `?token=${this.token || ''}`;
 
-            this.connection = new WebSocket(endpoint);
+            this.connection = new WebSocket(this.endpoint);
 
             this.connection.addEventListener('message', (event) => {
                 this.handleEventData(event.data);
@@ -149,20 +156,23 @@ class Messager {
             }
 
             if (this.kind === 'event') {
-                // event connection cannot publish
+                // POSTs to this.endoint with the topic/data
                 return;
             }
 
-            const eventData = {
-                topic,
-                data,
-            };
 
-            const eventDataString = this.deon.stringify(eventData);
+            if (this.kind === 'socket') {
+                const eventData = {
+                    topic,
+                    data,
+                };
 
-            if (typeof window !== 'undefined') {
-                (this.connection as WebSocket).send(eventDataString);
-                return;
+                const eventDataString = this.deon.stringify(eventData);
+
+                if (typeof window !== 'undefined') {
+                    (this.connection as WebSocket).send(eventDataString);
+                    return;
+                }
             }
         } catch (error) {
             return;
