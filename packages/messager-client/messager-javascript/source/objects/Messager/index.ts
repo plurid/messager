@@ -122,25 +122,28 @@ class Messager {
         }
 
 
-        if (
-            typeof window !== 'undefined'
-            && this.kind === 'socket'
-        ) {
+        if (this.kind === 'socket') {
             const protocol = this.options.secure ? 'wss://' : 'ws://';
 
             this.endpoint = protocol + this.host + this.options.socketPath + `?token=${this.token || ''}`;
 
-            this.connection = new WebSocket(this.endpoint);
+            if (typeof window === 'undefined') {
+                // browser socket
+                this.connection = new WebSocket(this.endpoint);
 
-            this.connection.addEventListener('message', (event) => {
-                const eventData = data.parse(event.data);
+                this.connection.addEventListener('message', (event) => {
+                    const eventData = data.parse(event.data);
 
-                this.handleEventData(
-                    eventData,
-                );
-            });
+                    this.handleEventData(
+                        eventData,
+                    );
+                });
 
-            return;
+                return;
+            } else {
+                // nodejs socket
+
+            }
         }
     }
 
