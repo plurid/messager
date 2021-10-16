@@ -5,6 +5,10 @@
     } from 'http';
 
     import {
+        URLSearchParams,
+    } from 'url';
+
+    import {
         Socket,
     } from 'net';
 
@@ -44,8 +48,13 @@ const setupWebsockets = (
                 params,
             ] = connectionRequest?.url?.split('?') || [];
 
-            console.log(params);
-            const token = '';
+            const searchParams = new URLSearchParams(params);
+
+            const token = searchParams.get('token');
+            if (!token) {
+                websocketConnection.close();
+                return;
+            }
 
             websocketConnection.on('message', (message) => {
                 const parsedMessage = JSON.parse(message.toString());
