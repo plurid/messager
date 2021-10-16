@@ -27,13 +27,13 @@ const setupHandlers = async (
 ) => {
     const instance = server.instance();
 
-    await setupGlobal(
-        instance,
-    );
-
     await setupMiddleware(
         instance,
         logic,
+    );
+
+    await setupGlobal(
+        instance,
     );
 
     await setupGraphQL(

@@ -31,6 +31,8 @@
     // #region internal
     import {
         PORT,
+        EVENT_PATH,
+        SOCKET_PATH,
     } from './data/constants';
 
     import preserves from './preserves';
@@ -101,7 +103,8 @@ const options: PluridServerPartialOptions = {
     open: openAtStart,
     debug,
     ignore: [
-        '/connect',
+        EVENT_PATH,
+        SOCKET_PATH,
     ],
 };
 

@@ -4,7 +4,11 @@
         Express,
     } from 'express';
 
-    import bodyParser from 'body-parser';
+    import cors from 'cors';
+
+    import {
+        json as jsonParser,
+    } from 'body-parser';
     import cookieParser from 'cookie-parser';
     // #endregion libraries
 
@@ -32,6 +36,12 @@ const setupMiddleware = async (
     logic?: MessagerLogic,
 ) => {
     instance.use(
+        cors({
+            credentials: true,
+            origin: (_: any, callback: any) => {
+                return callback(null, true);
+            },
+        }),
         cookieParser(),
         /** Attach logic */
         (request, _, next) => {
@@ -43,7 +53,7 @@ const setupMiddleware = async (
 
             next();
         },
-        bodyParser.json({
+        jsonParser({
             limit: '100mb',
         }),
     );

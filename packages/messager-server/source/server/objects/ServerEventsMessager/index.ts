@@ -14,8 +14,15 @@ export const writeServerSendEvent = (
     sseID: string,
     data: string,
 ) => {
-    response.write('id: ' + sseID + '\n');
-    response.write('data: ' + data + '\n\n');
+    try {
+        response.write('id: ' + sseID + '\n', 'utf-8');
+        response.write('data: ' + data + '\n\n', 'utf-8');
+
+        // FORCED send data by flushing
+        (response as any).flush();
+    } catch (error) {
+        return;
+    }
 }
 
 
@@ -27,6 +34,18 @@ class ServerEventsMessager {
         response: Response,
     ) {
         this.response = response;
+
+        this.response.setHeader('Cache-Control', 'no-cache');
+        this.response.setHeader('Content-Type', 'text/event-stream');
+        this.response.setHeader('Connection', 'keep-alive');
+
+        // flush the headers to establish SSE with client
+        this.response.flushHeaders();
+
+        this.response.on('close', () => {
+            // client dropped connection
+            this.response.end();
+        });
     }
 
 

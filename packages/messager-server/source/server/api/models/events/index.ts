@@ -84,6 +84,7 @@ const handlePost = async (
 
 
         const serverEventsMessager = serverEventsMessagers[messagerID];
+
         if (!serverEventsMessager) {
             response.status(404).end();
             return;
