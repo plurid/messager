@@ -1,5 +1,9 @@
 // #region imports
     // #region libraries
+    import {
+        data,
+    } from '@plurid/plurid-functions';
+
     import Deon from '@plurid/deon';
     // #endregion libraries
 // #endregion imports
@@ -11,16 +15,25 @@ export type MessagerType = 'socket' | 'event';
 
 export interface MessagerOptions {
     /**
-     * Path to connect on the host.
+     * Path for web sockets.
      *
-     * default: '/socket'
+     * default: `'/socket'`
      */
     socketPath: string;
 
     /**
+     * Path for server sent events.
+     *
      * default: `'/event'`
      */
     eventPath: string;
+
+    /**
+     * Use secure protocols.
+     *
+     * default: `true`
+     */
+    secure: boolean;
 }
 
 export type MessagerSubscribeAction<D = any> = (
@@ -65,6 +78,7 @@ class Messager {
         const resolvedOptions: MessagerOptions = {
             socketPath: options?.socketPath || '/',
             eventPath: options?.eventPath || '/',
+            secure: options?.secure ?? true,
         };
 
         return resolvedOptions;
@@ -75,7 +89,9 @@ class Messager {
             typeof window !== 'undefined'
             && this.kind === 'event'
         ) {
-            this.endpoint = this.host + this.options.eventPath + `?token=${this.token || ''}`;
+            const protocol = this.options.secure ? 'https://' : 'http://';
+
+            this.endpoint = protocol + this.host + this.options.eventPath + `?token=${this.token || ''}`;
 
             this.connection = new EventSource(
                 this.endpoint,
@@ -95,7 +111,11 @@ class Messager {
             this.connection.onmessage = (
                 event,
             ) => {
-                this.handleEventData(event.data);
+                const eventData = data.parse(event.data);
+
+                this.handleEventData(
+                    eventData,
+                );
             }
 
             return;
@@ -106,13 +126,21 @@ class Messager {
             typeof window !== 'undefined'
             && this.kind === 'socket'
         ) {
-            this.endpoint = 'ws://' + this.host + this.options.socketPath + `?token=${this.token || ''}`;
+            const protocol = this.options.secure ? 'wss://' : 'ws://';
+
+            this.endpoint = protocol + this.host + this.options.socketPath + `?token=${this.token || ''}`;
 
             this.connection = new WebSocket(this.endpoint);
 
             this.connection.addEventListener('message', (event) => {
-                this.handleEventData(event.data);
+                const eventData = data.parse(event.data);
+
+                this.handleEventData(
+                    eventData,
+                );
             });
+
+            return;
         }
     }
 
