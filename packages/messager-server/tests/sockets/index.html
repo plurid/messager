@@ -7,11 +7,17 @@
 
 <body>
     <script>
-        const webSocket = new WebSocket(
+        const socket = new WebSocket(
             'ws://localhost:56865/socket?token=test',
         );
 
-        webSocket.send('works');
+        socket.addEventListener('open', (event) => {
+            socket.send(JSON.stringify({data: 'works'}));
+        });
+
+        socket.addEventListener('message', (event) => {
+            console.log('Message from server ', event.data);
+        });
     </script>
 </body>
 
