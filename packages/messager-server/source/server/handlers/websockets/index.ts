@@ -16,6 +16,7 @@
 
     import {
         data,
+        uuid,
     } from '@plurid/plurid-functions';
     // #endregion libraries
 
@@ -24,6 +25,8 @@
     import {
         SOCKET_PATH,
     } from '~server/data/constants';
+
+    import webSocketsMessager from '~server/services/webSocketsMessager';
     // #endregion external
 // #endregion imports
 
@@ -60,17 +63,17 @@ const setupWebsockets = (
                 return;
             }
 
+            const socketID = uuid.multiple(3);
+
             websocketConnection.on('message', (message) => {
                 const messageData = data.parse(message.toString());
-                // console.log('messageData', messageData);
 
-                // send the message to all the subscribers
-                // websocketManager.received('client-id', messageData);
+                webSocketsMessager.emit(`received:${socketID}`, messageData);
             });
 
-            // websocketManager.on('message-to-this-socket', (data) => {
-            //     websocketConnection.send(data);
-            // });
+            webSocketsMessager.on(`send:${socketID}`, (data) => {
+                websocketConnection.send(data);
+            });
         }
     );
 }
