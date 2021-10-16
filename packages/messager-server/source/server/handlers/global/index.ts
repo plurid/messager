@@ -11,6 +11,10 @@
 
 
     // #region external
+    import {
+        EVENT_PATH,
+    } from '~server/data/constants';
+
     import ServerEventsMessager from '~server/objects/ServerEventsMessager';
 
     import database from '~server/services/database';
@@ -30,21 +34,40 @@ const setup = async (
         await database.initialize();
 
 
-        instance.get('/event', (request, response) => {
-            if (
-                request.headers.accept &&
-                request.headers.accept == 'text/event-stream'
-            ) {
-                const serverEventsMessager = new ServerEventsMessager(response);
-
-                // get from request token
-                const messagerID = 'one';
-
-                serverEventsMessagers[messagerID] = serverEventsMessager;
+        instance.get(EVENT_PATH, async (request, response) => {
+            if (request.headers.accept !== 'text/event-stream') {
+                response.status(400).end();
+                return;
             }
+
+
+            const {
+                token,
+            } = request.query;
+
+            if (!token) {
+                response.status(401).end();
+                return;
+            }
+
+            const serverEventsMessager = new ServerEventsMessager(response);
+
+            // get from request token
+            const messagerID = 'one';
+
+            serverEventsMessagers[messagerID] = serverEventsMessager;
         });
 
-        instance.post('/event', (request, response) => {
+        instance.post(EVENT_PATH, (request, response) => {
+            const {
+                token,
+            } = request.query;
+
+            if (!token) {
+                response.status(401).end();
+                return;
+            }
+
             // get from request token
             const messagerID = 'one';
 

@@ -46,4 +46,8 @@ export const TEST_MODE = process.env.MESSAGER_TEST_MODE === 'true';
 
 export const OPTIMIZATION_BATCH_WRITE_SIZE = parseInt(process.env.MESSAGER_OPTIMIZATION_BATCH_WRITE_SIZE || '') || 1000;
 export const OPTIMIZATION_BATCH_WRITE_TIME = parseInt(process.env.MESSAGER_OPTIMIZATION_BATCH_WRITE_TIME || '') || 5000;
+
+
+
+export const EVENT_PATH = process.env.MESSAGER_EVENT_PATH || '/event';
 // #endregion module
