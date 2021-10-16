@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import {
+        Socket,
+    } from 'net';
+
+    import {
         Server,
     } from 'http';
 
@@ -8,11 +12,11 @@
         URLSearchParams,
     } from 'url';
 
-    import {
-        Socket,
-    } from 'net';
-
     import WebSocket from 'ws';
+
+    import {
+        data,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -57,9 +61,16 @@ const setupWebsockets = (
             }
 
             websocketConnection.on('message', (message) => {
-                const parsedMessage = JSON.parse(message.toString());
-                console.log(parsedMessage);
+                const messageData = data.parse(message.toString());
+                // console.log('messageData', messageData);
+
+                // send the message to all the subscribers
+                // websocketManager.received('client-id', messageData);
             });
+
+            // websocketManager.on('message-to-this-socket', (data) => {
+            //     websocketConnection.send(data);
+            // });
         }
     );
 }
