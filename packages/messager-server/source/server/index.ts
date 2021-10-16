@@ -1,18 +1,16 @@
 // #region imports
     // #region libraries
+    import {
+        Server,
+    } from 'http';
+
+
     import PluridServer, {
         PluridServerMiddleware,
         PluridServerService,
         PluridServerPartialOptions,
         PluridServerTemplateConfiguration,
     } from '@plurid/plurid-react-server';
-
-    import helmet from '~kernel-services/helmet';
-
-    import reduxStore from '~kernel-services/state/store';
-    import reduxContext from '~kernel-services/state/context';
-
-    import apolloClient from '~kernel-services/graphql/client';
     // #endregion libraries
 
 
@@ -25,6 +23,13 @@
     import {
         APPLICATION_ROOT,
     } from '~shared/data/constants';
+
+    import helmet from '~kernel-services/helmet';
+
+    import reduxStore from '~kernel-services/state/store';
+    import reduxContext from '~kernel-services/state/context';
+
+    import apolloClient from '~kernel-services/graphql/client';
     // #endregion external
 
 
@@ -38,6 +43,7 @@
     import preserves from './preserves';
 
     import setupHandlers from './handlers';
+    import setupWebsockets from './handlers/websockets';
 
     import * as Models from './api/models';
     // #endregion internal
@@ -129,14 +135,16 @@ const messagerServer = new PluridServer({
 
 
 const messagerSetup = async (
-    callback?: () => Promise<void>,
+    callback?: () => Promise<Server>,
 ) => {
     const successfulSetup = await setupHandlers(
         messagerServer,
     );
 
     if (successfulSetup && callback) {
-        await callback();
+        const server = await callback();
+
+        setupWebsockets(server);
     }
 
     return successfulSetup;
@@ -157,7 +165,9 @@ const messagerSetup = async (
 if (require.main === module) {
     messagerSetup(
         async () => {
-            messagerServer.start(PORT);
+            const server = messagerServer.start(PORT);
+
+            return server;
         },
     );
 }
