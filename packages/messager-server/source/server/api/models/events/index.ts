@@ -19,34 +19,47 @@
 
 
 // #region module
-const serverEventsMessagers: Record<string, ServerEventsMessager> = {};
+const serverEventsMessagers: Record<string, ServerEventsMessager | undefined> = {};
+
+
+const getMessagerIDWithToken = async (
+    token: string,
+): Promise<string | undefined> => {
+    return 'one';
+}
 
 
 const handleGet = async (
     request: Request,
     response: Response,
 ) => {
-    if (request.headers.accept !== 'text/event-stream') {
-        response.status(400).end();
-        return;
+    try {
+        if (request.headers.accept !== 'text/event-stream') {
+            response.status(400).end();
+            return;
+        }
+
+        const {
+            token,
+        } = request.query;
+        if (!token) {
+            response.status(401).end();
+            return;
+        }
+
+        const messagerID = await getMessagerIDWithToken(token as string);
+        if (!messagerID) {
+            response.status(403).end();
+            return;
+        }
+
+        const serverEventsMessager = new ServerEventsMessager(response);
+        serverEventsMessagers[messagerID] = serverEventsMessager;
+    } catch (error: any) {
+        if (!response.headersSent) {
+            response.status(500).end();
+        }
     }
-
-
-    const {
-        token,
-    } = request.query;
-
-    if (!token) {
-        response.status(401).end();
-        return;
-    }
-
-    const serverEventsMessager = new ServerEventsMessager(response);
-
-    // get from request token
-    const messagerID = 'one';
-
-    serverEventsMessagers[messagerID] = serverEventsMessager;
 }
 
 
@@ -54,31 +67,39 @@ const handlePost = async (
     request: Request,
     response: Response,
 ) => {
-    const {
-        token,
-    } = request.query;
+    try {
+        const {
+            token,
+        } = request.query;
+        if (!token) {
+            response.status(401).end();
+            return;
+        }
 
-    if (!token) {
-        response.status(401).end();
-        return;
+        const messagerID = await getMessagerIDWithToken(token as string);
+        if (!messagerID) {
+            response.status(403).end();
+            return;
+        }
+
+
+        const serverEventsMessager = serverEventsMessagers[messagerID];
+        if (!serverEventsMessager) {
+            response.status(404).end();
+            return;
+        }
+
+        const sseID = uuid.multiple(3);
+        const data = request.body.data;
+
+        serverEventsMessager.send(sseID, data);
+
+        response.end();
+    } catch (error: any) {
+        if (!response.headersSent) {
+            response.status(500).end();
+        }
     }
-
-    // get from request token
-    const messagerID = 'one';
-
-    const serverEventsMessager = serverEventsMessagers[messagerID];
-
-    if (!serverEventsMessager) {
-        response.status(404).end();
-        return;
-    }
-
-    const sseID = uuid.multiple(3);
-    const data = request.body.data;
-
-    serverEventsMessager.send(sseID, data);
-
-    response.end();
 }
 // #endregion module
 
