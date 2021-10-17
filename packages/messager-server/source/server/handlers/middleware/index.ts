@@ -2,6 +2,9 @@
     // #region libraries
     import {
         Express,
+        Request,
+        Response,
+        NextFunction,
     } from 'express';
 
     import cors from 'cors';
@@ -57,6 +60,14 @@ const setupMiddleware = async (
             limit: '100mb',
         }),
     );
+
+    instance.use((error: any, _: Request, response: Response, next: NextFunction) => {
+        if (error) {
+            response.status(400).end();
+        } else {
+            next();
+        }
+    });
 
     instance.post(
         HEALTH_CHECK_ENDPOINT,
