@@ -16,16 +16,13 @@
         getMessagerIDWithToken
     } from '~server/logic/token';
 
-    import ServerEventsMessager from '~server/objects/ServerEventsMessager';
+    import serverEventsManager from '~server/services/serverEventsManager';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const serverEventsMessagers: Record<string, ServerEventsMessager | undefined> = {};
-
-
 const handleGet = async (
     request: Request,
     response: Response,
@@ -40,14 +37,21 @@ const handleGet = async (
             token,
         } = request.query;
 
-        const messagerID = await getMessagerIDWithToken(token as string | undefined);
-        if (!messagerID) {
+        const ownerID = await getMessagerIDWithToken(token as string | undefined);
+        if (!ownerID) {
             response.status(403).end();
             return;
         }
 
-        const serverEventsMessager = new ServerEventsMessager(response);
-        serverEventsMessagers[messagerID] = serverEventsMessager;
+        const messagerID = uuid.multiple();
+
+        const serverEventsMessager = serverEventsManager.new(ownerID, messagerID, response);
+        const sseID = uuid.multiple(3);
+
+        serverEventsMessager.send(sseID, {
+            type: 'id',
+            data: messagerID,
+        });
     } catch (error: any) {
         if (!response.headersSent) {
             response.status(500).end();
@@ -65,39 +69,52 @@ const handlePost = async (
             token,
         } = request.query;
 
-        const messagerID = await getMessagerIDWithToken(token as string | undefined);
-        if (!messagerID) {
+        const ownerID = await getMessagerIDWithToken(token as string | undefined);
+        if (!ownerID) {
             response.status(403).end();
             return;
         }
 
-        const serverEventsMessager = serverEventsMessagers[messagerID];
-        if (!serverEventsMessager) {
-            response.status(404).end();
-            return;
-        }
-
         const {
+            messagerID,
             type,
             topic,
             data,
         } = request.body;
 
+        const serverEventsMessager = serverEventsManager.get(ownerID, messagerID);
+        if (!serverEventsMessager) {
+            response.status(404).end();
+            return;
+        }
+
         switch (type) {
             case 'subscribe': {
-                // subscribe the serverEventsMessager to the topic
+                serverEventsMessager.subscribe(topic);
                 break;
             }
             case 'publish': {
-                const sseID = uuid.multiple(3);
+                const serverEventsMessagers = serverEventsManager.getAll(ownerID);
+                if (!serverEventsMessagers) {
+                    return;
+                }
 
-                // send the event to all the topic subscribers
-                serverEventsMessager.send(sseID, data);
+                for (const serverEventsMessager of Object.values(serverEventsMessagers)) {
+                    if (!serverEventsMessager) {
+                        continue;
+                    }
 
-                response.end();
+                    if (serverEventsMessager.isSubscribed(topic)) {
+                        const sseID = uuid.multiple(3);
+
+                        serverEventsMessager.send(sseID, data);
+                    }
+                }
                 break;
             }
         }
+
+        response.end();
     } catch (error: any) {
         if (!response.headersSent) {
             response.status(500).end();

@@ -28,6 +28,7 @@ export const writeServerSendEvent = (
 
 class ServerEventsMessager {
     private response;
+    private topics: string[] = [];
 
 
     constructor(
@@ -51,13 +52,36 @@ class ServerEventsMessager {
 
     public send(
         sseID: string,
-        data: string,
+        data: any,
     ) {
+        const eventData = typeof data !== 'string'
+            ? JSON.stringify(data)
+            : data;
+
         writeServerSendEvent(
             this.response,
             sseID,
-            data,
+            eventData,
         );
+    }
+
+
+    public subscribe(
+        topic: string,
+    ) {
+        this.topics.push(topic);
+    }
+
+    public unsubscribe(
+        topic: string,
+    ) {
+        this.topics = this.topics.filter(subscription => subscription !== topic);
+    }
+
+    public isSubscribed(
+        topic: string,
+    ) {
+        return this.topics.includes(topic);
     }
 }
 // #endregion module
