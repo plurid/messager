@@ -304,12 +304,12 @@ class Messager {
     }
 
     /**
-     * Send a message to a certain `consumerID`.
+     * Send a `data` notification to a certain `target`.
      *
-     * @param consumerID
+     * @param target
      */
     public async notify<D = any>(
-        consumerID: string,
+        target: string,
         data: D,
     ) {
         if (!this.connection) {
@@ -324,7 +324,7 @@ class Messager {
             const response = await fetch(endpoint, {
                 method: 'POST',
                 body: JSON.stringify({
-                    consumerID,
+                    target,
                     data,
                 }),
             });
