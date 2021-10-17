@@ -178,6 +178,7 @@ class Messager {
                 return;
             }
 
+
             const publish: MessagerSocketPublish<D> = {
                 type: 'publish',
                 topic,
@@ -243,62 +244,67 @@ class Messager {
         topic: string,
         action: MessagerSubscribeAction<D>,
     ) {
-        if (!this.connection) {
-            // no connection error
-            return;
-        }
-
-        if (!this.subscribers[topic]) {
-            this.subscribers[topic] = [];
-        }
-
-        this.subscribers[topic].push(action);
-
-        const subscribe: MessagerSocketSubscribe = {
-            type: 'subscribe',
-            topic,
-        };
-
-
-        if (this.kind === 'event') {
-            if (
-                !this.endpoint
-                || !this.messagerID
-            ) {
+        try {
+            if (!this.connection) {
+                // no connection error
                 return;
             }
 
-            fetch(this.endpoint, {
-                method: 'POST',
-                body: JSON.stringify({
-                    messagerID: this.messagerID,
-                    ...subscribe,
-                }),
-            });
-
-            return;
-        }
-
-
-        if (this.kind === 'socket') {
-            // const message = this.deon.stringify(subscribe);
-            const message = JSON.stringify(subscribe);
-
-            let trySend = true;
-
-            while (trySend) {
-                if ((this.connection as WebSocket).readyState === 1) {
-                    (this.connection as WebSocket).send(message);
-                    trySend = false;
-                } else {
-                    await new Promise((resolve) => {
-                        setTimeout(() => {
-                            resolve(true);
-                        }, 1000);
-                    });
-                }
+            if (!this.subscribers[topic]) {
+                this.subscribers[topic] = [];
             }
 
+
+            this.subscribers[topic].push(action);
+
+            const subscribe: MessagerSocketSubscribe = {
+                type: 'subscribe',
+                topic,
+            };
+
+
+            if (this.kind === 'event') {
+                if (
+                    !this.endpoint
+                    || !this.messagerID
+                ) {
+                    return;
+                }
+
+                fetch(this.endpoint, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        messagerID: this.messagerID,
+                        ...subscribe,
+                    }),
+                });
+
+                return;
+            }
+
+
+            if (this.kind === 'socket') {
+                // const message = this.deon.stringify(subscribe);
+                const message = JSON.stringify(subscribe);
+
+                let trySend = true;
+
+                while (trySend) {
+                    if ((this.connection as WebSocket).readyState === 1) {
+                        (this.connection as WebSocket).send(message);
+                        trySend = false;
+                    } else {
+                        await new Promise((resolve) => {
+                            setTimeout(() => {
+                                resolve(true);
+                            }, 1000);
+                        });
+                    }
+                }
+
+                return;
+            }
+        } catch (error) {
             return;
         }
     }
@@ -312,12 +318,13 @@ class Messager {
         target: string,
         data: D,
     ) {
-        if (!this.connection) {
-            // no connection error
-            return;
-        }
-
         try {
+            if (!this.connection) {
+                // no connection error
+                return false;
+            }
+
+
             const protocol = this.options.secure ? 'https://' : 'http://';
             const endpoint = protocol + this.host + this.options.notifyPath + `?token=${this.token || ''}`;
 
