@@ -12,7 +12,7 @@ describe('Messager', () => {
         const messager = new Messager(
             // 'messager.plurid.cloud',
             'localhost:56865',
-            'token',
+            '__TEST_MODE__',
             'socket',
             {
                 secure: false,
