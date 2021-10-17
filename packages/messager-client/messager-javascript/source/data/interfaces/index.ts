@@ -71,10 +71,10 @@ export type MessagerSocketAction =
     | MessagerSocketPublish
     | MessagerSocketSubscribe;
 
-export interface MessagerSocketPublish {
+export interface MessagerSocketPublish<D = any> {
     type: 'publish';
     topic: string;
-    data: any;
+    data: D;
 }
 
 export interface MessagerSocketSubscribe {
