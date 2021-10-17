@@ -41,6 +41,7 @@ export const MONGO_CONNECTION_STRING = process.env.MESSAGER_MONGO_CONNECTION_STR
 
 
 export const TEST_MODE = process.env.MESSAGER_TEST_MODE === 'true';
+export const TEST_MODE_TOKEN = process.env.MESSAGER_TEST_MODE_TOKEN || '__TEST_MODE__';
 
 
 
