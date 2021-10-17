@@ -30,8 +30,7 @@ def main():
     root_path = os.path.split(os.path.dirname(__file__))[0]
 
     readme_paths = [
-        'packages/messager-client/messager-cli/README.md',
-        'packages/messager-client/messager-javascript/README.md',
+        # 'packages/messager-client/messager-javascript/README.md',
         'packages/messager-client/messager-python/README.md',
         'packages/messager-server/README.md',
     ]

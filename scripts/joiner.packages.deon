@@ -8,7 +8,6 @@
 
 
 packages [
-    ./packages/messager-client/messager-cli
     ./packages/messager-client/messager-javascript
     ./packages/messager-server
 ]
