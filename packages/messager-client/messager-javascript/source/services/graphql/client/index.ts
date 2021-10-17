@@ -14,7 +14,7 @@
     import {
         ENDPOINT,
         TOKEN,
-    } from '#data/constants';
+    } from '~data/constants';
     // #endregion external
 // #endregion imports
 

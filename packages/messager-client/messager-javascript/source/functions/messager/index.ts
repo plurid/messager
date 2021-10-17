@@ -3,26 +3,26 @@
     import {
         MessagerConfiguration,
         MessagerMetadata,
-    } from '#data/interfaces';
+    } from '~data/interfaces';
 
 
     import {
         ENDPOINT,
         TOKEN,
-    } from '#data/constants';
+    } from '~data/constants';
 
 
     import getGraphqlClient, {
         globalGraphqlClient,
-    } from '#services/graphql/client';
+    } from '~services/graphql/client';
 
     import {
         PUBLISH,
         SEND,
         SUBSCRIBE,
-    } from '#services/graphql/mutate';
+    } from '~services/graphql/mutate';
 
-    import defaultLogger from '#services/logger';
+    import defaultLogger from '~services/logger';
     // #endregion external
 // #endregion imports
 
