@@ -65,10 +65,17 @@ const setupWebsockets = (
 
             const socketID = uuid.multiple(3);
 
+            websocketConnection.on('open', () => {
+                webSocketsMessager.register(socketID, websocketConnection);
+            });
+
             websocketConnection.on('message', (message) => {
                 const messageData = data.parse(message.toString());
 
-                webSocketsMessager.emit(`received:${socketID}`, messageData);
+                webSocketsMessager.emit(`received`, {
+                    socketID,
+                    message: messageData,
+                });
             });
 
             webSocketsMessager.on(`send:${socketID}`, (data) => {

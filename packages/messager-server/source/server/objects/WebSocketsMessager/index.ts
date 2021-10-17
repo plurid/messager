@@ -3,6 +3,10 @@
     import {
         EventEmitter,
     } from 'events';
+
+    import {
+        WebSocket,
+    } from 'ws';
     // #endregion libraries
 // #endregion imports
 
@@ -10,7 +14,7 @@
 
 // #region module
 class WebSocketsMessager extends EventEmitter {
-    private sockets: Record<string, any> = {};
+    private sockets: Record<string, WebSocket> = {};
 
 
     constructor() {
@@ -21,13 +25,26 @@ class WebSocketsMessager extends EventEmitter {
 
 
     private setup() {
-        this.on('received', () => {
+        this.on('received', (data) => {
+            try {
+                const {
+                    socketID,
+                    message,
+                } = data;
 
+                // send the message to all the subscribers
+            } catch (error) {
+                return;
+            }
         });
+    }
 
-        this.on('send', () => {
 
-        });
+    public register(
+        socketID: string,
+        socket: WebSocket,
+    ) {
+        this.sockets[socketID] = socket;
     }
 }
 // #endregion module
