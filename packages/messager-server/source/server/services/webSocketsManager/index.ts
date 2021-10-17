@@ -1,17 +1,17 @@
 // #region imports
     // #region external
-    import WebSocketsMessager from '~server/objects/WebSocketsMessager';
+    import WebSocketsManager from '~server/objects/WebSocketsManager';
     // #endregion external
 // #endregion imports
 
 
 
 // #region module
-const webSocketsMessager = new WebSocketsMessager();
+const webSocketsManager = new WebSocketsManager();
 // #endregion module
 
 
 
 // #region exports
-export default webSocketsMessager;
+export default webSocketsManager;
 // #endregion exports

@@ -47,7 +47,6 @@ class WebSocketsMessager extends EventEmitter {
         data: any,
     ) {
         const {
-            socketID,
             message,
         } = data;
 

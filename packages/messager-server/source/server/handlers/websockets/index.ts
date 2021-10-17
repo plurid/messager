@@ -30,7 +30,7 @@
         getMessagerIDWithToken
     } from '~server/logic/token';
 
-    import webSocketsMessager from '~server/services/webSocketsMessager';
+    import webSocketsManager from '~server/services/webSocketsManager';
     // #endregion external
 // #endregion imports
 
@@ -70,6 +70,8 @@ const setupWebsockets = (
                 return;
             }
 
+            const webSocketsMessager = webSocketsManager.new(messagerID);
+
             const socketID = messagerID + uuid.multiple(3);
 
             webSocketsMessager.register(socketID, websocketConnection);
@@ -79,11 +81,9 @@ const setupWebsockets = (
             });
 
             websocketConnection.on('message', (message) => {
-                const messageData = data.parse(message.toString());
-
-                webSocketsMessager.emit(`received`, {
+                webSocketsMessager.emit('received', {
                     socketID,
-                    message: messageData,
+                    message: data.parse(message.toString()),
                 });
             });
         }
