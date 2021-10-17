@@ -65,7 +65,6 @@ class ServerEventsMessager {
         );
     }
 
-
     public subscribe(
         topic: string,
     ) {
