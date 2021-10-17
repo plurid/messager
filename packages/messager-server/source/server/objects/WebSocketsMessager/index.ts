@@ -14,7 +14,8 @@
 
 // #region module
 class WebSocketsMessager extends EventEmitter {
-    private sockets: Record<string, WebSocket> = {};
+    private sockets: Record<string, WebSocket | undefined> = {};
+    private subscribers: Record<string, string[] | undefined> = {};
 
 
     constructor() {
@@ -32,7 +33,32 @@ class WebSocketsMessager extends EventEmitter {
                     message,
                 } = data;
 
-                // send the message to all the subscribers
+                const {
+                    type,
+                    topic,
+                } = message;
+
+                switch (type) {
+                    case 'subscribe':
+                        if (!this.subscribers[topic]) {
+                            this.subscribers[topic] = [];
+                        }
+                        this.subscribers[topic]?.push(socketID);
+                        break;
+                    case 'publish':
+                        if (this.subscribers[topic]) {
+                            for (const socketID of this.subscribers[topic] as string[]) {
+                                const socket = this.sockets[socketID];
+                                if (socket) {
+                                    socket.send(JSON.stringify({
+                                        topic,
+                                        data: message.data,
+                                    }));
+                                }
+                            }
+                        }
+                        break;
+                }
             } catch (error) {
                 return;
             }
@@ -45,6 +71,12 @@ class WebSocketsMessager extends EventEmitter {
         socket: WebSocket,
     ) {
         this.sockets[socketID] = socket;
+    }
+
+    public deregister(
+        socketID: string,
+    ) {
+        delete this.sockets[socketID];
     }
 }
 // #endregion module

@@ -65,8 +65,10 @@ const setupWebsockets = (
 
             const socketID = uuid.multiple(3);
 
-            websocketConnection.on('open', () => {
-                webSocketsMessager.register(socketID, websocketConnection);
+            webSocketsMessager.register(socketID, websocketConnection);
+
+            websocketConnection.on('close', () => {
+                webSocketsMessager.deregister(socketID);
             });
 
             websocketConnection.on('message', (message) => {
@@ -76,10 +78,6 @@ const setupWebsockets = (
                     socketID,
                     message: messageData,
                 });
-            });
-
-            webSocketsMessager.on(`send:${socketID}`, (data) => {
-                websocketConnection.send(data);
             });
         }
     );
