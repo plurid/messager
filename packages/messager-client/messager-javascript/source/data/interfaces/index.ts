@@ -64,4 +64,21 @@ export interface MesagerInputRecordContextCaller {
     line: number;
     column: number;
 }
+
+
+
+export type MessagerSocketAction =
+    | MessagerSocketPublish
+    | MessagerSocketSubscribe;
+
+export interface MessagerSocketPublish {
+    type: 'publish';
+    topic: string;
+    data: any;
+}
+
+export interface MessagerSocketSubscribe {
+    type: 'subscribe';
+    topic: string;
+}
 // #endregion module
