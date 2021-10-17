@@ -26,6 +26,10 @@
         SOCKET_PATH,
     } from '~server/data/constants';
 
+    import {
+        getMessagerIDWithToken
+    } from '~server/logic/token';
+
     import webSocketsMessager from '~server/services/webSocketsMessager';
     // #endregion external
 // #endregion imports
@@ -49,7 +53,7 @@ const setupWebsockets = (
 
     websocketServer.on(
         'connection',
-        (websocketConnection, connectionRequest) => {
+        async (websocketConnection, connectionRequest) => {
             const [
                 _path,
                 params,
@@ -58,12 +62,15 @@ const setupWebsockets = (
             const searchParams = new URLSearchParams(params);
 
             const token = searchParams.get('token');
-            if (!token) {
+
+            const messagerID = await getMessagerIDWithToken(token);
+            if (!messagerID) {
+                // not authorized
                 websocketConnection.close();
                 return;
             }
 
-            const socketID = uuid.multiple(3);
+            const socketID = messagerID + uuid.multiple(3);
 
             webSocketsMessager.register(socketID, websocketConnection);
 

@@ -12,6 +12,10 @@
 
 
     // #region external
+    import {
+        getMessagerIDWithToken
+    } from '~server/logic/token';
+
     import ServerEventsMessager from '~server/objects/ServerEventsMessager';
     // #endregion external
 // #endregion imports
@@ -20,13 +24,6 @@
 
 // #region module
 const serverEventsMessagers: Record<string, ServerEventsMessager | undefined> = {};
-
-
-const getMessagerIDWithToken = async (
-    token: string,
-): Promise<string | undefined> => {
-    return 'one';
-}
 
 
 const handleGet = async (
@@ -42,12 +39,8 @@ const handleGet = async (
         const {
             token,
         } = request.query;
-        if (!token) {
-            response.status(401).end();
-            return;
-        }
 
-        const messagerID = await getMessagerIDWithToken(token as string);
+        const messagerID = await getMessagerIDWithToken(token as string | undefined);
         if (!messagerID) {
             response.status(403).end();
             return;
@@ -71,20 +64,14 @@ const handlePost = async (
         const {
             token,
         } = request.query;
-        if (!token) {
-            response.status(401).end();
-            return;
-        }
 
-        const messagerID = await getMessagerIDWithToken(token as string);
+        const messagerID = await getMessagerIDWithToken(token as string | undefined);
         if (!messagerID) {
             response.status(403).end();
             return;
         }
 
-
         const serverEventsMessager = serverEventsMessagers[messagerID];
-
         if (!serverEventsMessager) {
             response.status(404).end();
             return;
