@@ -66,6 +66,7 @@ class Messager {
         const resolvedOptions: MessagerOptions = {
             socketPath: options?.socketPath || '/socket',
             eventPath: options?.eventPath || '/event',
+            notifyPath: options?.notifyPath || '/notification',
             secure: options?.secure ?? true,
         };
 
@@ -160,6 +161,13 @@ class Messager {
     }
 
 
+    /**
+     * Publish the `data` under a certain `topic`.
+     *
+     * @param topic
+     * @param data
+     * @returns
+     */
     public async publish<D = any>(
         topic: string,
         data: D,
@@ -223,6 +231,14 @@ class Messager {
         }
     }
 
+    /**
+     * Subscribe to a certain `topic`, and run the `action`
+     * when the topic is updated.
+     *
+     * @param topic
+     * @param action
+     * @returns
+     */
     public async subscribe<D = any>(
         topic: string,
         action: MessagerSubscribeAction<D>,
@@ -284,6 +300,38 @@ class Messager {
             }
 
             return;
+        }
+    }
+
+    /**
+     * Send a message to a certain `consumerID`.
+     *
+     * @param consumerID
+     */
+    public async notify<D = any>(
+        consumerID: string,
+        data: D,
+    ) {
+        if (!this.connection) {
+            // no connection error
+            return;
+        }
+
+        try {
+            const protocol = this.options.secure ? 'https://' : 'http://';
+            const endpoint = protocol + this.host + this.options.notifyPath + `?token=${this.token || ''}`;
+
+            const response = await fetch(endpoint, {
+                method: 'POST',
+                body: JSON.stringify({
+                    consumerID,
+                    data,
+                }),
+            });
+
+            return response.status === 200;
+        } catch (error) {
+            return false;
         }
     }
 

@@ -19,6 +19,13 @@ export interface MessagerOptions {
     eventPath: string;
 
     /**
+     * Path for direct notification.
+     *
+     * default: `'/notification'`
+     */
+    notifyPath: string;
+
+    /**
      * Use secure protocols.
      *
      * default: `true`
