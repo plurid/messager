@@ -7,7 +7,6 @@
     import fetch from 'cross-fetch';
 
     import {
-        uuid,
         data,
     } from '@plurid/plurid-functions';
 
@@ -33,7 +32,7 @@
 class Messager {
     private deon = new Deon();
 
-    private messagerID: string = uuid.multiple(3);
+    private messagerID: undefined | string;
     private connection: undefined | EventSource | WebSocket;
     private endpoint: undefined | string;
 
@@ -101,6 +100,11 @@ class Messager {
                 event,
             ) => {
                 const message = data.parse(event.data);
+
+                if (message?.type === 'id') {
+                    this.messagerID = message.data;
+                    return;
+                }
 
                 this.handleMessageData(
                     message,
@@ -174,7 +178,10 @@ class Messager {
 
 
             if (this.kind === 'event') {
-                if (!this.endpoint) {
+                if (
+                    !this.endpoint
+                    || !this.messagerID
+                ) {
                     return;
                 }
 
@@ -188,6 +195,7 @@ class Messager {
 
                 return;
             }
+
 
             if (this.kind === 'socket') {
                 // const message = this.deon.stringify(publish);
@@ -207,6 +215,8 @@ class Messager {
                         });
                     }
                 }
+
+                return;
             }
         } catch (error) {
             return;
@@ -235,7 +245,10 @@ class Messager {
 
 
         if (this.kind === 'event') {
-            if (!this.endpoint) {
+            if (
+                !this.endpoint
+                || !this.messagerID
+            ) {
                 return;
             }
 
@@ -246,8 +259,10 @@ class Messager {
                     ...subscribe,
                 }),
             });
+
             return;
         }
+
 
         if (this.kind === 'socket') {
             // const message = this.deon.stringify(subscribe);
@@ -267,6 +282,7 @@ class Messager {
                     });
                 }
             }
+
             return;
         }
     }
