@@ -25,38 +25,66 @@ class WebSocketsMessager extends EventEmitter {
     }
 
 
+    private subscribe(
+        data: any,
+    ) {
+        const {
+            socketID,
+            message,
+        } = data;
+
+        const {
+            topic,
+        } = message;
+
+        if (!this.subscribers[topic]) {
+            this.subscribers[topic] = [];
+        }
+        this.subscribers[topic]?.push(socketID);
+    }
+
+    private publish(
+        data: any,
+    ) {
+        const {
+            socketID,
+            message,
+        } = data;
+
+        const {
+            topic,
+        } = message;
+
+        if (this.subscribers[topic]) {
+            for (const socketID of this.subscribers[topic] as string[]) {
+                const socket = this.sockets[socketID];
+                if (socket) {
+                    socket.send(JSON.stringify({
+                        topic,
+                        data: message.data,
+                    }));
+                }
+            }
+        }
+    }
+
     private setup() {
         this.on('received', (data) => {
             try {
                 const {
-                    socketID,
                     message,
                 } = data;
 
                 const {
                     type,
-                    topic,
                 } = message;
 
                 switch (type) {
                     case 'subscribe':
-                        if (!this.subscribers[topic]) {
-                            this.subscribers[topic] = [];
-                        }
-                        this.subscribers[topic]?.push(socketID);
+                        this.subscribe(data);
                         break;
                     case 'publish':
-                        if (this.subscribers[topic]) {
-                            for (const socketID of this.subscribers[topic] as string[]) {
-                                const socket = this.sockets[socketID];
-                                if (socket) {
-                                    socket.send(JSON.stringify({
-                                        topic,
-                                        data: message.data,
-                                    }));
-                                }
-                            }
-                        }
+                        this.publish(data);
                         break;
                 }
             } catch (error) {
