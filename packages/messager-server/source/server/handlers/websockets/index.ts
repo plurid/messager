@@ -63,18 +63,22 @@ const setupWebsockets = (
 
             const token = searchParams.get('token');
 
-            const messagerID = await getMessagerIDWithToken(token);
-            if (!messagerID) {
+            const ownerID = await getMessagerIDWithToken(token);
+            if (!ownerID) {
                 // not authorized
                 websocketConnection.close();
                 return;
             }
 
-            const webSocketsMessager = webSocketsManager.new(messagerID);
+            const webSocketsMessager = webSocketsManager.new(ownerID);
 
-            const socketID = messagerID + uuid.multiple(3);
+            const socketID = uuid.multiple(5);
 
             webSocketsMessager.register(socketID, websocketConnection);
+            websocketConnection.send(JSON.stringify({
+                type: 'id',
+                data: socketID,
+            }));
 
             websocketConnection.on('close', () => {
                 webSocketsMessager.deregister(socketID);
