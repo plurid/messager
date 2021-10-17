@@ -161,6 +161,11 @@ class Messager {
     }
 
 
+
+    public identity() {
+        return this.messagerID;
+    }
+
     /**
      * Publish the `data` under a certain `topic`.
      *
