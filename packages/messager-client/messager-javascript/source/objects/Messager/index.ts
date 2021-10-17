@@ -6,42 +6,20 @@
 
     import Deon from '@plurid/deon';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        MessagerOptions,
+        MessagerType,
+        MessagerSubscribeAction,
+    } from '~data/interfaces';
+    // #endregion external
 // #endregion imports
 
 
 
 // #region module
-export type MessagerType = 'socket' | 'event';
-
-export interface MessagerOptions {
-    /**
-     * Path for web sockets.
-     *
-     * default: `'/socket'`
-     */
-    socketPath: string;
-
-    /**
-     * Path for server sent events.
-     *
-     * default: `'/event'`
-     */
-    eventPath: string;
-
-    /**
-     * Use secure protocols.
-     *
-     * default: `true`
-     */
-    secure: boolean;
-}
-
-export type MessagerSubscribeAction<D = any> = (
-    data: D,
-) => void;
-
-
-
 class Messager {
     private deon = new Deon();
 
@@ -76,8 +54,8 @@ class Messager {
         options?: Partial<MessagerOptions>,
     ) {
         const resolvedOptions: MessagerOptions = {
-            socketPath: options?.socketPath || '/',
-            eventPath: options?.eventPath || '/',
+            socketPath: options?.socketPath || '/socket',
+            eventPath: options?.eventPath || '/event',
             secure: options?.secure ?? true,
         };
 

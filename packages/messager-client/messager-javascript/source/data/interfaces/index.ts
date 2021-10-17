@@ -67,6 +67,39 @@ export interface MesagerInputRecordContextCaller {
 
 
 
+export type MessagerType =
+    | 'socket'
+    | 'event';
+
+export interface MessagerOptions {
+    /**
+     * Path for web sockets.
+     *
+     * default: `'/socket'`
+     */
+    socketPath: string;
+
+    /**
+     * Path for server sent events.
+     *
+     * default: `'/event'`
+     */
+    eventPath: string;
+
+    /**
+     * Use secure protocols.
+     *
+     * default: `true`
+     */
+    secure: boolean;
+}
+
+export type MessagerSubscribeAction<D = any> = (
+    data: D,
+) => void;
+
+
+
 export type MessagerSocketAction =
     | MessagerSocketPublish
     | MessagerSocketSubscribe;
