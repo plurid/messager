@@ -1,14 +1,17 @@
 // #region imports
     // #region libraries
     import {
+        WebSocket,
+    } from 'ws';
+
+    import fetch from 'cross-fetch';
+
+    import {
+        uuid,
         data,
     } from '@plurid/plurid-functions';
 
     import Deon from '@plurid/deon';
-
-    import {
-        WebSocket,
-    } from 'ws';
     // #endregion libraries
 
 
@@ -30,6 +33,7 @@
 class Messager {
     private deon = new Deon();
 
+    private messagerID: string = uuid.multiple(3);
     private connection: undefined | EventSource | WebSocket;
     private endpoint: undefined | string;
 
@@ -162,19 +166,30 @@ class Messager {
                 return;
             }
 
+            const publish: MessagerSocketPublish<D> = {
+                type: 'publish',
+                topic,
+                data,
+            };
+
 
             if (this.kind === 'event') {
-                // POSTs to this.endoint with the topic/data
+                if (!this.endpoint) {
+                    return;
+                }
+
+                fetch(this.endpoint, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        messagerID: this.messagerID,
+                        ...publish,
+                    }),
+                });
+
                 return;
             }
 
             if (this.kind === 'socket') {
-                const publish: MessagerSocketPublish<D> = {
-                    type: 'publish',
-                    topic,
-                    data,
-                };
-
                 // const message = this.deon.stringify(publish);
                 const message = JSON.stringify(publish);
 
@@ -220,7 +235,17 @@ class Messager {
 
 
         if (this.kind === 'event') {
-            // POSTs to this.endoint with the topic
+            if (!this.endpoint) {
+                return;
+            }
+
+            fetch(this.endpoint, {
+                method: 'POST',
+                body: JSON.stringify({
+                    messagerID: this.messagerID,
+                    ...subscribe,
+                }),
+            });
             return;
         }
 
