@@ -81,6 +81,11 @@ messager.publish<Data>(
     'some.topic',
     { value: true },
 );
+
+messager.notify<Data>(
+    'targetID',
+    { value: true },
+);
 ```
 
 
