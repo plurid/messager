@@ -1,3 +1,3 @@
 // #region exports
-export * from './general';
+export {};
 // #endregion exports

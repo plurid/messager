@@ -10,7 +10,7 @@
         data,
     } from '@plurid/plurid-functions';
 
-    import Deon from '@plurid/deon';
+    // import Deon from '@plurid/deon';
     // #endregion libraries
 
 
@@ -30,7 +30,7 @@
 
 // #region module
 class Messager {
-    private deon = new Deon();
+    // private deon = new Deon();
 
     private messagerID: undefined | string;
     private connection: undefined | EventSource | WebSocket;
