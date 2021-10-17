@@ -11,8 +11,12 @@ describe('Messager', () => {
     it('works', async () => {
         const messager = new Messager(
             // 'messager.plurid.cloud',
-            'localhost:6655',
+            'localhost:56865',
             'token',
+            'socket',
+            {
+                secure: false,
+            },
         );
 
         let value: boolean | undefined;
@@ -34,8 +38,12 @@ describe('Messager', () => {
         );
 
         setTimeout(() => {
-            expect(value).toBeTruthy();
+            messager.close();
         }, 1000);
+
+        setTimeout(() => {
+            expect(value).toBeTruthy();
+        }, 2000);
     })
 });
 // #endregion module

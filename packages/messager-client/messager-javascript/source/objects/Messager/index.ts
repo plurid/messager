@@ -5,6 +5,10 @@
     } from '@plurid/plurid-functions';
 
     import Deon from '@plurid/deon';
+
+    import {
+        WebSocket,
+    } from 'ws';
     // #endregion libraries
 
 
@@ -108,23 +112,18 @@ class Messager {
 
             this.endpoint = protocol + this.host + this.options.socketPath + `?token=${this.token || ''}`;
 
-            if (typeof window === 'undefined') {
-                // browser socket
-                this.connection = new WebSocket(this.endpoint);
+            this.connection = new WebSocket(this.endpoint);
 
-                this.connection.addEventListener('message', (event) => {
-                    const message = data.parse(event.data);
+            this.connection.addEventListener('message', (event) => {
+                const message = data.parse(event.data.toString());
+                console.log('message', message);
 
-                    this.handleMessageData(
-                        message,
-                    );
-                });
+                this.handleMessageData(
+                    message,
+                );
+            });
 
-                return;
-            } else {
-                // nodejs socket
-
-            }
+            return;
         }
     }
 
@@ -154,7 +153,7 @@ class Messager {
     }
 
 
-    public publish<D = any>(
+    public async publish<D = any>(
         topic: string,
         data: D,
     ) {
@@ -180,9 +179,19 @@ class Messager {
                 // const message = this.deon.stringify(publish);
                 const message = JSON.stringify(publish);
 
-                if (typeof window !== 'undefined') {
-                    (this.connection as WebSocket).send(message);
-                    return;
+                let trySend = true;
+
+                while (trySend) {
+                    if ((this.connection as WebSocket).readyState === 1) {
+                        (this.connection as WebSocket).send(message);
+                        trySend = false;
+                    } else {
+                        await new Promise((resolve) => {
+                            setTimeout(() => {
+                                resolve(true);
+                            }, 1000);
+                        });
+                    }
                 }
             }
         } catch (error) {
@@ -190,13 +199,17 @@ class Messager {
         }
     }
 
-    public subscribe<D = any>(
+    public async subscribe<D = any>(
         topic: string,
         action: MessagerSubscribeAction<D>,
     ) {
         if (!this.connection) {
             // no connection error
             return;
+        }
+
+        if (!this.subscribers[topic]) {
+            this.subscribers[topic] = [];
         }
 
         this.subscribers[topic].push(action);
@@ -216,7 +229,36 @@ class Messager {
             // const message = this.deon.stringify(subscribe);
             const message = JSON.stringify(subscribe);
 
-            (this.connection as WebSocket).send(message);
+            let trySend = true;
+
+            while (trySend) {
+                if ((this.connection as WebSocket).readyState === 1) {
+                    (this.connection as WebSocket).send(message);
+                    trySend = false;
+                } else {
+                    await new Promise((resolve) => {
+                        setTimeout(() => {
+                            resolve(true);
+                        }, 1000);
+                    });
+                }
+            }
+            return;
+        }
+    }
+
+    public close() {
+        if (!this.connection) {
+            return;
+        }
+
+        if (this.kind === 'event') {
+            (this.connection as EventSource).close();
+            return;
+        }
+
+        if (this.kind === 'socket') {
+            (this.connection as WebSocket).close();
             return;
         }
     }
