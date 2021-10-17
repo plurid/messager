@@ -1,4 +1,11 @@
 // #region imports
+    // #region libraries
+    import {
+        Response,
+    } from 'express';
+    // #endregion libraries
+
+
     // #region external
     import ServerEventsMessager from '../ServerEventsMessager';
     // #endregion external
@@ -17,7 +24,7 @@ class ServerEventsManager {
     public new(
         ownerID: string,
         messagerID: string,
-        response: any,
+        response: Response,
     ) {
         const existingEventsMessager = this.get(ownerID, messagerID);
         if (existingEventsMessager) {

@@ -43,10 +43,10 @@ const handleGet = async (
             return;
         }
 
-        const messagerID = uuid.multiple();
+        const messagerID = uuid.multiple(4);
 
         const serverEventsMessager = serverEventsManager.new(ownerID, messagerID, response);
-        const sseID = uuid.multiple(3);
+        const sseID = uuid.multiple(5);
 
         serverEventsMessager.send(sseID, {
             type: 'id',
@@ -105,7 +105,7 @@ const handlePost = async (
                     }
 
                     if (serverEventsMessager.isSubscribed(topic)) {
-                        const sseID = uuid.multiple(3);
+                        const sseID = uuid.multiple(5);
 
                         serverEventsMessager.send(sseID, data);
                     }
