@@ -51,7 +51,7 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 ## About
 
-`messager` acts as a central messaging service. Once configured with a `host` and `token`, the `messager` client can `publish`, `subscribe`, `notify`.
+`messager` acts as a central messaging service. Once configured with a `host` and `token`, the `messager` client can `publish`, `subscribe`, or `notify`.
 
 
 
