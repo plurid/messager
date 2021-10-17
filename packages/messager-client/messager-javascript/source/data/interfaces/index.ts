@@ -114,4 +114,10 @@ export interface MessagerSocketSubscribe {
     type: 'subscribe';
     topic: string;
 }
+
+
+export interface MessagerMessageData<D = any> {
+    topic: string;
+    data: D;
+}
 // #endregion module

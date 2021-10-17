@@ -13,6 +13,9 @@
         MessagerOptions,
         MessagerType,
         MessagerSubscribeAction,
+        MessagerSocketSubscribe,
+        MessagerSocketPublish,
+        MessagerMessageData,
     } from '~data/interfaces';
     // #endregion external
 // #endregion imports
@@ -89,10 +92,10 @@ class Messager {
             this.connection.onmessage = (
                 event,
             ) => {
-                const eventData = data.parse(event.data);
+                const message = data.parse(event.data);
 
-                this.handleEventData(
-                    eventData,
+                this.handleMessageData(
+                    message,
                 );
             }
 
@@ -110,10 +113,10 @@ class Messager {
                 this.connection = new WebSocket(this.endpoint);
 
                 this.connection.addEventListener('message', (event) => {
-                    const eventData = data.parse(event.data);
+                    const message = data.parse(event.data);
 
-                    this.handleEventData(
-                        eventData,
+                    this.handleMessageData(
+                        message,
                     );
                 });
 
@@ -125,17 +128,14 @@ class Messager {
         }
     }
 
-    private handleEventData(
-        eventData: {
-            topic: string,
-            data: any,
-        },
+    private handleMessageData(
+        messageData: MessagerMessageData,
     ) {
         try {
             const {
                 topic,
                 data,
-            } = eventData;
+            } = messageData;
 
             const handlers = this.subscribers[topic];
 
@@ -148,7 +148,7 @@ class Messager {
                 }
             }
         } catch (error) {
-            // misshaped event data
+            // misshaped message data
             return;
         }
     }
@@ -164,22 +164,24 @@ class Messager {
                 return;
             }
 
+
             if (this.kind === 'event') {
                 // POSTs to this.endoint with the topic/data
                 return;
             }
 
-
             if (this.kind === 'socket') {
-                const eventData = {
+                const publish: MessagerSocketPublish<D> = {
+                    type: 'publish',
                     topic,
                     data,
                 };
 
-                const eventDataString = this.deon.stringify(eventData);
+                // const message = this.deon.stringify(publish);
+                const message = JSON.stringify(publish);
 
                 if (typeof window !== 'undefined') {
-                    (this.connection as WebSocket).send(eventDataString);
+                    (this.connection as WebSocket).send(message);
                     return;
                 }
             }
@@ -198,6 +200,25 @@ class Messager {
         }
 
         this.subscribers[topic].push(action);
+
+        const subscribe: MessagerSocketSubscribe = {
+            type: 'subscribe',
+            topic,
+        };
+
+
+        if (this.kind === 'event') {
+            // POSTs to this.endoint with the topic
+            return;
+        }
+
+        if (this.kind === 'socket') {
+            // const message = this.deon.stringify(subscribe);
+            const message = JSON.stringify(subscribe);
+
+            (this.connection as WebSocket).send(message);
+            return;
+        }
     }
 }
 // #endregion module
