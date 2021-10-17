@@ -77,12 +77,27 @@ const handlePost = async (
             return;
         }
 
-        const sseID = uuid.multiple(3);
-        const data = request.body.data;
+        const {
+            type,
+            topic,
+            data,
+        } = request.body;
 
-        serverEventsMessager.send(sseID, data);
+        switch (type) {
+            case 'subscribe': {
+                // subscribe the serverEventsMessager to the topic
+                break;
+            }
+            case 'publish': {
+                const sseID = uuid.multiple(3);
 
-        response.end();
+                // send the event to all the topic subscribers
+                serverEventsMessager.send(sseID, data);
+
+                response.end();
+                break;
+            }
+        }
     } catch (error: any) {
         if (!response.headersSent) {
             response.status(500).end();
