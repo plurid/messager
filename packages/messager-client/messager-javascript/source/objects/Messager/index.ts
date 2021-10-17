@@ -126,6 +126,11 @@ class Messager {
             this.connection.addEventListener('message', (event) => {
                 const message = data.parse(event.data.toString());
 
+                if (message?.type === 'id') {
+                    this.messagerID = message.data;
+                    return;
+                }
+
                 this.handleMessageData(
                     message,
                 );
