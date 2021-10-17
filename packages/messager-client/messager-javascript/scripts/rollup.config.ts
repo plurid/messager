@@ -22,6 +22,11 @@ export default {
             format: 'cjs',
             exports: 'named',
         },
+        {
+            file: pkg.module,
+            format: 'es',
+            exports: 'named',
+        },
     ],
     external: [
         '@apollo/client',
