@@ -38,7 +38,6 @@ const SEND = gql`
         }
     }
 `;
-
 // #endregion module
 
 
