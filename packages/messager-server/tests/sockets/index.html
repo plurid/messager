@@ -12,7 +12,22 @@
         );
 
         socket.addEventListener('open', (event) => {
-            socket.send(JSON.stringify({data: 'works'}));
+            const subscribe = {
+                type: 'subscribe',
+                topic: 'some:topic',
+            };
+            socket.send(JSON.stringify(subscribe));
+
+            setTimeout(() => {
+                const publish = {
+                    type: 'publish',
+                    topic: 'some:topic',
+                    data: {
+                        some: 'data',
+                    },
+                };
+                socket.send(JSON.stringify(publish));
+            }, 3000);
         });
 
         socket.addEventListener('message', (event) => {
