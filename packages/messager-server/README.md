@@ -28,7 +28,6 @@
 
 `messager` has clients for:
 
-+ [`CLI`][messager-client-cli];
 + [`NodeJS`][messager-client-javascript];
 + [`Python`][messager-client-python].
 
@@ -63,7 +62,6 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 `messager` has client support for
 
-+ [`CLI`][messager-client-cli]
 + [`NodeJS`][messager-client-javascript]
 + [`Python`][messager-client-python]
 
@@ -173,15 +171,6 @@ to verify the connection.
 [@plurid/messager-server][messager-server] • the server application
 
 [messager-server]: https://github.com/plurid/messager/tree/master/packages/messager-server
-
-
-<a target="_blank" href="https://www.npmjs.com/package/@plurid/messager-cli">
-    <img src="https://img.shields.io/npm/v/@plurid/messager-cli.svg?logo=npm&colorB=1380C3&style=for-the-badge" alt="Version">
-</a>
-
-[@plurid/messager-client-cli][messager-client-cli] • the `Command-Line Interface` client
-
-[messager-client-cli]: https://github.com/plurid/messager/tree/master/packages/messager-client/messager-cli
 
 
 <a target="_blank" href="https://www.npmjs.com/package/@plurid/messager">
