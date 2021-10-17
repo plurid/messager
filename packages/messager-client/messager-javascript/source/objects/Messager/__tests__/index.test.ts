@@ -42,7 +42,7 @@ describe('Messager', () => {
         }, 1000);
 
         setTimeout(() => {
-            // expect(value).toBeTruthy();
+            expect(value).toBeTruthy();
             done();
         }, 2000);
     })

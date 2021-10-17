@@ -116,7 +116,6 @@ class Messager {
 
             this.connection.addEventListener('message', (event) => {
                 const message = data.parse(event.data.toString());
-                console.log('message', message);
 
                 this.handleMessageData(
                     message,
