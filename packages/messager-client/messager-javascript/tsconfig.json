@@ -8,12 +8,18 @@
 
         "baseUrl": ".",
         "paths": {
-            "#data/*": [
+            "~data/*": [
                 "./source/data/*"
             ],
-            "#services/*": [
-                "./source/services/*"
+            "~functions/*": [
+                "./source/functions/*"
             ],
+            "~objects/*": [
+                "./source/objects/*"
+            ],
+            "~services/*": [
+                "./source/services/*"
+            ]
         },
 
         "outDir": "distribution",
