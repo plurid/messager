@@ -6,6 +6,7 @@
     import Spaces from './spaces';
 
     import Events from './events';
+    import Notify from './notify';
 
     import Setup from './setup';
 
@@ -23,6 +24,7 @@ export {
     Spaces,
 
     Events,
+    Notify,
 
     Setup,
 

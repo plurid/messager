@@ -9,12 +9,14 @@
     // #region external
     import {
         EVENT_PATH,
+        NOTIFY_PATH,
     } from '~server/data/constants';
 
     import database from '~server/services/database';
 
     import {
         Events,
+        Notify,
     } from '~server/api/models';
     // #endregion external
 // #endregion imports
@@ -30,6 +32,8 @@ const setup = async (
 
         instance.get(EVENT_PATH, Events.handleGet);
         instance.post(EVENT_PATH, Events.handlePost);
+
+        instance.post(NOTIFY_PATH, Notify.handlePost);
     } catch (error: any) {
         return;
     }

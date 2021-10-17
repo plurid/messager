@@ -52,4 +52,5 @@ export const OPTIMIZATION_BATCH_WRITE_TIME = parseInt(process.env.MESSAGER_OPTIM
 
 export const EVENT_PATH = process.env.MESSAGER_EVENT_PATH || '/event';
 export const SOCKET_PATH = process.env.MESSAGER_SOCKET_PATH || '/socket';
+export const NOTIFY_PATH = process.env.MESSAGER_NOTIFY_PATH || '/notify';
 // #endregion module
