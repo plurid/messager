@@ -9,9 +9,9 @@
 
 
 // #region exports
-export const messagerKind: MessagerKinds = {
-    socket: 'socket',
-    event: 'event',
+export const MESSAGER_KIND: MessagerKinds = {
+    SOCKET: 'socket',
+    EVENT: 'event',
 };
 
 

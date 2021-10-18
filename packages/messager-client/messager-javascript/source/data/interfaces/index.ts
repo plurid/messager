@@ -7,9 +7,10 @@ export type MessagerKind =
     | MessagerKindEvent;
 
 export interface MessagerKinds {
-    socket: MessagerKindSocket;
-    event: MessagerKindEvent;
+    SOCKET: MessagerKindSocket;
+    EVENT: MessagerKindEvent;
 }
+
 
 export interface MessagerOptions {
     /**
