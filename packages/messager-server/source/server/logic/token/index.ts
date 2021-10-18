@@ -29,10 +29,12 @@ export const getMessagerIDWithToken = async (
         return;
     }
 
+
     const cachedTokenOwner = tokensCacher.get(token);
     if (cachedTokenOwner) {
         return cachedTokenOwner;
     }
+
 
     const tokenData = await database.get(
         'token',
@@ -41,6 +43,7 @@ export const getMessagerIDWithToken = async (
     if (!tokenData) {
         return;
     }
+
 
     const ownerID = tokenData.ownedBy;
 

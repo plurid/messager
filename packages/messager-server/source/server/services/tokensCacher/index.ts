@@ -9,7 +9,7 @@
 
 
 // #region module
-const tokensCacher = new Cacher<string>()
+const tokensCacher = new Cacher<string>();
 // #endregion module
 
 
