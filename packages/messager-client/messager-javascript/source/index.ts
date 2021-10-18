@@ -8,6 +8,7 @@
 
 // #region exports
 export * from './data/interfaces';
+export * from './data/constants';
 
 export default Messager;
 // #endregion exports
