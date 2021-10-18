@@ -65,8 +65,14 @@ export type MessagerSubscribeAction<D = any> = (
 
 
 
+export type MessagerMessageType =
+    | 'id'
+    | 'subscribe'
+    | 'publish'
+    | 'notify';
+
 export interface MessagerMessage<D = any> {
-    type: string;
+    type: MessagerMessageType;
     topic?: string;
     data: D;
 }
