@@ -4,6 +4,8 @@
         TEST_MODE,
         TEST_MODE_TOKEN,
     } from '~server/data/constants';
+
+    import database from '~server/services/database';
     // #endregion external
 // #endregion imports
 
@@ -21,6 +23,19 @@ export const getMessagerIDWithToken = async (
         return TEST_MODE_TOKEN;
     }
 
-    return 'one';
+
+    if (!token) {
+        return;
+    }
+
+    const tokenData = await database.get(
+        'token',
+        token,
+    );
+    if (!tokenData) {
+        return;
+    }
+
+    return tokenData.ownedBy;
 }
 // #endregion module
