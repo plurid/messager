@@ -17,11 +17,13 @@
     // #region external
     import {
         NETWORK,
+
+        messagerKind,
     } from '~data/constants';
 
     import {
         MessagerOptions,
-        MessagerType,
+        MessagerKind,
         MessagerMessage,
         MessagerPublish,
         MessagerSubscribe,
@@ -43,7 +45,7 @@ class Messager {
     private options: MessagerOptions;
     private host: string;
     private token: string;
-    private kind: MessagerType;
+    private kind: MessagerKind;
 
     private subscribers: Record<string, MessagerSubscribeAction[]> = {};
 
@@ -51,7 +53,7 @@ class Messager {
     constructor(
         host: string,
         token: string = '',
-        kind: MessagerType = 'event',
+        kind: MessagerKind = messagerKind.event,
         options?: Partial<MessagerOptions>,
     ) {
         this.options = this.resolveOptions(options);
@@ -84,7 +86,7 @@ class Messager {
 
         if (
             typeof window !== 'undefined'
-            && this.kind === 'event'
+            && this.kind === messagerKind.event
         ) {
             const protocol = this.options.secure ? NETWORK.SECURE_HTTP_PROTOCOL : NETWORK.HTTP_PROTOCOL;
             this.endpoint = this.generateEndpoint(protocol, this.options.eventPath);
@@ -110,7 +112,7 @@ class Messager {
         }
 
 
-        if (this.kind === 'socket') {
+        if (this.kind === messagerKind.socket) {
             const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
             this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
 
@@ -251,7 +253,7 @@ class Messager {
             };
 
 
-            if (this.kind === 'event') {
+            if (this.kind === messagerKind.event) {
                 this.eventSend({
                     messagerID: this.messagerID,
                     ...publish,
@@ -261,7 +263,7 @@ class Messager {
             }
 
 
-            if (this.kind === 'socket') {
+            if (this.kind === messagerKind.socket) {
                 // const message = this.deon.stringify(publish);
                 const message = JSON.stringify(publish);
 
@@ -306,7 +308,7 @@ class Messager {
             };
 
 
-            if (this.kind === 'event') {
+            if (this.kind === messagerKind.event) {
                 this.eventSend({
                     messagerID: this.messagerID,
                     ...subscribe,
@@ -316,7 +318,7 @@ class Messager {
             }
 
 
-            if (this.kind === 'socket') {
+            if (this.kind === messagerKind.socket) {
                 // const message = this.deon.stringify(subscribe);
                 const message = JSON.stringify(subscribe);
 
@@ -373,12 +375,12 @@ class Messager {
                 return;
             }
 
-            if (this.kind === 'event') {
+            if (this.kind === messagerKind.event) {
                 (this.connection as EventSource).close();
                 return;
             }
 
-            if (this.kind === 'socket') {
+            if (this.kind === messagerKind.socket) {
                 (this.connection as WebSocket).close();
                 return;
             }

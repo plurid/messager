@@ -1,7 +1,15 @@
 // #region module
-export type MessagerType =
-    | 'socket'
-    | 'event';
+export type MessagerKindSocket = 'socket';
+export type MessagerKindEvent = 'event';
+
+export type MessagerKind =
+    | MessagerKindSocket
+    | MessagerKindEvent;
+
+export interface MessagerKinds {
+    socket: MessagerKindSocket;
+    event: MessagerKindEvent;
+}
 
 export interface MessagerOptions {
     /**
