@@ -16,6 +16,10 @@
 
     // #region external
     import {
+        NETWORK,
+    } from '~data/constants';
+
+    import {
         MessagerOptions,
         MessagerType,
         MessagerSubscribeAction,
@@ -82,9 +86,8 @@ class Messager {
             typeof window !== 'undefined'
             && this.kind === 'event'
         ) {
-            const protocol = this.options.secure ? 'https://' : 'http://';
-
-            this.endpoint = protocol + this.host + this.options.eventPath + `?token=${this.token || ''}`;
+            const protocol = this.options.secure ? NETWORK.SECURE_HTTP_PROTOCOL : NETWORK.HTTP_PROTOCOL;
+            this.endpoint = this.generateEndpoint(protocol, this.options.eventPath);
 
             this.connection = new EventSource(
                 this.endpoint,
@@ -108,9 +111,8 @@ class Messager {
 
 
         if (this.kind === 'socket') {
-            const protocol = this.options.secure ? 'wss://' : 'ws://';
-
-            this.endpoint = protocol + this.host + this.options.socketPath + `?token=${this.token || ''}`;
+            const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
+            this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
 
             this.connection = new WebSocket(this.endpoint);
 
@@ -200,6 +202,15 @@ class Messager {
                 break;
             }
         }
+    }
+
+    private generateEndpoint(
+        protocol: string,
+        path: string,
+    ) {
+        const endpoint = protocol + this.host + path + `?token=${this.token || ''}`;
+
+        return endpoint;
     }
 
 
@@ -328,8 +339,8 @@ class Messager {
             }
 
 
-            const protocol = this.options.secure ? 'https://' : 'http://';
-            const endpoint = protocol + this.host + this.options.notifyPath + `?token=${this.token || ''}`;
+            const protocol = this.options.secure ? NETWORK.SECURE_HTTP_PROTOCOL : NETWORK.HTTP_PROTOCOL;
+            const endpoint = this.generateEndpoint(protocol, this.options.notifyPath);
 
             const response = await this.eventSend(
                 {
@@ -343,7 +354,7 @@ class Messager {
                 return false;
             }
 
-            return response.status === 200;
+            return response.status === NETWORK.SUCCESS;
         } catch (error) {
             return false;
         }
