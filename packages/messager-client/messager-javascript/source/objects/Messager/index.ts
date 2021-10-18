@@ -47,7 +47,7 @@ class Messager {
     private token: string;
     private kind: MessagerKind;
 
-    private subscribers: Record<string, MessagerSubscribeAction[]> = {};
+    private subscribers: Record<string, MessagerSubscribeAction[] | undefined> = {};
 
 
     constructor(
@@ -170,7 +170,7 @@ class Messager {
     }
 
     private async eventSend(
-        data: any,
+        data: Record<string, any>,
         endpoint = this.endpoint,
     ) {
         if (
@@ -301,12 +301,12 @@ class Messager {
                 return;
             }
 
+
             if (!this.subscribers[topic]) {
                 this.subscribers[topic] = [];
             }
 
-
-            this.subscribers[topic].push(action);
+            (this.subscribers[topic] as MessagerSubscribeAction[]).push(action);
 
             const subscribe: MessagerSubscribe = {
                 type: 'subscribe',
