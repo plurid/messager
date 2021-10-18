@@ -6,6 +6,7 @@
     } from '~server/data/constants';
 
     import database from '~server/services/database';
+    import tokensCacher from '~server/services/tokensCacher';
     // #endregion external
 // #endregion imports
 
@@ -28,6 +29,11 @@ export const getMessagerIDWithToken = async (
         return;
     }
 
+    const cachedTokenOwner = tokensCacher.get(token);
+    if (cachedTokenOwner) {
+        return cachedTokenOwner;
+    }
+
     const tokenData = await database.get(
         'token',
         token,
@@ -36,6 +42,10 @@ export const getMessagerIDWithToken = async (
         return;
     }
 
-    return tokenData.ownedBy;
+    const ownerID = tokenData.ownedBy;
+
+    tokensCacher.set(token, ownerID);
+
+    return ownerID;
 }
 // #endregion module
