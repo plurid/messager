@@ -336,6 +336,8 @@ class Messager {
      * Send a `data` notification to a certain `target`.
      *
      * @param target
+     * @param data
+     * @returns
      */
     public async notify<D = any>(
         target: string,
