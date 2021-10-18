@@ -86,10 +86,11 @@ class Messager {
             return;
         }
 
-        if (
-            typeof window !== 'undefined'
-            && this.kind === MESSAGER_KIND.EVENT
-        ) {
+        if (this.kind === MESSAGER_KIND.EVENT) {
+            if (typeof window === 'undefined') {
+                return;
+            }
+
             const protocol = this.options.secure ? NETWORK.SECURE_HTTP_PROTOCOL : NETWORK.HTTP_PROTOCOL;
             this.endpoint = this.generateEndpoint(protocol, this.options.eventPath);
 
