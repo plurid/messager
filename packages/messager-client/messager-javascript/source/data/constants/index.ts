@@ -9,6 +9,14 @@
 
 
 // #region exports
+export const MESSAGER_DEFAULTS = {
+    SOCKET_PATH: '/socket',
+    EVENT_PATH: '/event',
+    NOTIFY_PATH: '/notify',
+    SECURE: true,
+};
+
+
 export const MESSAGER_KIND: MessagerKinds = {
     SOCKET: 'socket',
     EVENT: 'event',

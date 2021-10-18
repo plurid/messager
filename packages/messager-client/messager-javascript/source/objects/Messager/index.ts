@@ -16,9 +16,9 @@
 
     // #region external
     import {
-        NETWORK,
-
+        MESSAGER_DEFAULTS,
         MESSAGER_KIND,
+        NETWORK,
     } from '~data/constants';
 
     import {
@@ -70,10 +70,10 @@ class Messager {
         options?: Partial<MessagerOptions>,
     ) {
         const resolvedOptions: MessagerOptions = {
-            socketPath: options?.socketPath || '/socket',
-            eventPath: options?.eventPath || '/event',
-            notifyPath: options?.notifyPath || '/notification',
-            secure: options?.secure ?? true,
+            socketPath: options?.socketPath || MESSAGER_DEFAULTS.SOCKET_PATH,
+            eventPath: options?.eventPath || MESSAGER_DEFAULTS.EVENT_PATH,
+            notifyPath: options?.notifyPath || MESSAGER_DEFAULTS.NOTIFY_PATH,
+            secure: options?.secure ?? MESSAGER_DEFAULTS.SECURE,
         };
 
         return resolvedOptions;
