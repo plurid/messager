@@ -22,10 +22,10 @@
     import {
         MessagerOptions,
         MessagerType,
-        MessagerSubscribeAction,
-        MessagerSocketSubscribe,
-        MessagerSocketPublish,
         MessagerMessage,
+        MessagerPublish,
+        MessagerSubscribe,
+        MessagerSubscribeAction,
     } from '~data/interfaces';
     // #endregion external
 // #endregion imports
@@ -137,12 +137,19 @@ class Messager {
                 return;
             }
 
+
             const {
                 topic,
                 data,
             } = message;
+            if (!topic) {
+                return;
+            }
 
             const handlers = this.subscribers[topic];
+            if (!handlers) {
+                return;
+            }
 
             for (const handler of handlers) {
                 try {
@@ -237,7 +244,7 @@ class Messager {
             }
 
 
-            const publish: MessagerSocketPublish<D> = {
+            const publish: MessagerPublish<D> = {
                 type: 'publish',
                 topic,
                 data,
@@ -293,7 +300,7 @@ class Messager {
 
             this.subscribers[topic].push(action);
 
-            const subscribe: MessagerSocketSubscribe = {
+            const subscribe: MessagerSubscribe = {
                 type: 'subscribe',
                 topic,
             };

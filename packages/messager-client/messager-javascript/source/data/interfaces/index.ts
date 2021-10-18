@@ -33,31 +33,32 @@ export interface MessagerOptions {
     secure: boolean;
 }
 
-export type MessagerSubscribeAction<D = any> = (
-    data: D,
-) => void;
 
 
+export type MessagerAction =
+    | MessagerPublish
+    | MessagerSubscribe;
 
-export type MessagerSocketAction =
-    | MessagerSocketPublish
-    | MessagerSocketSubscribe;
-
-export interface MessagerSocketPublish<D = any> {
+export interface MessagerPublish<D = any> {
     type: 'publish';
     topic: string;
     data: D;
 }
 
-export interface MessagerSocketSubscribe {
+export interface MessagerSubscribe {
     type: 'subscribe';
     topic: string;
 }
 
+export type MessagerSubscribeAction<D = any> = (
+    data: D,
+) => void | Promise<void>;
+
+
 
 export interface MessagerMessage<D = any> {
     type: string;
-    topic: string;
+    topic?: string;
     data: D;
 }
 // #endregion module
