@@ -30,7 +30,7 @@ export interface MessagerOptions {
     /**
      * Path for direct notification.
      *
-     * default: `'/notification'`
+     * default: `'/notify'`
      */
     notifyPath: string;
 
@@ -42,7 +42,7 @@ export interface MessagerOptions {
     secure: boolean;
 
     /**
-     * Number of retries.
+     * Number of retries for the socket to be ready.
      *
      * default: `100`
      */
