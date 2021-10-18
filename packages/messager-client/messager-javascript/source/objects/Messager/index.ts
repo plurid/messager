@@ -25,7 +25,7 @@
         MessagerSubscribeAction,
         MessagerSocketSubscribe,
         MessagerSocketPublish,
-        MessagerMessageData,
+        MessagerMessage,
     } from '~data/interfaces';
     // #endregion external
 // #endregion imports
@@ -129,7 +129,7 @@ class Messager {
     }
 
     private handleMessage(
-        message: MessagerMessageData,
+        message: MessagerMessage,
     ) {
         try {
             if (message.type === 'id') {

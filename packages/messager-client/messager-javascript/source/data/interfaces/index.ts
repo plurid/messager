@@ -55,7 +55,7 @@ export interface MessagerSocketSubscribe {
 }
 
 
-export interface MessagerMessageData<D = any> {
+export interface MessagerMessage<D = any> {
     type: string;
     topic: string;
     data: D;
