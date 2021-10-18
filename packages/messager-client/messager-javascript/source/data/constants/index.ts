@@ -32,6 +32,8 @@ export const NETWORK = {
     SOCKET_PROTOCOL: 'ws://',
     SECURE_SOCKET_PROTOCOL: 'wss://',
 
+    SOCKET_READY: 1,
+
     SUCCESS: 200,
 };
 // #endregion exports

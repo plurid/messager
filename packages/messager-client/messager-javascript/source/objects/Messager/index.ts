@@ -202,7 +202,7 @@ class Messager {
         ) {
             retries += 1;
 
-            if ((this.connection as WebSocket).readyState === 1) {
+            if ((this.connection as WebSocket).readyState === NETWORK.SOCKET_READY) {
                 (this.connection as WebSocket).send(message);
                 sent = true;
                 break;
