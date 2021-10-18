@@ -4,6 +4,10 @@
         Request,
         Response,
     } from 'express';
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -11,6 +15,9 @@
     import {
         getMessagerIDWithToken
     } from '~server/logic/token';
+
+    import serverEventsManager from '~server/services/serverEventsManager';
+    import webSocketsManager from '~server/services/webSocketsManager';
     // #endregion external
 // #endregion imports
 
@@ -32,14 +39,47 @@ const handlePost = async (
             return;
         }
 
+
         const {
+            from,
             target,
             data,
         } = request.body;
 
-        // identify target and send data
+        const notifyData = {
+            type: 'notify',
+            from,
+            data,
+        };
 
-        response.end();
+
+        const serverEventsMessager = serverEventsManager.get(ownerID, target);
+        if (serverEventsMessager) {
+            const sseID = uuid.multiple(5);
+
+            serverEventsMessager.send(
+                sseID,
+                notifyData,
+            );
+
+            response.end();
+            return;
+        }
+
+
+        const webSocketsMessager = webSocketsManager.get(ownerID);
+        if (webSocketsMessager) {
+            webSocketsMessager.emit('received', {
+                socketID: from,
+                message: data.parse(notifyData),
+            });
+
+            response.end();
+            return;
+        }
+
+
+        response.status(404).end();
     } catch (error: any) {
         if (!response.headersSent) {
             response.status(500).end();

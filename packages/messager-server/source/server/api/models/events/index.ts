@@ -107,7 +107,14 @@ const handlePost = async (
                     if (serverEventsMessager.isSubscribed(topic)) {
                         const sseID = uuid.multiple(5);
 
-                        serverEventsMessager.send(sseID, data);
+                        serverEventsMessager.send(
+                            sseID,
+                            {
+                                type,
+                                topic,
+                                data,
+                            },
+                        );
                     }
                 }
                 break;
