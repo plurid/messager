@@ -107,7 +107,7 @@ class Messager {
                     return;
                 }
 
-                this.handleMessageData(
+                this.handleMessage(
                     message,
                 );
             }
@@ -131,7 +131,7 @@ class Messager {
                     return;
                 }
 
-                this.handleMessageData(
+                this.handleMessage(
                     message,
                 );
             });
@@ -140,14 +140,14 @@ class Messager {
         }
     }
 
-    private handleMessageData(
-        messageData: MessagerMessageData,
+    private handleMessage(
+        message: MessagerMessageData,
     ) {
         try {
             const {
                 topic,
                 data,
-            } = messageData;
+            } = message;
 
             const handlers = this.subscribers[topic];
 
