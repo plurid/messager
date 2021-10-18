@@ -56,11 +56,11 @@
     "dependencies": {
         "@apollo/client": "^3.4.16",
         "@google-cloud/storage": "^5.15.3",
-        "@plurid/messager": "^0.0.0-0",
         "@plurid/deon": "^0.0.0-4",
         "@plurid/elementql": "^0.0.0-1",
         "@plurid/elementql-client-react": "^0.0.0-1",
         "@plurid/plurid-data": "^0.0.0-5",
+        "@plurid/plurid-data-structures": "^0.0.0-2",
         "@plurid/plurid-engine": "^0.0.0-7",
         "@plurid/plurid-functions": "^0.0.0-12",
         "@plurid/plurid-functions-react": "^0.0.0-4",

@@ -757,6 +757,11 @@
   resolved "https://registry.yarnpkg.com/@plurid/elementql/-/elementql-0.0.0-1.tgz#6639dd5b71c72cd2df0bf16b615b2e4dfab54af3"
   integrity sha512-ZhIRA9sGeegviDNFEdA71leocIwPXwU4vK81p+B7UEhBRl0hZ+O9pD1Rr5wuW9rU5FtfjDnEprntmyVi0ZEL4Q==
 
+"@plurid/plurid-data-structures@^0.0.0-2":
+  version "0.0.0-2"
+  resolved "https://registry.yarnpkg.com/@plurid/plurid-data-structures/-/plurid-data-structures-0.0.0-2.tgz#5445c9b03d9061e4de64129298fe6adcba4ff912"
+  integrity sha512-awMj2O6k7BUY7GsuOIQeZvoTrCQv6oggXl+izG6A+nhSxWndPGHhcQhpHBdZBsehnL/9HJK6Rkxame27GotVzA==
+
 "@plurid/plurid-data@^0.0.0-5":
   version "0.0.0-5"
   resolved "https://registry.yarnpkg.com/@plurid/plurid-data/-/plurid-data-0.0.0-5.tgz#7a5083827dc3006a8dd328e9cdd0430ce2c2127b"
