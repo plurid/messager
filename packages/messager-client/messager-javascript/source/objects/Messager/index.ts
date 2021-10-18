@@ -74,6 +74,8 @@ class Messager {
             eventPath: options?.eventPath || MESSAGER_DEFAULTS.EVENT_PATH,
             notifyPath: options?.notifyPath || MESSAGER_DEFAULTS.NOTIFY_PATH,
             secure: options?.secure ?? MESSAGER_DEFAULTS.SECURE,
+            socketSendRetries: options?.socketSendRetries || MESSAGER_DEFAULTS.SOCKET_SEND_RETRIES,
+            socketSendWait: options?.socketSendWait || MESSAGER_DEFAULTS.SOCKET_SEND_WAIT,
         };
 
         return resolvedOptions;
@@ -192,23 +194,27 @@ class Messager {
         message: string,
     ) {
         let retries = 0;
-        let trySend = true;
+        let sent = false;
 
-        while (trySend) {
+        while (
+            !sent
+            && retries < this.options.socketSendRetries
+        ) {
+            retries += 1;
+
             if ((this.connection as WebSocket).readyState === 1) {
                 (this.connection as WebSocket).send(message);
-                trySend = false;
-                retries += 1;
+                sent = true;
+                break;
             } else {
                 await new Promise((resolve) => {
-                    setTimeout(() => {
-                        resolve(true);
-                    }, 500);
+                    setTimeout(
+                        () => {
+                            resolve(true);
+                        },
+                        this.options.socketSendWait,
+                    );
                 });
-            }
-
-            if (retries > 100) {
-                break;
             }
         }
     }

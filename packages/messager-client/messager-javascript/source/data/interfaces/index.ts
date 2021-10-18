@@ -40,6 +40,19 @@ export interface MessagerOptions {
      * default: `true`
      */
     secure: boolean;
+
+    /**
+     * Number of retries.
+     *
+     * default: `100`
+     */
+    socketSendRetries: number;
+    /**
+     * Time to wait for the socket to be ready (in ms).
+     *
+     * default: `500`
+     */
+    socketSendWait: number;
 }
 
 

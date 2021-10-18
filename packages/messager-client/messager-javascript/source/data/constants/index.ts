@@ -14,6 +14,8 @@ export const MESSAGER_DEFAULTS = {
     EVENT_PATH: '/event',
     NOTIFY_PATH: '/notify',
     SECURE: true,
+    SOCKET_SEND_RETRIES: 100,
+    SOCKET_SEND_WAIT: 500,
 };
 
 
