@@ -89,23 +89,10 @@ class Messager {
                 },
             );
 
-            this.connection.onerror = () => {
-
-            }
-
-            this.connection.onopen = () => {
-
-            }
-
             this.connection.onmessage = (
                 event,
             ) => {
                 const message = data.parse(event.data);
-
-                if (message?.type === 'id') {
-                    this.messagerID = message.data;
-                    return;
-                }
 
                 this.handleMessage(
                     message,
@@ -126,11 +113,6 @@ class Messager {
             this.connection.addEventListener('message', (event) => {
                 const message = data.parse(event.data.toString());
 
-                if (message?.type === 'id') {
-                    this.messagerID = message.data;
-                    return;
-                }
-
                 this.handleMessage(
                     message,
                 );
@@ -144,6 +126,11 @@ class Messager {
         message: MessagerMessageData,
     ) {
         try {
+            if (message.type === 'id') {
+                this.messagerID = message.data;
+                return;
+            }
+
             const {
                 topic,
                 data,
@@ -162,6 +149,52 @@ class Messager {
         } catch (error) {
             // misshaped message data
             return;
+        }
+    }
+
+    private async eventSend(
+        data: any,
+        endpoint = this.endpoint,
+    ) {
+        if (
+            !endpoint
+            || !this.messagerID
+        ) {
+            return;
+        }
+
+        const response = await fetch(endpoint, {
+            method: 'POST',
+            body: JSON.stringify({
+                ...data,
+            }),
+        });
+
+        return response;
+    }
+
+    private async socketSend(
+        message: string,
+    ) {
+        let retries = 0;
+        let trySend = true;
+
+        while (trySend) {
+            if ((this.connection as WebSocket).readyState === 1) {
+                (this.connection as WebSocket).send(message);
+                trySend = false;
+                retries += 1;
+            } else {
+                await new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve(true);
+                    }, 500);
+                });
+            }
+
+            if (retries > 100) {
+                break;
+            }
         }
     }
 
@@ -197,19 +230,9 @@ class Messager {
 
 
             if (this.kind === 'event') {
-                if (
-                    !this.endpoint
-                    || !this.messagerID
-                ) {
-                    return;
-                }
-
-                fetch(this.endpoint, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        messagerID: this.messagerID,
-                        ...publish,
-                    }),
+                this.eventSend({
+                    messagerID: this.messagerID,
+                    ...publish,
                 });
 
                 return;
@@ -220,24 +243,12 @@ class Messager {
                 // const message = this.deon.stringify(publish);
                 const message = JSON.stringify(publish);
 
-                let trySend = true;
-
-                while (trySend) {
-                    if ((this.connection as WebSocket).readyState === 1) {
-                        (this.connection as WebSocket).send(message);
-                        trySend = false;
-                    } else {
-                        await new Promise((resolve) => {
-                            setTimeout(() => {
-                                resolve(true);
-                            }, 1000);
-                        });
-                    }
-                }
+                this.socketSend(message);
 
                 return;
             }
         } catch (error) {
+            // something went wrong
             return;
         }
     }
@@ -274,19 +285,9 @@ class Messager {
 
 
             if (this.kind === 'event') {
-                if (
-                    !this.endpoint
-                    || !this.messagerID
-                ) {
-                    return;
-                }
-
-                fetch(this.endpoint, {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        messagerID: this.messagerID,
-                        ...subscribe,
-                    }),
+                this.eventSend({
+                    messagerID: this.messagerID,
+                    ...subscribe,
                 });
 
                 return;
@@ -297,24 +298,12 @@ class Messager {
                 // const message = this.deon.stringify(subscribe);
                 const message = JSON.stringify(subscribe);
 
-                let trySend = true;
-
-                while (trySend) {
-                    if ((this.connection as WebSocket).readyState === 1) {
-                        (this.connection as WebSocket).send(message);
-                        trySend = false;
-                    } else {
-                        await new Promise((resolve) => {
-                            setTimeout(() => {
-                                resolve(true);
-                            }, 1000);
-                        });
-                    }
-                }
+                this.socketSend(message);
 
                 return;
             }
         } catch (error) {
+            // something went wrong
             return;
         }
     }
@@ -338,13 +327,17 @@ class Messager {
             const protocol = this.options.secure ? 'https://' : 'http://';
             const endpoint = protocol + this.host + this.options.notifyPath + `?token=${this.token || ''}`;
 
-            const response = await fetch(endpoint, {
-                method: 'POST',
-                body: JSON.stringify({
+            const response = await this.eventSend(
+                {
+                    from: this.messagerID,
                     target,
                     data,
-                }),
-            });
+                },
+                endpoint,
+            );
+            if (!response) {
+                return false;
+            }
 
             return response.status === 200;
         } catch (error) {
@@ -353,17 +346,22 @@ class Messager {
     }
 
     public close() {
-        if (!this.connection) {
-            return;
-        }
+        try {
+            if (!this.connection) {
+                return;
+            }
 
-        if (this.kind === 'event') {
-            (this.connection as EventSource).close();
-            return;
-        }
+            if (this.kind === 'event') {
+                (this.connection as EventSource).close();
+                return;
+            }
 
-        if (this.kind === 'socket') {
-            (this.connection as WebSocket).close();
+            if (this.kind === 'socket') {
+                (this.connection as WebSocket).close();
+                return;
+            }
+        } catch (error) {
+            // connection misconfigured
             return;
         }
     }
