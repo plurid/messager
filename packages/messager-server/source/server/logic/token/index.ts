@@ -37,7 +37,7 @@ export const getMessagerIDWithToken = async (
 
 
     const tokenData = await database.get(
-        'token',
+        'tokens',
         token,
     );
     if (!tokenData) {
