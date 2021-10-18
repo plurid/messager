@@ -4,6 +4,11 @@
         Response,
     } from 'express';
     // #endregion libraries
+
+
+    // #region external
+    import recordsBatcher from '~server/services/recordsBatcher';
+    // #endregion external
 // #endregion imports
 
 
@@ -57,6 +62,12 @@ class ServerEventsMessager {
         const eventData = typeof data !== 'string'
             ? JSON.stringify(data)
             : data;
+
+        recordsBatcher.push({
+            type: 'event',
+            sseID,
+            data,
+        });
 
         writeServerSendEvent(
             this.response,
