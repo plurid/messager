@@ -88,6 +88,7 @@ class Messager {
 
         if (this.kind === MESSAGER_KIND.EVENT) {
             if (typeof window === 'undefined') {
+                // not running in browser
                 return;
             }
 
