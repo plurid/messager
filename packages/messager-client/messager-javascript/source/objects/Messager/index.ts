@@ -74,6 +74,10 @@ class Messager {
     }
 
     private createConnection() {
+        if (this.connection) {
+            return;
+        }
+
         if (
             typeof window !== 'undefined'
             && this.kind === 'event'
