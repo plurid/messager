@@ -2,6 +2,7 @@
     // #region internal
     import Owner from './owner';
     import Tokens from './tokens';
+    import Records from './records';
     import Projects from './projects';
     import Spaces from './spaces';
 
@@ -20,6 +21,7 @@
 export {
     Owner,
     Tokens,
+    Records,
     Projects,
     Spaces,
 
