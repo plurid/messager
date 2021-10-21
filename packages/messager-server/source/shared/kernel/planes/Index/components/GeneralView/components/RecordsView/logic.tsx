@@ -55,14 +55,11 @@ export const recordRowRenderer = (
             </div>
 
             <div>
-                <div>
-                    type {data.type}
-                </div>
-                {data.topic && (
-                    <div>
-                        topic {data.topic}
-                    </div>
-                )}
+                {data.type}
+            </div>
+
+            <div>
+                {data.topic || ''}
             </div>
 
             <PluridLink
