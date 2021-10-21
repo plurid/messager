@@ -63,9 +63,6 @@ export const recordRowRenderer = (
                         topic {data.topic}
                     </div>
                 )}
-                <div>
-                    data {JSON.stringify(data.data)}
-                </div>
             </div>
 
             <PluridLink
