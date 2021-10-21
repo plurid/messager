@@ -31,6 +31,9 @@ export const addEntity = (
     let spaces = [
         ...newState.spaces,
     ];
+    let records = [
+        ...newState.records,
+    ];
 
 
     switch (type) {
@@ -58,6 +61,14 @@ export const addEntity = (
                 },
             ];
             break;
+        case 'record':
+            records = [
+                ...records,
+                {
+                    ...data,
+                },
+            ];
+            break;
     }
 
     return {
@@ -70,6 +81,9 @@ export const addEntity = (
         ],
         spaces: [
             ...spaces,
+        ],
+        records: [
+            ...records,
         ],
     };
 }
@@ -97,6 +111,9 @@ export const removeEntity = (
     let spaces = [
         ...newState.spaces,
     ];
+    let records = [
+        ...newState.records,
+    ];
 
 
     switch (type) {
@@ -115,6 +132,11 @@ export const removeEntity = (
                 space => space.id !== id
             );
             break;
+        case 'record':
+            records = records.filter(
+                record => record.id !== id
+            );
+            break;
     }
 
     return {
@@ -127,6 +149,9 @@ export const removeEntity = (
         ],
         spaces: [
             ...spaces,
+        ],
+        records: [
+            ...records,
         ],
     };
 }
@@ -158,6 +183,9 @@ export const addEntities = (
     ];
     let spaces = [
         ...newState.spaces,
+    ];
+    let records = [
+        ...newState.records,
     ];
 
 
@@ -201,6 +229,11 @@ export const addEntities = (
                 ...data,
             ];
             break;
+        case 'records':
+            records = [
+                ...data,
+            ];
+            break;
     }
 
     return {
@@ -216,6 +249,9 @@ export const addEntities = (
         ],
         spaces: [
             ...spaces,
+        ],
+        records: [
+            ...records,
         ],
     };
 }
