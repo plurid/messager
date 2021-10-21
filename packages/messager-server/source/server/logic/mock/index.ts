@@ -29,6 +29,7 @@ const messagerLogic: MessagerLogic = {
             tokens: [],
             projects: [],
             spaces: [],
+            records: [],
         };
     },
     checkOwnerToken: async (
