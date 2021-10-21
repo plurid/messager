@@ -82,6 +82,7 @@ export const loadRecords = async (
         const {
             type,
             sseID,
+            socketID,
             data,
         } = record;
 
@@ -89,6 +90,7 @@ export const loadRecords = async (
             id: Math.random() + '',
             type,
             sseID,
+            socketID,
             data: {
                 type: data.type,
                 topic: data.topic,
