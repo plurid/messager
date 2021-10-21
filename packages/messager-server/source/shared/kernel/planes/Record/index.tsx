@@ -116,7 +116,7 @@ const Record: React.FC<RecordProperties> = (
         } = record;
 
         const renderData = dataFunctions.parse(data.data)
-            ? JSON.stringify(data.data, null, 4)
+            ? JSON.stringify(dataFunctions.parse(data.data), null, 4)
             : data.data;
 
         return (
