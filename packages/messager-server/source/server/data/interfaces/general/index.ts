@@ -39,11 +39,26 @@ export interface Space {
 }
 
 
+export interface Record {
+    id: string;
+    type: string;
+    sseID?: string;
+    socketID?: string;
+    data: {
+        type: string;
+        topic?: string;
+        data: string;
+    };
+}
+
+
+
 export interface MessagerOwner {
     id: string;
     tokens: Token[];
     projects: Project[];
     spaces: Space[];
+    records: Record[];
 }
 
 
