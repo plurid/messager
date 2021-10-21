@@ -67,8 +67,7 @@ class WebSocketsMessager extends EventEmitter {
                         type: 'socket',
                         socketID,
                         data: {
-                            topic,
-                            data,
+                            ...message,
                         },
                     });
 
