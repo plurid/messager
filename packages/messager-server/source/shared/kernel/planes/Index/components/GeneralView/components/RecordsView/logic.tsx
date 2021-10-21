@@ -37,6 +37,8 @@ export const recordRowRenderer = (
         data,
     } = record;
 
+    const itemID = sseID || socketID || '';
+
     return (
         <>
             <div>
@@ -44,13 +46,21 @@ export const recordRowRenderer = (
             </div>
 
             <div>
-                {sseID || socketID}
+                {itemID.slice(0, 5)}...{itemID.slice(itemID.length - 5)}
             </div>
 
             <div>
-                <pre>
-                    {data}
-                </pre>
+                <div>
+                    type {data.type}
+                </div>
+                {data.topic && (
+                    <div>
+                        topic {data.topic}
+                    </div>
+                )}
+                <div>
+                    data {JSON.stringify(data.data)}
+                </div>
             </div>
 
             <PluridLink
