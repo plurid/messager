@@ -31,6 +31,7 @@
 
     import {
         InputQuery,
+        Record,
     } from '~server/data/interfaces';
 
     import {
@@ -107,7 +108,7 @@ export interface RecordsViewOwnProperties {
 export interface RecordsViewStateProperties {
     stateGeneralTheme: Theme;
     stateInteractionTheme: Theme;
-    stateRecords: any[];
+    stateRecords: Record[];
     stateAnalyticsEntries: AnalyticsRecordsCount;
     stateAnalyticsFaults: AnalyticsRecordsCount;
     stateAnalyticsSize: AnalyticsSize;
@@ -277,52 +278,10 @@ const RecordsView: React.FC<RecordsViewProperties> = (
         }
 
         const {
-            projects,
-            spaces,
-            levels,
-            logs,
         } = parsedFilter;
 
         const filteredRecords = stateRecords.filter(stateRecord => {
-            let projectMatch = projects.length > 0 ? false : true;
-            let spaceMatch = spaces.length > 0 ? false : true;
-            let logMatch = logs.length > 0 ? false : true;
-            let levelMatch = levels.length > 0 ? false : true;
-
-            if (stateRecord.project && projects.includes(stateRecord.project)) {
-                projectMatch = true;
-            }
-
-            if (stateRecord.space && spaces.includes(stateRecord.space)) {
-                spaceMatch = true;
-            }
-
-            for (const log of logs) {
-                if (stateRecord.log.toLowerCase().includes(log)) {
-                    logMatch = true;
-                    break;
-                }
-            }
-
-            for (const level of levels) {
-                const levelText = logLevelsText[stateRecord.level];
-
-                if (level === levelText) {
-                    levelMatch = true;
-                    break;
-                }
-            }
-
-            if (
-                projectMatch
-                && spaceMatch
-                && logMatch
-                && levelMatch
-            ) {
-                return true;
-            }
-
-            return false;
+            return true;
         });
 
         const sortedRecords = filteredRecords.sort(
@@ -453,19 +412,15 @@ const RecordsView: React.FC<RecordsViewProperties> = (
     const rowsHeader = (
         <>
             <div>
-                project
+                type
             </div>
 
             <div>
-                space
+                id
             </div>
 
             <div>
-                level
-            </div>
-
-            <div>
-                log
+                data
             </div>
 
             <div>
@@ -484,7 +439,7 @@ const RecordsView: React.FC<RecordsViewProperties> = (
                 generalTheme={stateGeneralTheme}
                 interactionTheme={stateInteractionTheme}
 
-                rowTemplate="0.5fr 0.5fr 60px 3fr 100px 30px"
+                rowTemplate="0.5fr 0.5fr 3fr 100px 30px"
                 rowsHeader={rowsHeader}
                 rows={filteredRows}
                 noRows="no records"

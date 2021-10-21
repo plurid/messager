@@ -15,10 +15,7 @@
 
     // #region external
     import {
-        logLevelsText,
-    } from '~server/data/constants/logger';
-
-    import {
+        Record,
     } from '~server/data/interfaces';
     // #endregion external
 // #endregion imports
@@ -27,35 +24,33 @@
 
 // #region module
 export const recordRowRenderer = (
-    record: any,
+    record: Record,
     handleRecordObliterate: (
         id: string,
     ) => void,
 ) => {
     const {
         id,
-        project,
-        space,
-        level,
-        log,
+        type,
+        sseID,
+        socketID,
+        data,
     } = record;
 
     return (
         <>
             <div>
-                {project}
+                {type}
             </div>
 
             <div>
-                {space}
+                {sseID || socketID}
             </div>
 
             <div>
-                {logLevelsText[level] || ''}
-            </div>
-
-            <div>
-                {log}
+                <pre>
+                    {data}
+                </pre>
             </div>
 
             <PluridLink
@@ -76,27 +71,21 @@ export const recordRowRenderer = (
 
 
 export const createSearchTerms = (
-    records: any[],
+    records: Record[],
 ) => {
     const searchTerms = records.map(
         record => {
             const {
                 id,
-                project,
-                space,
-                level,
-                log,
+                type,
+                data,
             } = record;
 
-            const levelText = logLevelsText[level] || '';
 
             const searchTerm = {
                 id,
                 data: [
-                    project?.toLowerCase(),
-                    space?.toLowerCase(),
-                    levelText,
-                    log.toLowerCase(),
+                    type,
                 ],
             };
 
