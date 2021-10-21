@@ -82,4 +82,29 @@ export const VERIFY_UNIQUE_ID = gql`
         }
     }
 `;
+
+
+export const GET_RECORDS = gql`
+    query GetRecords($input: InputGetRecords) {
+        getRecords(input: $input) {
+            status
+            error {
+                type
+                path
+                message
+            }
+            data {
+                id
+                type
+                sseID
+                socketID
+                data {
+                    type
+                    topic
+                    data
+                }
+            }
+        }
+    }
+`;
 // #endregion module
