@@ -113,7 +113,7 @@ const Record: React.FC<RecordProperties> = (
 
         const renderData = typeof data.data === 'string'
             ? data.data
-            : JSON.stringify(data.data)
+            : JSON.stringify(data.data, null, 4);
 
         return (
             <StyledRecord>
