@@ -22,7 +22,8 @@
 export type AddableEntityType =
     | 'token'
     | 'project'
-    | 'space';
+    | 'space'
+    | 'record';
 
 export const ADD_ENTITY = 'ADD_ENTITY';
 export interface AddEntityPayload {
@@ -38,7 +39,8 @@ export interface AddEntityAction {
 export type RemovableEntityType =
     | 'token'
     | 'project'
-    | 'space';
+    | 'space'
+    | 'record';
 
 
 export const REMOVE_ENTITY = 'REMOVE_ENTITY';
@@ -56,13 +58,7 @@ export type AddableEntitiesType =
     | 'tokens'
     | 'projects'
     | 'spaces'
-    | 'providers'
-    | 'repositories'
-    | 'formats'
-    | 'notifiers'
-    | 'testers'
     | 'records'
-    | 'tests'
     | 'analytics.entries'
     | 'analytics.faults'
     | 'analytics.size';
@@ -110,6 +106,7 @@ export interface State {
     tokens: ClientToken[];
     projects: Project[];
     spaces: Space[];
+    records: any[];
 }
 
 

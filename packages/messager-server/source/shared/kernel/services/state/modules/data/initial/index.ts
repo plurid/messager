@@ -27,6 +27,7 @@ const initialState: Types.State = {
     tokens: [],
     projects: [],
     spaces: [],
+    records: [],
 };
 // #endregion module
 

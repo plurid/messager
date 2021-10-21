@@ -16,6 +16,7 @@ const getAnalyticsSize = (state: AppState) => state.data.analytics.size;
 const getTokens = (state: AppState) => state.data.tokens;
 const getProjects = (state: AppState) => state.data.projects;
 const getSpaces = (state: AppState) => state.data.spaces;
+const getRecords = (state: AppState) => state.data.records;
 
 
 const selectors = {
@@ -26,6 +27,7 @@ const selectors = {
     getTokens,
     getProjects,
     getSpaces,
+    getRecords,
 };
 // #endregion module
 

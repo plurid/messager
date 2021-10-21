@@ -10,6 +10,7 @@
         PluridIconLocked,
         PluridIconApps,
         PluridIconFrame,
+        PluridIconInfo,
         PluridIconArrowRight,
         PluridIconDocuments,
         PluridIconExternalLink,
@@ -36,6 +37,7 @@
     import TokensView from './components/TokensView';
     import ProjectsView from './components/ProjectsView';
     import SpacesView from './components/SpacesView';
+    import RecordsView from './components/RecordsView';
 
     import {
         StyledGeneralView,
@@ -57,6 +59,7 @@ export const generalSelectors = [
     'tokens',
     'projects',
     'spaces',
+    'records',
 ];
 
 export const generalSelectorsIcons = {
@@ -64,6 +67,7 @@ export const generalSelectorsIcons = {
     tokens: PluridIconLocked,
     projects: PluridIconApps,
     spaces: PluridIconFrame,
+    records: PluridIconInfo,
 };
 
 
@@ -91,6 +95,12 @@ export const renderSelectedView = (
         case 'spaces':
             return (
                 <SpacesView
+                    setGeneralView={setGeneralView}
+                />
+            );
+        case 'records':
+            return (
+                <RecordsView
                     setGeneralView={setGeneralView}
                 />
             );

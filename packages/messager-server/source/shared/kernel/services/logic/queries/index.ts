@@ -11,6 +11,10 @@
 
     // #region external
     import {
+        InputQuery,
+    } from '~server/data/interfaces';
+
+    import {
         AnalyticsRecordsCount,
     } from '~kernel-data/interfaces';
 
@@ -21,6 +25,7 @@
         GET_USAGE_TYPE,
         GET_ANALYTICS_LAST_PERIOD,
         GET_ANALYTICS_SIZE,
+        GET_RECORDS,
         VERIFY_UNIQUE_ID,
     } from '~kernel-services/graphql/query';
 
@@ -318,6 +323,51 @@ const getAnalyticsSize = async (
 }
 
 
+const getRecords = async (
+    dispatch: ThunkDispatch<{}, {}, AnyAction>,
+    pagination?: InputQuery,
+) => {
+    const dispatchDataAddEntities: typeof actions.data.addEntities = (
+        payload,
+    ) => dispatch(
+        actions.data.addEntities(payload),
+    );
+
+    try {
+        const input = {
+            count: pagination?.count,
+            start: pagination?.start,
+        };
+
+        const query = await client.query({
+            query: GET_RECORDS,
+            fetchPolicy: 'no-cache',
+            variables: {
+                input,
+            },
+        });
+
+        const response = query.data.getRecords;
+
+        if (!response.status) {
+            return false;
+        }
+
+        const records = graphql.deleteTypenames(response.data);
+
+        dispatchDataAddEntities({
+            type: 'records',
+            data: records,
+            push: pagination ? 'CONCATENATE' : '',
+        });
+
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
+
 const verifyUniqueID = async (
     input: any,
 ) => {
@@ -350,6 +400,7 @@ export {
     getCurrentOwner,
     getUsageType,
     getProjects,
+    getRecords,
     getAnalyticsLastPeriod,
     getAnalyticsSize,
     verifyUniqueID,
