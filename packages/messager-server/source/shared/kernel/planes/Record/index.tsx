@@ -14,6 +14,10 @@
     } from '@plurid/plurid-themes';
 
     import {
+        data as dataFunctions,
+    } from '@plurid/plurid-functions';
+
+    import {
         PluridPlaneComponentProperty,
     } from '@plurid/plurid-react';
     // #endregion libraries
@@ -111,9 +115,9 @@ const Record: React.FC<RecordProperties> = (
             data,
         } = record;
 
-        const renderData = typeof data.data === 'string'
-            ? data.data
-            : JSON.stringify(data.data, null, 4);
+        const renderData = dataFunctions.parse(data.data)
+            ? JSON.stringify(data.data, null, 4)
+            : data.data;
 
         return (
             <StyledRecord>
