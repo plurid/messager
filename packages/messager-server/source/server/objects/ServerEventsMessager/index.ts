@@ -57,7 +57,11 @@ class ServerEventsMessager {
 
     public send(
         sseID: string,
-        data: any,
+        data: {
+            type: string,
+            topic?: string,
+            data: any,
+        },
     ) {
         const eventData = typeof data !== 'string'
             ? JSON.stringify(data)

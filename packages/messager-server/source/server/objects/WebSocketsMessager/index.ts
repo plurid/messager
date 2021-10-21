@@ -8,6 +8,11 @@
         WebSocket,
     } from 'ws';
     // #endregion libraries
+
+
+    // #region external
+    import recordsBatcher from '~server/services/recordsBatcher';
+    // #endregion external
 // #endregion imports
 
 
@@ -58,6 +63,15 @@ class WebSocketsMessager extends EventEmitter {
             for (const socketID of this.subscribers[topic] as string[]) {
                 const socket = this.sockets[socketID];
                 if (socket) {
+                    recordsBatcher.push({
+                        type: 'socket',
+                        socketID,
+                        data: {
+                            topic,
+                            data,
+                        },
+                    });
+
                     socket.send(JSON.stringify({
                         topic,
                         data: message.data,
