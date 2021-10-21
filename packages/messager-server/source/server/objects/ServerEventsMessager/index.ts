@@ -3,6 +3,11 @@
     import {
         Response,
     } from 'express';
+
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -68,6 +73,9 @@ class ServerEventsMessager {
             : data;
 
         recordsBatcher.push({
+            id: uuid.multiple(3),
+            ownedBy: '',
+            happenedAt: Date.now(),
             type: 'event',
             sseID,
             data,

@@ -41,6 +41,8 @@ export interface Space {
 
 export interface Record {
     id: string;
+    ownedBy: string;
+    happenedAt: number;
     type: string;
     sseID?: string;
     socketID?: string;

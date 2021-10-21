@@ -7,6 +7,11 @@
     import {
         WebSocket,
     } from 'ws';
+
+
+    import {
+        uuid,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -64,6 +69,9 @@ class WebSocketsMessager extends EventEmitter {
                 const socket = this.sockets[socketID];
                 if (socket) {
                     recordsBatcher.push({
+                        id: uuid.multiple(3),
+                        ownedBy: '',
+                        happenedAt: Date.now(),
                         type: 'socket',
                         socketID,
                         data: {

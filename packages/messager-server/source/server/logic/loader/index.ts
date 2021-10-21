@@ -80,6 +80,8 @@ export const loadRecords = async (
 
     const modeledRecords = records.map(record => {
         const {
+            id,
+            happenedAt,
             type,
             sseID,
             socketID,
@@ -87,7 +89,8 @@ export const loadRecords = async (
         } = record;
 
         return {
-            id: Math.random() + '',
+            id,
+            happenedAt,
             type,
             sseID,
             socketID,
