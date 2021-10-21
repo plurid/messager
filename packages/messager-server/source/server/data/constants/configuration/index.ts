@@ -2,7 +2,6 @@
     // #region external
     import {
         DatabaseType,
-        StorageType,
     } from '~server/data/interfaces';
     // #endregion external
 // #endregion imports
@@ -12,9 +11,6 @@
 // #region module
 export const DATABASE_TYPE = (process.env.MESSAGER_DATABASE_TYPE as DatabaseType | undefined)
     || 'mongo';
-
-export const STORAGE_TYPE = (process.env.MESSAGER_STORAGE_TYPE as StorageType | undefined)
-    || 'filesystem';
 
 
 export const LOG_LEVEL = process.env.MESSAGER_LOG_LEVEL || '7';
