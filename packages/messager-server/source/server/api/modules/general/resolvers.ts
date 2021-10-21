@@ -10,6 +10,7 @@
     import tokens from './tokens/resolvers';
     import projects from './projects/resolvers';
     import spaces from './spaces/resolvers';
+    import records from './records/resolvers';
     import setup from './setup/resolvers';
     // #endregion internal
 // #endregion imports
@@ -36,6 +37,7 @@ const resolvers = generateResolvers(
     tokens,
     projects,
     spaces,
+    records,
     setup,
 );
 // #endregion module

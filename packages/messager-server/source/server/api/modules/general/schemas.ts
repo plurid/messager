@@ -5,6 +5,7 @@
     import tokens from './tokens/schemas';
     import projects from './projects/schemas';
     import spaces from './spaces/schemas';
+    import records from './records/schemas';
     import setup from './setup/schemas';
     // #endregion internal
 // #endregion imports
@@ -18,6 +19,7 @@ export default [
     tokens,
     projects,
     spaces,
+    records,
     setup,
 ];
 // #endregion exports
