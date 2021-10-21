@@ -111,9 +111,19 @@ const Record: React.FC<RecordProperties> = (
             data,
         } = record;
 
+        const renderData = typeof data.data === 'string'
+            ? data.data
+            : JSON.stringify(data.data)
+
         return (
             <StyledRecord>
-                {JSON.stringify(data.data)}
+                <h2>
+                    data
+                </h2>
+
+                <pre>
+                    {renderData}
+                </pre>
            </StyledRecord>
         );
     }
