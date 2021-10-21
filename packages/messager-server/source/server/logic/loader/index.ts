@@ -69,6 +69,38 @@ export const loadSpaces = async (
 }
 
 
+export const loadRecords = async (
+    ownerID: string,
+) => {
+    const records: any[] = await database.query(
+        'records',
+        'ownedBy',
+        ownerID,
+    );
+
+    const modeledRecords = records.map(record => {
+        const {
+            type,
+            sseID,
+            data,
+        } = record;
+
+        return {
+            id: Math.random() + '',
+            type,
+            sseID,
+            data: {
+                type: data.type,
+                topic: data.topic,
+                data: typeof data.data === 'string' ? data.data : JSON.stringify(data.data),
+            },
+        };
+    });
+
+    return modeledRecords;
+}
+
+
 
 const loadData = async (
     ownerID: string | undefined,
@@ -78,6 +110,7 @@ const loadData = async (
             tokens: [],
             projects: [],
             spaces: [],
+            records: [],
         };
     }
 
@@ -93,11 +126,16 @@ const loadData = async (
         ownerID,
     );
 
+    const records = await loadRecords(
+        ownerID,
+    );
+
 
     const data = {
         tokens,
         projects,
         spaces,
+        records,
     };
 
     return data;
