@@ -82,6 +82,7 @@ export const loadRecords = async (
         const {
             id,
             happenedAt,
+            ownedBy,
             type,
             sseID,
             socketID,
@@ -91,6 +92,7 @@ export const loadRecords = async (
         return {
             id,
             happenedAt,
+            ownedBy,
             type,
             sseID,
             socketID,
