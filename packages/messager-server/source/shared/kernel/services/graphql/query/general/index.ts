@@ -95,6 +95,7 @@ export const GET_RECORDS = gql`
             }
             data {
                 id
+                happenedAt
                 type
                 sseID
                 socketID

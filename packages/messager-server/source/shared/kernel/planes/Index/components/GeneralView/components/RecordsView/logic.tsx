@@ -31,6 +31,7 @@ export const recordRowRenderer = (
 ) => {
     const {
         id,
+        happenedAt,
         type,
         sseID,
         socketID,
@@ -43,6 +44,10 @@ export const recordRowRenderer = (
         <>
             <div>
                 {type}
+            </div>
+
+            <div>
+                {new Date(happenedAt).toLocaleString()}
             </div>
 
             <div>
