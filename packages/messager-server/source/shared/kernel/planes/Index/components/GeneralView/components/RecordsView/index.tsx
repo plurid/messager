@@ -447,7 +447,7 @@ const RecordsView: React.FC<RecordsViewProperties> = (
                 generalTheme={stateGeneralTheme}
                 interactionTheme={stateInteractionTheme}
 
-                rowTemplate="70px 1fr 110px 90px 3fr 60px 60px"
+                rowTemplate="60px 1fr 110px 70px 3fr 60px 60px"
                 rowsHeader={rowsHeader}
                 rows={filteredRows}
                 noRows="no records"
