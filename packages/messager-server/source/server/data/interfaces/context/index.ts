@@ -13,6 +13,7 @@
         ClientToken,
         Project,
         Space,
+        Record,
     } from '../general';
 
     import {
@@ -38,6 +39,7 @@ export interface Context {
     tokens: ClientToken[];
     projects: Project[];
     spaces: Space[];
+    records: Record[];
 
     customLogicUsage: boolean;
 
