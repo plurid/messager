@@ -155,9 +155,21 @@ const Record: React.FC<RecordProperties> = (
                         marginBottom: '2rem',
                     }}
                 >
-                    <h2>
-                        {typeTopic}
+                    <h2
+                        style={{
+                            marginBottom: '1rem',
+                        }}
+                    >
+                        type
                     </h2>
+
+                    <div
+                        style={{
+                            wordBreak: 'break-all',
+                        }}
+                    >
+                        {typeTopic}
+                    </div>
                 </div>
 
                 <div>
