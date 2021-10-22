@@ -39,11 +39,14 @@ export const writeServerSendEvent = (
 class ServerEventsMessager {
     private response;
     private topics: string[] = [];
+    private ownedBy: string;
 
 
     constructor(
+        ownerID: string,
         response: Response,
     ) {
+        this.ownedBy = ownerID;
         this.response = response;
 
         this.response.setHeader('Cache-Control', 'no-cache');
@@ -74,7 +77,7 @@ class ServerEventsMessager {
 
         recordsBatcher.push({
             id: uuid.multiple(3),
-            ownedBy: '',
+            ownedBy: this.ownedBy,
             happenedAt: Date.now(),
             type: 'event',
             sseID,

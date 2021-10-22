@@ -26,6 +26,7 @@
 class WebSocketsMessager extends EventEmitter {
     private sockets: Record<string, WebSocket | undefined> = {};
     private subscribers: Record<string, string[] | undefined> = {};
+    private ownings: Record<string, string> = {};
 
 
     constructor() {
@@ -68,9 +69,11 @@ class WebSocketsMessager extends EventEmitter {
             for (const socketID of this.subscribers[topic] as string[]) {
                 const socket = this.sockets[socketID];
                 if (socket) {
+                    const owner = this.ownings[socketID];
+
                     recordsBatcher.push({
                         id: uuid.multiple(3),
-                        ownedBy: '',
+                        ownedBy: owner,
                         happenedAt: Date.now(),
                         type: 'socket',
                         socketID,
@@ -116,9 +119,12 @@ class WebSocketsMessager extends EventEmitter {
 
     public register(
         socketID: string,
+        ownerID: string,
         socket: WebSocket,
     ) {
         this.sockets[socketID] = socket;
+
+        this.ownings[socketID] = ownerID;
     }
 
     public deregister(

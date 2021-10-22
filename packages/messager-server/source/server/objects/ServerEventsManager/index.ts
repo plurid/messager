@@ -35,7 +35,7 @@ class ServerEventsManager {
             this.messagers[ownerID] = {};
         }
 
-        const eventsMessager = new ServerEventsMessager(response);
+        const eventsMessager = new ServerEventsMessager(ownerID, response);
         (this.messagers[ownerID] as EventsMessagers)[messagerID] = eventsMessager;
 
         return eventsMessager;

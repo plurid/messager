@@ -79,11 +79,15 @@ const setupWebsockets = (
                 return;
             }
 
+            const socketID = uuid.multiple(5);
             const webSocketsMessager = webSocketsManager.new(ownerID);
 
-            const socketID = uuid.multiple(5);
+            webSocketsMessager.register(
+                socketID,
+                ownerID,
+                websocketConnection,
+            );
 
-            webSocketsMessager.register(socketID, websocketConnection);
             websocketConnection.send(JSON.stringify({
                 type: 'id',
                 data: socketID,
