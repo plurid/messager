@@ -121,6 +121,12 @@ const Token: React.FC<TokenProperties> = (
         const token: IToken | undefined = await addEntityMutation(
             {
                 name: tokenName,
+                useOrigins: false,
+                origins: [],
+                useIPs: false,
+                ips: [],
+                useKey: false,
+                key: '',
             },
             GENERATE_TOKEN,
             'generateToken',
