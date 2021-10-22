@@ -28,12 +28,24 @@ export const loadTokens = async (
             id,
             name,
             startsWith,
+            useOrigins,
+            origins,
+            useIPs,
+            ips,
+            useKey,
+            key,
         } = token;
 
         const clientToken: ClientToken = {
             id,
             name,
             startsWith,
+            useOrigins,
+            origins,
+            useIPs,
+            ips,
+            useKey,
+            key,
         };
 
         return clientToken;
