@@ -245,7 +245,11 @@ const Token: React.FC<TokenProperties> = (
                                 atKeyDown={handleEnter}
                                 textline={{
                                     enterAtClick: () => {
-
+                                        setTokenOrigins(values => [
+                                            ...values,
+                                            tokenOrigin,
+                                        ]);
+                                        setTokenOrigin('');
                                     },
                                 }}
                             />
@@ -269,7 +273,11 @@ const Token: React.FC<TokenProperties> = (
                                 atKeyDown={handleEnter}
                                 textline={{
                                     enterAtClick: () => {
-
+                                        setTokenIPs(values => [
+                                            ...values,
+                                            tokenIP,
+                                        ]);
+                                        setTokenIP('');
                                     },
                                 }}
                             />
