@@ -177,7 +177,11 @@ const Record: React.FC<RecordProperties> = (
                         data
                     </h2>
 
-                    <pre>
+                    <pre
+                        style={{
+                            whiteSpace: 'pre-wrap',
+                        }}
+                    >
                         {renderData}
                     </pre>
                 </div>
