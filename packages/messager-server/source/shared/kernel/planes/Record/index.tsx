@@ -180,6 +180,7 @@ const Record: React.FC<RecordProperties> = (
                     <pre
                         style={{
                             whiteSpace: 'pre-wrap',
+                            wordBreak: 'break-all',
                         }}
                     >
                         {renderData}
