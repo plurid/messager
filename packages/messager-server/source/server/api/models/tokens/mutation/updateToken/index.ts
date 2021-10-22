@@ -2,11 +2,11 @@
     // #region external
     import {
         Context,
-        InputGenerateToken,
+        InputUpdateToken,
     } from '~server/data/interfaces';
 
     import {
-        registerToken,
+        updateToken as updateTokenLogic,
     } from '~server/logic/operators/tokens';
 
     import {
@@ -18,11 +18,11 @@
 
 
 // #region module
-export const generateTokenLogs = generateMethodLogs('generateToken');
+export const updateTokenLogs = generateMethodLogs('updateToken');
 
 
-const generateToken = async (
-    input: InputGenerateToken,
+const updateToken = async (
+    input: InputUpdateToken,
     context: Context,
 ) => {
     // #region context unpack
@@ -42,7 +42,7 @@ const generateToken = async (
 
     // #region log start
     logger.log(
-        generateTokenLogs.infoStart,
+        updateTokenLogs.infoStart,
         logLevels.info,
     );
     // #endregion log start
@@ -52,13 +52,13 @@ const generateToken = async (
         // #region private usage
         if (privateUsage) {
             logger.log(
-                generateTokenLogs.infoHandlePrivateUsage,
+                updateTokenLogs.infoHandlePrivateUsage,
                 logLevels.trace,
             );
 
             if (!privateOwnerIdentonym) {
                 logger.log(
-                    generateTokenLogs.infoEndPrivateUsage,
+                    updateTokenLogs.infoEndPrivateUsage,
                     logLevels.info,
                 );
 
@@ -67,13 +67,17 @@ const generateToken = async (
                 };
             }
 
-            const token = await registerToken(
+            const token = await updateTokenLogic(
                 input,
-                privateOwnerIdentonym,
             );
+            if (!token) {
+                return {
+                    status: false,
+                };
+            }
 
             logger.log(
-                generateTokenLogs.infoSuccessPrivateUsage,
+                updateTokenLogs.infoSuccessPrivateUsage,
                 logLevels.info,
             );
 
@@ -90,17 +94,21 @@ const generateToken = async (
 
         if (customLogicUsage && logic) {
             logger.log(
-                generateTokenLogs.infoHandleCustomLogicUsage,
+                updateTokenLogs.infoHandleCustomLogicUsage,
                 logLevels.trace,
             );
 
-            const token = await registerToken(
+            const token = await updateTokenLogic(
                 input,
-                '',
             );
+            if (!token) {
+                return {
+                    status: false,
+                };
+            }
 
             logger.log(
-                generateTokenLogs.infoEndCustomLogicUsage,
+                updateTokenLogs.infoEndCustomLogicUsage,
                 logLevels.info,
             );
 
@@ -113,13 +121,17 @@ const generateToken = async (
 
 
         // #region public usage
-        const token = await registerToken(
+        const token = await updateTokenLogic(
             input,
-            '',
         );
+        if (!token) {
+            return {
+                status: false,
+            };
+        }
 
         logger.log(
-            generateTokenLogs.infoSuccess,
+            updateTokenLogs.infoSuccess,
             logLevels.info,
         );
 
@@ -131,7 +143,7 @@ const generateToken = async (
     } catch (error) {
         // #region error handle
         logger.log(
-            generateTokenLogs.errorEnd,
+            updateTokenLogs.errorEnd,
             logLevels.error,
             error,
         );
@@ -147,5 +159,5 @@ const generateToken = async (
 
 
 // #region exports
-export default generateToken;
+export default updateToken;
 // #endregion exports

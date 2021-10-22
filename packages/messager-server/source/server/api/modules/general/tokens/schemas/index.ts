@@ -17,6 +17,7 @@ export const queries = gql`
 export const mutations = gql`
     extend type Mutation {
         generateToken(input: InputGenerateToken!): ResponseToken!
+        updateToken(input: InputUpdateToken!): ResponseClientToken!
         obliterateToken(input: InputValueString!): Response!
     }
 `;
@@ -27,6 +28,12 @@ export const types = gql`
         status: Boolean!
         error: Error
         data: Token
+    }
+
+    type ResponseClientToken {
+        status: Boolean!
+        error: Error
+        data: ClientToken
     }
 
     type ResponseClientTokens {
@@ -40,12 +47,24 @@ export const types = gql`
         name: String!
         value: String!
         startsWith: String!
+        useOrigins: Boolean!
+        origins: [String!]!
+        useIPs: Boolean!
+        ips: [String!]!
+        useKey: Boolean!
+        key: String!
     }
 
     type ClientToken {
         id: ID!
         name: String!
         startsWith: String!
+        useOrigins: Boolean!
+        origins: [String!]!
+        useIPs: Boolean!
+        ips: [String!]!
+        useKey: Boolean!
+        key: String!
     }
 
     extend type Owner {
@@ -57,6 +76,23 @@ export const types = gql`
 export const inputs = gql`
     input InputGenerateToken {
         name: String!
+        useOrigins: Boolean
+        origins: [String!]
+        useIPs: Boolean
+        ips: [String!]
+        useKey: Boolean
+        key: String
+    }
+
+    input InputUpdateToken {
+        tokenID: ID!
+        name: String
+        useOrigins: Boolean
+        origins: [String!]
+        useIPs: Boolean
+        ips: [String!]
+        useKey: Boolean
+        key: String
     }
 `;
 // #endregion module

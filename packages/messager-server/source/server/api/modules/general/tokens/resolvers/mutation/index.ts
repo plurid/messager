@@ -5,6 +5,7 @@
         InputOf,
         InputValueString,
         InputGenerateToken,
+        InputUpdateToken,
     } from '~server/data/interfaces';
 
     import {
@@ -22,6 +23,14 @@ export default {
         { input }: InputOf<InputGenerateToken>,
         context: Context,
     ) => Tokens.Mutation.generateToken(
+        input,
+        context,
+    ),
+    updateToken: (
+        _: any,
+        { input }: InputOf<InputUpdateToken>,
+        context: Context,
+    ) => Tokens.Mutation.updateToken(
         input,
         context,
     ),

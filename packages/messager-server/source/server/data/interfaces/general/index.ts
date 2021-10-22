@@ -5,6 +5,12 @@ export interface Token {
     value: string;
     ownedBy: string;
     startsWith: string;
+    useOrigins: boolean;
+    origins: string[];
+    useIPs: boolean;
+    ips: string[];
+    useKey: boolean;
+    key: string;
 }
 
 export type ClientToken = Omit<Token, 'value' | 'ownedBy'>;

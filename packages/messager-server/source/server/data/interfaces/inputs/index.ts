@@ -17,6 +17,24 @@ export interface InputQuery {
 
 export interface InputGenerateToken {
     name: string;
+    useOrigins: boolean;
+    origins?: string[];
+    useIPs: boolean;
+    ips?: string[];
+    useKey: boolean;
+    key?: string;
+}
+
+
+export interface InputUpdateToken {
+    tokenID: string;
+    name?: string;
+    useOrigins?: boolean;
+    origins?: string[];
+    useIPs?: boolean;
+    ips?: string[];
+    useKey?: boolean;
+    key?: string;
 }
 
 
