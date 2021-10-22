@@ -123,7 +123,7 @@ const Record: React.FC<RecordProperties> = (
             : data.data;
 
         const typeTopic = data.topic
-            ? `${data.type} on topic ${data.topic}`
+            ? `${data.type} on topic '${data.topic}'`
             : `${data.type}`;
 
         return (
