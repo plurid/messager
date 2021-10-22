@@ -112,7 +112,7 @@ const Record: React.FC<RecordProperties> = (
         record: Record,
     ) => {
         const {
-            type,
+            kind,
             socketID,
             sseID,
             data,
@@ -135,7 +135,7 @@ const Record: React.FC<RecordProperties> = (
                             lineHeight: 1,
                         }}
                     >
-                        {type}
+                        {kind}
                     </h1>
 
                     <div
