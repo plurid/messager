@@ -33,7 +33,7 @@ export const types = gql`
     type Record {
         id: ID!
         happenedAt: Float!
-        type: String!
+        kind: String!
         sseID: String
         socketID: String
         data: RecordData!

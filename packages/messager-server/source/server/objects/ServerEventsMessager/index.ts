@@ -79,7 +79,7 @@ class ServerEventsMessager {
             id: uuid.multiple(3),
             ownedBy: this.ownedBy,
             happenedAt: Date.now(),
-            type: 'event',
+            kind: 'event',
             sseID,
             data,
         });

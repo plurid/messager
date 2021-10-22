@@ -75,7 +75,7 @@ class WebSocketsMessager extends EventEmitter {
                         id: uuid.multiple(3),
                         ownedBy: owner,
                         happenedAt: Date.now(),
-                        type: 'socket',
+                        kind: 'socket',
                         socketID,
                         data: {
                             ...message,
