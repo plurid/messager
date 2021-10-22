@@ -3,6 +3,7 @@
     import {
         TEST_MODE,
         TEST_MODE_TOKEN,
+        PRIVATE_OWNER_IDENTONYM,
     } from '~server/data/constants';
 
     import database from '~server/services/database';
@@ -22,7 +23,7 @@ export const getMessagerIDWithToken = async (
             return;
         }
 
-        return TEST_MODE_TOKEN;
+        return PRIVATE_OWNER_IDENTONYM || TEST_MODE_TOKEN;
     }
 
 
