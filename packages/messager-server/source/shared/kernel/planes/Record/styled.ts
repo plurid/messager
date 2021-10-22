@@ -1,15 +1,26 @@
 // #region imports
     // #region libraries
     import styled from 'styled-components';
+
+    import {
+        Theme,
+    } from '@plurid/plurid-themes';
     // #endregion libraries
 // #endregion imports
 
 
 
 // #region module
-export const StyledRecord = styled.div`
-    font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-        'Open Sans', 'Helvetica Neue', sans-serif;
+export interface IStyledRecord {
+    theme: Theme;
+}
+
+export const StyledRecord = styled.div<IStyledRecord>`
+    font-family: ${
+        ({
+            theme,
+        }: IStyledRecord) => theme.fontFamilySansSerif
+    };
 
     padding: 4rem;
 

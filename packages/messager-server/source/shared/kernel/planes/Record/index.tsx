@@ -72,9 +72,9 @@ const Record: React.FC<RecordProperties> = (
         // #endregion own
 
         // #region state
-        stateRecords,
-        // stateGeneralTheme,
+        stateGeneralTheme,
         // stateInteractionTheme,
+        stateRecords,
         // #endregion state
     } = properties;
 
@@ -127,7 +127,9 @@ const Record: React.FC<RecordProperties> = (
             : `${data.type}`;
 
         return (
-            <StyledRecord>
+            <StyledRecord
+                theme={stateGeneralTheme}
+            >
                 <div>
                     <h1
                         style={{
