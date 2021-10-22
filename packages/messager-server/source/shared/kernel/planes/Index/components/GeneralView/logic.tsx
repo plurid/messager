@@ -55,18 +55,18 @@
 
 // #region module
 export const generalSelectors = [
-    'analytics',
+    // 'analytics',
     'tokens',
-    'projects',
-    'spaces',
+    // 'projects',
+    // 'spaces',
     'records',
 ];
 
 export const generalSelectorsIcons = {
-    analytics: PluridIconStatistics,
+    // analytics: PluridIconStatistics,
     tokens: PluridIconLocked,
-    projects: PluridIconApps,
-    spaces: PluridIconFrame,
+    // projects: PluridIconApps,
+    // spaces: PluridIconFrame,
     records: PluridIconInfo,
 };
 

@@ -11,7 +11,7 @@ const initialState: Types.State = {
     loading: true,
     indexView: '',
     indexGeneralView: 'general',
-    indexGeneralSelector: 'analytics',
+    indexGeneralSelector: 'records',
     indexEditWebhookID: '',
     indexEditTriggerID: '',
     compactSelectors: false,
