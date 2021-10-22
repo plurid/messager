@@ -31,6 +31,10 @@
     } from '~server/logic/token';
 
     import webSocketsManager from '~server/services/webSocketsManager';
+
+    import {
+        getAuthenticationMarkers,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -54,6 +58,8 @@ const setupWebsockets = (
     websocketServer.on(
         'connection',
         async (websocketConnection, connectionRequest) => {
+            const authenticationMarkers = getAuthenticationMarkers(connectionRequest);
+
             const [
                 _path,
                 params,
@@ -63,7 +69,10 @@ const setupWebsockets = (
 
             const token = searchParams.get('token');
 
-            const ownerID = await getMessagerIDWithToken(token);
+            const ownerID = await getMessagerIDWithToken(
+                token,
+                authenticationMarkers,
+            );
             if (!ownerID) {
                 // not authorized
                 websocketConnection.close();

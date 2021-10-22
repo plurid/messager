@@ -1,4 +1,5 @@
 // #region exports
+export * from './authentication';
 export * from './directory';
 export * from './error';
 export * from './general';

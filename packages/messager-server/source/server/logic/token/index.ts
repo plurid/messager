@@ -15,6 +15,7 @@
 // #region module
 export const getMessagerIDWithToken = async (
     token: string | undefined | null,
+    authenticationMarkers?: any,
 ): Promise<string | undefined> => {
     if (TEST_MODE) {
         if (token !== TEST_MODE_TOKEN) {

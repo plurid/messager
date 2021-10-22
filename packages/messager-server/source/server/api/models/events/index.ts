@@ -17,6 +17,10 @@
     } from '~server/logic/token';
 
     import serverEventsManager from '~server/services/serverEventsManager';
+
+    import {
+        getAuthenticationMarkers,
+    } from '~server/utilities';
     // #endregion external
 // #endregion imports
 
@@ -28,6 +32,8 @@ const handleGet = async (
     response: Response,
 ) => {
     try {
+        const authenticationMarkers = getAuthenticationMarkers(request);
+
         if (request.headers.accept !== 'text/event-stream') {
             response.status(400).end();
             return;
@@ -37,7 +43,10 @@ const handleGet = async (
             token,
         } = request.query;
 
-        const ownerID = await getMessagerIDWithToken(token as string | undefined);
+        const ownerID = await getMessagerIDWithToken(
+            token as string | undefined,
+            authenticationMarkers,
+        );
         if (!ownerID) {
             response.status(403).end();
             return;
