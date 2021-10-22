@@ -83,7 +83,7 @@ export const loadRecords = async (
             id,
             happenedAt,
             ownedBy,
-            type,
+            kind,
             sseID,
             socketID,
             data,
@@ -93,13 +93,15 @@ export const loadRecords = async (
             id,
             happenedAt,
             ownedBy,
-            type,
+            kind,
             sseID,
             socketID,
             data: {
                 type: data.type,
                 topic: data.topic,
-                data: typeof data.data === 'string' ? data.data : JSON.stringify(data.data),
+                data: typeof data.data === 'string'
+                    ? data.data
+                    : JSON.stringify(data.data),
             },
         };
     });
