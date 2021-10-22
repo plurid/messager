@@ -42,6 +42,11 @@ export interface MessagerOptions {
     secure: boolean;
 
     /**
+     * Token-specific messager key.
+     */
+    key: string | undefined;
+
+    /**
      * Number of retries for the socket to be ready.
      *
      * default: `100`

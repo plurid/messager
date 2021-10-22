@@ -74,6 +74,7 @@ class Messager {
             eventPath: options?.eventPath || MESSAGER_DEFAULTS.EVENT_PATH,
             notifyPath: options?.notifyPath || MESSAGER_DEFAULTS.NOTIFY_PATH,
             secure: options?.secure ?? MESSAGER_DEFAULTS.SECURE,
+            key: options?.key || undefined,
             socketSendRetries: options?.socketSendRetries || MESSAGER_DEFAULTS.SOCKET_SEND_RETRIES,
             socketSendWait: options?.socketSendWait || MESSAGER_DEFAULTS.SOCKET_SEND_WAIT,
         };
@@ -120,7 +121,14 @@ class Messager {
             const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
             this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
 
-            this.connection = new WebSocket(this.endpoint);
+            const headers = {};
+            if (this.options.key) {
+                headers['Messager-Key'] = this.options.key;
+            }
+
+            this.connection = new WebSocket(this.endpoint, {
+                headers,
+            });
 
             this.connection.addEventListener('message', (event) => {
                 const message = data.parse(event.data.toString());
