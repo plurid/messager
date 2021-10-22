@@ -412,7 +412,7 @@ const RecordsView: React.FC<RecordsViewProperties> = (
     const rowsHeader = (
         <>
             <div>
-                type
+                kind
             </div>
 
             <div>
@@ -424,7 +424,7 @@ const RecordsView: React.FC<RecordsViewProperties> = (
             </div>
 
             <div>
-                kind
+                type
             </div>
 
             <div>

@@ -32,7 +32,7 @@ export const recordRowRenderer = (
     const {
         id,
         happenedAt,
-        type,
+        type: kind,
         sseID,
         socketID,
         data,
@@ -43,7 +43,7 @@ export const recordRowRenderer = (
     return (
         <>
             <div>
-                {type}
+                {kind}
             </div>
 
             <div>
