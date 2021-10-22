@@ -30,6 +30,7 @@
         StyledPluridLinkButton,
 
         PluridInputLine,
+        PluridInputSwitch,
         PluridCopyableLine,
     } from '~kernel-services/styled';
     // #endregion external
@@ -105,6 +106,34 @@ const Token: React.FC<TokenProperties> = (
         tokenValue,
         setTokenValue,
     ] = useState('');
+
+    const [
+        tokenUseOrigins,
+        setTokenUseOrigins,
+    ] = useState(false);
+    const [
+        tokenOrigin,
+        setTokenOrigin,
+    ] = useState('');
+
+    const [
+        tokenUseIPs,
+        setTokenUseIPs,
+    ] = useState(false);
+    const [
+        tokenIP,
+        setTokenIP,
+    ] = useState('');
+
+    const [
+        tokenUseKey,
+        setTokenUseKey,
+    ] = useState(false);
+    const [
+        tokenKey,
+        setTokenKey,
+    ] = useState('');
+
     const [
         clientToken,
         setClientToken,
@@ -190,6 +219,73 @@ const Token: React.FC<TokenProperties> = (
                         atChange={(event) => setTokenName(event.target.value)}
                         atKeyDown={handleEnter}
                     />
+
+                    <PluridInputSwitch
+                        name="use origins"
+                        checked={tokenUseOrigins}
+                        atChange={() => setTokenUseOrigins(use => !use)}
+                        theme={theme}
+                    />
+
+                    {tokenUseOrigins && (
+                        <>
+                            <PluridInputLine
+                                name="origin"
+                                text={tokenOrigin}
+                                theme={theme}
+                                atChange={(event) => setTokenOrigin(event.target.value)}
+                                atKeyDown={handleEnter}
+                                textline={{
+                                    enterAtClick: () => {
+
+                                    },
+                                }}
+                            />
+                        </>
+                    )}
+
+                    <PluridInputSwitch
+                        name="use IPs"
+                        checked={tokenUseIPs}
+                        atChange={() => setTokenUseIPs(use => !use)}
+                        theme={theme}
+                    />
+
+                    {tokenUseIPs && (
+                        <>
+                            <PluridInputLine
+                                name="ip"
+                                text={tokenIP}
+                                theme={theme}
+                                atChange={(event) => setTokenIP(event.target.value)}
+                                atKeyDown={handleEnter}
+                                textline={{
+                                    enterAtClick: () => {
+
+                                    },
+                                }}
+                            />
+                        </>
+                    )}
+
+                    <PluridInputSwitch
+                        name="use key"
+                        checked={tokenUseKey}
+                        atChange={() => setTokenUseKey(use => !use)}
+                        theme={theme}
+                    />
+
+                    {tokenUseKey && (
+                        <>
+                            <PluridInputLine
+                                name="key"
+                                text={tokenKey}
+                                theme={theme}
+                                atChange={(event) => setTokenKey(event.target.value)}
+                                atKeyDown={handleEnter}
+                            />
+                        </>
+                    )}
 
                     <StyledPluridPureButton
                         text="Generate Token"
