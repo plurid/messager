@@ -32,7 +32,7 @@ export const recordRowRenderer = (
     const {
         id,
         happenedAt,
-        type: kind,
+        kind,
         sseID,
         socketID,
         data,
@@ -86,7 +86,7 @@ export const createSearchTerms = (
         record => {
             const {
                 id,
-                type,
+                kind,
                 data,
             } = record;
 
@@ -94,7 +94,8 @@ export const createSearchTerms = (
             const searchTerm = {
                 id,
                 data: [
-                    type,
+                    id,
+                    kind,
                 ],
             };
 
