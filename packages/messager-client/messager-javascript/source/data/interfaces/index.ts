@@ -43,6 +43,8 @@ export interface MessagerOptions {
 
     /**
      * Token-specific messager key.
+     *
+     * Used by `socket` connections.
      */
     key: string | undefined;
 
