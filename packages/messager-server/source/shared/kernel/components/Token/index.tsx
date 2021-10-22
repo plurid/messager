@@ -133,12 +133,24 @@ const Token: React.FC<TokenProperties> = (
                 id,
                 name,
                 startsWith,
+                useOrigins,
+                origins,
+                useIPs,
+                ips,
+                useKey,
+                key,
             } = token;
 
             const clientToken: ClientToken = {
                 id,
                 name,
                 startsWith,
+                useOrigins,
+                origins,
+                useIPs,
+                ips,
+                useKey,
+                key,
             };
             setClientToken(clientToken);
         }
