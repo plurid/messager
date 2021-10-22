@@ -112,6 +112,9 @@ const Record: React.FC<RecordProperties> = (
         record: Record,
     ) => {
         const {
+            type,
+            socketID,
+            sseID,
             data,
         } = record;
 
@@ -119,15 +122,51 @@ const Record: React.FC<RecordProperties> = (
             ? JSON.stringify(dataFunctions.parse(data.data), null, 4)
             : data.data;
 
+        const typeTopic = data.topic
+            ? `${data.type} on topic ${data.topic}`
+            : `${data.type}`;
+
         return (
             <StyledRecord>
-                <h2>
-                    data
-                </h2>
+                <div>
+                    <h1
+                        style={{
+                            marginBottom: '1rem',
+                            lineHeight: 1,
+                        }}
+                    >
+                        {type}
+                    </h1>
 
-                <pre>
-                    {renderData}
-                </pre>
+                    <div
+                        style={{
+                            wordBreak: 'break-all',
+                            marginBottom: '2rem',
+                        }}
+                    >
+                        {socketID || sseID}
+                    </div>
+                </div>
+
+                <div
+                    style={{
+                        marginBottom: '2rem',
+                    }}
+                >
+                    <h2>
+                        {typeTopic}
+                    </h2>
+                </div>
+
+                <div>
+                    <h2>
+                        data
+                    </h2>
+
+                    <pre>
+                        {renderData}
+                    </pre>
+                </div>
            </StyledRecord>
         );
     }
