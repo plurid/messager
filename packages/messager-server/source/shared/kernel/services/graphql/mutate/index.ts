@@ -53,6 +53,37 @@ export const GENERATE_TOKEN = gql`
                 name
                 value
                 startsWith
+                useOrigins
+                origins
+                useIPs
+                ips
+                useKey
+                key
+            }
+        }
+    }
+`;
+
+
+export const UPDATE_TOKEN = gql`
+    mutation UpdateToken($input: InputUpdateToken!) {
+        updateToken(input: $input) {
+            status
+            error {
+                type
+                path
+                message
+            }
+            data {
+                id
+                name
+                startsWith
+                useOrigins
+                origins
+                useIPs
+                ips
+                useKey
+                key
             }
         }
     }

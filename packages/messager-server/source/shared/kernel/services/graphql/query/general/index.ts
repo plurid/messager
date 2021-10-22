@@ -44,6 +44,12 @@ export const GET_CURRENT_OWNER = gql`
                     id
                     name
                     startsWith
+                    useOrigins
+                    origins
+                    useIPs
+                    ips
+                    useKey
+                    key
                 }
                 projects {
                     id
