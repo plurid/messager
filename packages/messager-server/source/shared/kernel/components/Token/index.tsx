@@ -115,6 +115,10 @@ const Token: React.FC<TokenProperties> = (
         tokenOrigin,
         setTokenOrigin,
     ] = useState('');
+    const [
+        tokenOrigins,
+        setTokenOrigins,
+    ] = useState<string[]>([]);
 
     const [
         tokenUseIPs,
@@ -124,6 +128,10 @@ const Token: React.FC<TokenProperties> = (
         tokenIP,
         setTokenIP,
     ] = useState('');
+    const [
+        tokenIPs,
+        setTokenIPs,
+    ] = useState<string[]>([]);
 
     const [
         tokenUseKey,
@@ -150,12 +158,12 @@ const Token: React.FC<TokenProperties> = (
         const token: IToken | undefined = await addEntityMutation(
             {
                 name: tokenName,
-                useOrigins: false,
-                origins: [],
-                useIPs: false,
-                ips: [],
-                useKey: false,
-                key: '',
+                useOrigins: tokenUseOrigins,
+                origins: tokenOrigins,
+                useIPs: tokenUseIPs,
+                ips: tokenIPs,
+                useKey: tokenUseKey,
+                key: tokenKey,
             },
             GENERATE_TOKEN,
             'generateToken',
