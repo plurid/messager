@@ -719,10 +719,10 @@
   resolved "https://registry.yarnpkg.com/@plurid/plurid-functions-react/-/plurid-functions-react-0.0.0-4.tgz#c48835b3486308b3761304d586dfe4bc61f571bd"
   integrity sha512-rmKhSO75x1Q1/CLXe/IU7scQsppKqPM6rkCxTA6dkDfXb1T/eU946hXdlVfKApEJGVkMM2GIPNr9q/b/p+amUw==
 
-"@plurid/plurid-functions@^0.0.0-13":
-  version "0.0.0-13"
-  resolved "https://registry.yarnpkg.com/@plurid/plurid-functions/-/plurid-functions-0.0.0-13.tgz#314c37801d6ae95ab6dc9123c43760d6a5588ec3"
-  integrity sha512-Q4C1YKlL9NikGhuvlV4dC4S61v22xvQtUDx313syq5vxeELWVZ9ggpX6B9pK5AnZhZU7cAAqBwlZ+QPpsW/0TQ==
+"@plurid/plurid-functions@^0.0.0-14":
+  version "0.0.0-14"
+  resolved "https://registry.yarnpkg.com/@plurid/plurid-functions/-/plurid-functions-0.0.0-14.tgz#3a17ee6485a0033295c79bdd50e87c4139d02a14"
+  integrity sha512-JOBki3GFDfDX9/dVzHmEiiIizMonIq10KOw0xnqQBZg2jY14FEJN3JVyPbguRhhkDLbZbebftcFFttZ6pQT1Mg==
 
 "@plurid/plurid-icons-react@^0.0.0-1":
   version "0.0.0-1"
