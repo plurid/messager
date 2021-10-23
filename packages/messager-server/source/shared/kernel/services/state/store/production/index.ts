@@ -10,7 +10,7 @@
 
 
     // #region external
-    import reducers from '../reducers';
+    import reducers from '~kernel-services/state/store/reducers';
     // #endregion external
 // #endregion imports
 

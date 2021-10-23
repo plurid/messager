@@ -1,7 +1,8 @@
 // #region imports
     // #region libraries
-    import * as Types from '@plurid/plurid-ui-state-react/distribution/modules/notifications/types';
+    import type * as Types from '@plurid/plurid-ui-state-react/distribution/modules/notifications/types/index';
     // #endregion libraries
+
 
     // #region internal
     import actions from './actions';

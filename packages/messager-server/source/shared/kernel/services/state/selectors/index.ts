@@ -1,14 +1,6 @@
 // #region imports
-    // #region libraries
-    import {
-        notifications,
-        themes,
-    } from '@plurid/plurid-ui-state-react';
-    // #endregion libraries
-
-
     // #region external
-    import modules from '../modules';
+    import modules from '~kernel-services/state/modules';
     // #endregion external
 // #endregion imports
 
@@ -17,9 +9,9 @@
 // #region module
 const selectors = {
     data: modules.data.selectors,
+    notifications: modules.notifications.selectors,
     themes: modules.themes.selectors,
     view: modules.view.selectors,
-    notifications: modules.notifications.selectors,
 };
 // #endregion module
 

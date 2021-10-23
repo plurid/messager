@@ -1,6 +1,6 @@
 // #region imports
     // #region libraries
-    import * as Types from '@plurid/plurid-ui-state-react/distribution/modules/themes/types';
+    import type * as Types from '@plurid/plurid-ui-state-react/distribution/modules/themes/types/index';
     // #endregion libraries
 
 

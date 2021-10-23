@@ -7,7 +7,7 @@
 
 
     // #region external
-    import modules from '../../modules';
+    import modules from '~kernel-services/state/modules';
     // #endregion external
 // #endregion imports
 
