@@ -257,6 +257,17 @@ const Token: React.FC<TokenProperties> = (
                                 atKeyDown={handleEnter}
                                 textline={{
                                     enterAtClick: () => {
+                                        const isOrigin = network.isOrigin(tokenOrigin);
+                                        if (!isOrigin) {
+                                            if (addNotification) {
+                                                addNotification({
+                                                    id: uuid.generate(),
+                                                    text: `'${tokenOrigin}' does not look like an origin`,
+                                                    timeout: 4_000,
+                                                });
+                                            }
+                                        }
+
                                         setTokenOrigins(values => [
                                             ...values,
                                             tokenOrigin,
