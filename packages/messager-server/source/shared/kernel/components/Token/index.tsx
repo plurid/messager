@@ -174,7 +174,7 @@ const Token: React.FC<TokenProperties> = (
 
 
     // #region handlers
-    const addToken = async () => {
+    const tokenAction = async () => {
         if (!tokenValid) {
             return;
         }
@@ -227,7 +227,7 @@ const Token: React.FC<TokenProperties> = (
         event: React.KeyboardEvent<HTMLInputElement>,
     ) => {
         if (event.key === 'Enter') {
-            addToken();
+            tokenAction();
         }
     }
     // #endregion handlers
@@ -325,201 +325,199 @@ const Token: React.FC<TokenProperties> = (
 
 
     // #region render
+    if (!tokenValue) {
+        return (
+            <StyledToken
+                theme={theme}
+            >
+                <StyledH1>
+                    {editID ? 'update' : 'generate'} token
+                </StyledH1>
+
+                <PluridInputLine
+                    name="name"
+                    text={tokenName}
+                    theme={theme}
+                    atChange={(event) => setTokenName(event.target.value)}
+                    atKeyDown={handleEnter}
+                />
+
+                <PluridInputSwitch
+                    name="use origins"
+                    checked={tokenUseOrigins}
+                    atChange={() => setTokenUseOrigins(use => !use)}
+                    theme={theme}
+                />
+
+                {tokenUseOrigins && (
+                    <>
+                        <PluridInputLine
+                            name="origin"
+                            text={tokenOrigin}
+                            theme={theme}
+                            atChange={(event) => setTokenOrigin(event.target.value)}
+                            textline={{
+                                enterAtClick: () => {
+                                    const isOrigin = network.isOrigin(tokenOrigin);
+                                    if (!isOrigin) {
+                                        if (addNotification) {
+                                            addNotification({
+                                                id: uuid.generate(),
+                                                text: `'${tokenOrigin}' does not look like an origin`,
+                                                timeout: 4_000,
+                                            });
+                                        }
+                                    }
+
+                                    setTokenOrigins(values => [
+                                        ...values,
+                                        tokenOrigin,
+                                    ]);
+                                    setTokenOrigin('');
+                                },
+                            }}
+                        />
+
+                        <PluridEntityPillGroup
+                            entities={tokenOrigins}
+                            remove={(id) => {
+                                const updatedOrigins = tokenOrigins.filter(origin => origin !== id);
+                                setTokenOrigins(updatedOrigins);
+                            }}
+                            theme={theme}
+                            style={{
+                                marginTop: '1rem',
+                            }}
+                        />
+                    </>
+                )}
+
+                <PluridInputSwitch
+                    name="use IPs"
+                    checked={tokenUseIPs}
+                    atChange={() => setTokenUseIPs(use => !use)}
+                    theme={theme}
+                />
+
+                {tokenUseIPs && (
+                    <>
+                        <PluridInputLine
+                            name="ip"
+                            text={tokenIP}
+                            theme={theme}
+                            atChange={(event) => setTokenIP(event.target.value)}
+                            textline={{
+                                enterAtClick: () => {
+                                    const isIP = network.isIP(tokenIP);
+                                    if (!isIP) {
+                                        if (addNotification) {
+                                            addNotification({
+                                                id: uuid.generate(),
+                                                text: `'${tokenIP}' does not look like an IP`,
+                                                timeout: 4_000,
+                                            });
+                                        }
+                                    }
+
+                                    setTokenIPs(values => [
+                                        ...values,
+                                        tokenIP,
+                                    ]);
+                                    setTokenIP('');
+                                },
+                            }}
+                        />
+
+                        <PluridEntityPillGroup
+                            entities={tokenIPs}
+                            remove={(id) => {
+                                const updatedIPs = tokenIPs.filter(ip => ip !== id);
+                                setTokenIPs(updatedIPs);
+                            }}
+                            theme={theme}
+                            style={{
+                                marginTop: '1rem',
+                            }}
+                        />
+                    </>
+                )}
+
+                <PluridInputSwitch
+                    name="use key"
+                    checked={tokenUseKey}
+                    atChange={() => setTokenUseKey(use => !use)}
+                    theme={theme}
+                />
+
+                {tokenUseKey && (
+                    <PluridInputLine
+                        name="key"
+                        text={tokenKey}
+                        theme={theme}
+                        atChange={(event) => setTokenKey(event.target.value)}
+                    />
+                )}
+
+                <StyledPluridPureButton
+                    text={editID ? 'Update Token' : 'Generate Token'}
+                    atClick={tokenAction}
+                    level={2}
+                    disabled={!tokenValid}
+                />
+
+                {cancel && (
+                    <StyledPluridLinkButton
+                        text="cancel"
+                        atClick={() => cancel()}
+                        theme={theme}
+                        level={2}
+                    />
+                )}
+            </StyledToken>
+        );
+    }
+
     return (
         <StyledToken
             theme={theme}
         >
-            {tokenValue === '' && (
-                <>
-                    <StyledH1>
-                        generate token
-                    </StyledH1>
+            <StyledH1>
+                token added
+            </StyledH1>
 
-                    <PluridInputLine
-                        name="name"
-                        text={tokenName}
-                        theme={theme}
-                        atChange={(event) => setTokenName(event.target.value)}
-                        atKeyDown={handleEnter}
+            <div
+                style={{
+                    margin: '4rem 0',
+                }}
+            >
+                <div
+                    style={{
+                        marginBottom: '1rem',
+                    }}
+                >
+                    save the token value
+                </div>
+
+                <StyledTokenValue>
+                    <PluridCopyableLine
+                        data={tokenValue}
                     />
+                </StyledTokenValue>
+            </div>
 
-                    <PluridInputSwitch
-                        name="use origins"
-                        checked={tokenUseOrigins}
-                        atChange={() => setTokenUseOrigins(use => !use)}
-                        theme={theme}
-                    />
+            <StyledPluridPureButton
+                text="Value Saved"
+                atClick={() => {
+                    if (clientToken) {
+                        action(clientToken);
+                    }
 
-                    {tokenUseOrigins && (
-                        <>
-                            <PluridInputLine
-                                name="origin"
-                                text={tokenOrigin}
-                                theme={theme}
-                                atChange={(event) => setTokenOrigin(event.target.value)}
-                                textline={{
-                                    enterAtClick: () => {
-                                        const isOrigin = network.isOrigin(tokenOrigin);
-                                        if (!isOrigin) {
-                                            if (addNotification) {
-                                                addNotification({
-                                                    id: uuid.generate(),
-                                                    text: `'${tokenOrigin}' does not look like an origin`,
-                                                    timeout: 4_000,
-                                                });
-                                            }
-                                        }
-
-                                        setTokenOrigins(values => [
-                                            ...values,
-                                            tokenOrigin,
-                                        ]);
-                                        setTokenOrigin('');
-                                    },
-                                }}
-                            />
-
-                            <PluridEntityPillGroup
-                                entities={tokenOrigins}
-                                remove={(id) => {
-                                    const updatedOrigins = tokenOrigins.filter(origin => origin !== id);
-                                    setTokenOrigins(updatedOrigins);
-                                }}
-                                theme={theme}
-                                style={{
-                                    marginTop: '1rem',
-                                }}
-                            />
-                        </>
-                    )}
-
-                    <PluridInputSwitch
-                        name="use IPs"
-                        checked={tokenUseIPs}
-                        atChange={() => setTokenUseIPs(use => !use)}
-                        theme={theme}
-                    />
-
-                    {tokenUseIPs && (
-                        <>
-                            <PluridInputLine
-                                name="ip"
-                                text={tokenIP}
-                                theme={theme}
-                                atChange={(event) => setTokenIP(event.target.value)}
-                                textline={{
-                                    enterAtClick: () => {
-                                        const isIP = network.isIP(tokenIP);
-                                        if (!isIP) {
-                                            if (addNotification) {
-                                                addNotification({
-                                                    id: uuid.generate(),
-                                                    text: `'${tokenIP}' does not look like an IP`,
-                                                    timeout: 4_000,
-                                                });
-                                            }
-                                        }
-
-                                        setTokenIPs(values => [
-                                            ...values,
-                                            tokenIP,
-                                        ]);
-                                        setTokenIP('');
-                                    },
-                                }}
-                            />
-
-                            <PluridEntityPillGroup
-                                entities={tokenIPs}
-                                remove={(id) => {
-                                    const updatedIPs = tokenIPs.filter(ip => ip !== id);
-                                    setTokenIPs(updatedIPs);
-                                }}
-                                theme={theme}
-                                style={{
-                                    marginTop: '1rem',
-                                }}
-                            />
-                        </>
-                    )}
-
-                    <PluridInputSwitch
-                        name="use key"
-                        checked={tokenUseKey}
-                        atChange={() => setTokenUseKey(use => !use)}
-                        theme={theme}
-                    />
-
-                    {tokenUseKey && (
-                        <>
-                            <PluridInputLine
-                                name="key"
-                                text={tokenKey}
-                                theme={theme}
-                                atChange={(event) => setTokenKey(event.target.value)}
-                            />
-                        </>
-                    )}
-
-                    <StyledPluridPureButton
-                        text="Generate Token"
-                        atClick={() => addToken()}
-                        level={2}
-                        disabled={!tokenValid}
-                    />
-
-                    {cancel && (
-                        <StyledPluridLinkButton
-                            text="cancel"
-                            atClick={() => cancel()}
-                            theme={theme}
-                            level={2}
-                        />
-                    )}
-                </>
-            )}
-
-            {tokenValue !== '' && (
-                <>
-                    <StyledH1>
-                        token added
-                    </StyledH1>
-
-                    <div
-                        style={{
-                            margin: '4rem 0',
-                        }}
-                    >
-                        <div
-                            style={{
-                                marginBottom: '1rem',
-                            }}
-                        >
-                            save the token value
-                        </div>
-
-                        <StyledTokenValue>
-                            <PluridCopyableLine
-                                data={tokenValue}
-                            />
-                        </StyledTokenValue>
-                    </div>
-
-                    <StyledPluridPureButton
-                        text="Value Saved"
-                        atClick={() => {
-                            if (clientToken) {
-                                action(clientToken);
-                            }
-
-                            if (cancel) {
-                                cancel();
-                            }
-                        }}
-                        level={2}
-                    />
-                </>
-            )}
+                    if (cancel) {
+                        cancel();
+                    }
+                }}
+                level={2}
+            />
         </StyledToken>
     );
     // #endregion render
