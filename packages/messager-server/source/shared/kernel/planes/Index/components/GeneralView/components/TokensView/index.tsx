@@ -67,14 +67,6 @@ export interface TokensViewOwnProperties {
         setGeneralView: any;
         // #endregion methods
     // #endregion required
-
-    // #region optional
-        // #region values
-        // #endregion values
-
-        // #region methods
-        // #endregion methods
-    // #endregion optional
 }
 
 export interface TokensViewStateProperties {
@@ -86,6 +78,7 @@ export interface TokensViewStateProperties {
 export interface TokensViewDispatchProperties {
     dispatch: ThunkDispatch<{}, {}, AnyAction>,
     dispatchRemoveEntity: typeof actions.data.removeEntity;
+    dispatchViewSetEditID: typeof actions.view.setEditID;
 }
 
 export type TokensViewProperties = TokensViewOwnProperties
@@ -106,14 +99,6 @@ const TokensView: React.FC<TokensViewProperties> = (
             // #endregion methods
         // #endregion required
 
-        // #region optional
-            // #region values
-            // #endregion values
-
-            // #region methods
-            // #endregion methods
-        // #endregion optional
-
         // #region state
         stateGeneralTheme,
         stateInteractionTheme,
@@ -123,6 +108,7 @@ const TokensView: React.FC<TokensViewProperties> = (
         // #region dispatch
         dispatch,
         dispatchRemoveEntity,
+        dispatchViewSetEditID,
         // #endregion dispatch
     } = properties;
     // #endregion properties
@@ -152,6 +138,21 @@ const TokensView: React.FC<TokensViewProperties> = (
             return;
         }
     }
+
+    const handleTokenEdit = async (
+        id: string,
+    ) => {
+        try {
+            dispatchViewSetEditID({
+                type: 'token',
+                value: id,
+            });
+
+            setGeneralView('generate-token');
+        } catch (error) {
+            return;
+        }
+    }
     // #endregion handlers
 
 
@@ -164,6 +165,7 @@ const TokensView: React.FC<TokensViewProperties> = (
         stateTokens.map(
             token => tokenRowRenderer(
                 token,
+                handleTokenEdit,
                 handleTokenObliterate,
             ),
         ),
@@ -198,6 +200,7 @@ const TokensView: React.FC<TokensViewProperties> = (
             sortedTokens.map(
                 token => tokenRowRenderer(
                     token,
+                    handleTokenEdit,
                     handleTokenObliterate,
                 ),
             ),
@@ -214,6 +217,7 @@ const TokensView: React.FC<TokensViewProperties> = (
         const filteredRows = stateTokens.map(
             token => tokenRowRenderer(
                 token,
+                handleTokenEdit,
                 handleTokenObliterate,
             ),
         );
@@ -238,6 +242,8 @@ const TokensView: React.FC<TokensViewProperties> = (
             </div>
 
             <div />
+
+            <div />
         </>
     );
 
@@ -246,7 +252,7 @@ const TokensView: React.FC<TokensViewProperties> = (
             generalTheme={stateGeneralTheme}
             interactionTheme={stateInteractionTheme}
 
-            rowTemplate="2fr 240px 30px"
+            rowTemplate="2fr 240px 30px 30px"
             rowsHeader={rowsHeader}
             rows={filteredRows}
             noRows="no tokens"
@@ -264,7 +270,7 @@ const TokensView: React.FC<TokensViewProperties> = (
     );
     // #endregion render
 }
-name
+
 
 const mapStateToProperties = (
     state: AppState,
@@ -283,6 +289,11 @@ const mapDispatchToProperties = (
         payload,
     ) => dispatch (
         actions.data.removeEntity(payload),
+    ),
+    dispatchViewSetEditID: (
+        payload,
+    ) => dispatch (
+        actions.view.setEditID(payload),
     ),
 });
 

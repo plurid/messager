@@ -120,6 +120,7 @@ export const renderGeneralView = (
     openManual: any,
     logout: any,
     findEntityByID: any,
+    stateIndexEditTokenID: string,
     mouseOverSelectors: any,
     setMouseOverSelectors: any,
     setCompactSelectors: any,
@@ -266,6 +267,8 @@ export const renderGeneralView = (
             return (
                 <Token
                     theme={stateInteractionTheme}
+                    editID={stateIndexEditTokenID}
+
                     action={(token) => {
                         dispatchAddEntity({
                             type: 'token',
@@ -275,6 +278,7 @@ export const renderGeneralView = (
                         setGeneralView('general');
                     }}
                     cancel={() => setGeneralView('general')}
+                    getByID={(id) => findEntityByID('token', id)}
                     addNotification={dispatchAddNotification}
                 />
             );

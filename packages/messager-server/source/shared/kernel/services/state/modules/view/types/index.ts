@@ -32,16 +32,12 @@ export interface SetViewTypeAction {
 
 
 export const SET_EDIT_ID = 'SET_EDIT_ID';
-
 export type EditIDType =
-    | 'webhook'
-    | 'trigger';
-
+    | 'token';
 export interface SetEditIDPayload {
     type: EditIDType;
     value: string;
 }
-
 export interface SetEditIDAction {
     type: typeof SET_EDIT_ID;
     payload: SetEditIDPayload;
@@ -75,8 +71,7 @@ export interface State {
     indexView: string;
     indexGeneralSelector: string;
     indexGeneralView: string;
-    indexEditWebhookID: string;
-    indexEditTriggerID: string;
+    indexEditTokenID: string;
     compactSelectors: boolean;
     ownerID: string;
     usageType: string;

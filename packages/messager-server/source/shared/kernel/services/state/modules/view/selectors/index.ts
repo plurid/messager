@@ -13,8 +13,7 @@ const getLoading = (state: AppState) => state.view.loading;
 const getIndexView = (state: AppState) => state.view.indexView;
 const getIndexGeneralView = (state: AppState) => state.view.indexGeneralView;
 const getIndexGeneralSelector = (state: AppState) => state.view.indexGeneralSelector;
-const getIndexEditTriggerID = (state: AppState) => state.view.indexEditTriggerID;
-const getIndexEditWebhookID = (state: AppState) => state.view.indexEditWebhookID;
+const getIndexEditTokenID = (state: AppState) => state.view.indexEditTokenID;
 const getViewCompactSelectors = (state: AppState) => state.view.compactSelectors;
 const getViewOwnerID = (state: AppState) => state.view.ownerID;
 const getViewUsageType = (state: AppState) => state.view.usageType;
@@ -27,8 +26,7 @@ const selectors = {
     getIndexGeneralView,
     getIndexGeneralSelector,
     getViewCompactSelectors,
-    getIndexEditTriggerID,
-    getIndexEditWebhookID,
+    getIndexEditTokenID,
     getViewOwnerID,
     getViewUsageType,
 };

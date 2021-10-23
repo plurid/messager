@@ -12,6 +12,10 @@
 
     // #region external
     import {
+        ClientToken,
+    } from '~server/data/interfaces';
+
+    import {
         MESSAGER_MANUAL_LINK,
     } from '~kernel-data/constants';
 
@@ -45,6 +49,8 @@ export interface GeneralViewOwnProperties {
 export interface GeneralViewStateProperties {
     state: AppState,
     stateIndexGeneralSelector: string;
+    stateIndexEditTokenID: string;
+    stateDataTokens: ClientToken[];
 }
 
 export interface GeneralViewDispatchProperties {
@@ -66,6 +72,8 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         // #region state
         state,
         stateIndexGeneralSelector,
+        stateIndexEditTokenID,
+        stateDataTokens,
         // #endregion state
 
         // #region dispatch
@@ -139,6 +147,8 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         id: string,
     ) => {
         switch (entity) {
+            case 'token':
+                return stateDataTokens.find(token => token.id === id);
             default:
                 return;
         }
@@ -158,6 +168,7 @@ const GeneralView: React.FC<GeneralViewProperties> = (
         openManual,
         logout,
         findEntityByID,
+        stateIndexEditTokenID,
         mouseOverSelectors,
         setMouseOverSelectors,
         setCompactSelectors,
@@ -174,6 +185,8 @@ const mapStateToProperties = (
 ): GeneralViewStateProperties => ({
     state,
     stateIndexGeneralSelector: selectors.view.getIndexGeneralSelector(state),
+    stateIndexEditTokenID: selectors.view.getIndexEditTokenID(state),
+    stateDataTokens: selectors.data.getTokens(state),
 });
 
 

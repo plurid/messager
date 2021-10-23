@@ -61,15 +61,10 @@ export const setEditID = (
     } = action.payload;
 
     switch (type) {
-        case 'trigger':
+        case 'token':
             return {
                 ...state,
-                indexEditTriggerID: value,
-            };
-        case 'webhook':
-            return {
-                ...state,
-                indexEditWebhookID: value,
+                indexEditTokenID: value,
             };
         default:
             return {

@@ -3,6 +3,7 @@
     import React from 'react';
 
     import {
+        PluridIconEdit,
         PluridIconDelete,
     } from '@plurid/plurid-icons-react';
     // #endregion libraries
@@ -20,6 +21,9 @@
 // #region module
 export const tokenRowRenderer = (
     token: ClientToken,
+    handleTokenEdit: (
+        id: string,
+    ) => void,
     handleTokenObliterate: (
         id: string,
     ) => void,
@@ -39,6 +43,10 @@ export const tokenRowRenderer = (
             <div>
                 {startsWith}
             </div>
+
+            <PluridIconEdit
+                atClick={() => handleTokenEdit(id)}
+            />
 
             <PluridIconDelete
                 atClick={() => handleTokenObliterate(id)}

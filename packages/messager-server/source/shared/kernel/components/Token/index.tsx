@@ -32,6 +32,7 @@
 
     import {
         GENERATE_TOKEN,
+        UPDATE_TOKEN,
     } from '~kernel-services/graphql/mutate';
 
     import {
@@ -174,11 +175,27 @@ const Token: React.FC<TokenProperties> = (
 
 
     // #region handlers
-    const tokenAction = async () => {
-        if (!tokenValid) {
-            return;
-        }
+    const updateToken = async () => {
+        const token: ClientToken | undefined = await addEntityMutation(
+            {
+                name: tokenName,
+                useOrigins: tokenUseOrigins,
+                origins: tokenOrigins,
+                useIPs: tokenUseIPs,
+                ips: tokenIPs,
+                useKey: tokenUseKey,
+                key: tokenKey,
+            },
+            UPDATE_TOKEN,
+            'updateToken',
+        );
 
+        if (token) {
+            setClientToken(token);
+        }
+    }
+
+    const addToken = async () => {
         const token: IToken | undefined = await addEntityMutation(
             {
                 name: tokenName,
@@ -221,6 +238,19 @@ const Token: React.FC<TokenProperties> = (
             };
             setClientToken(clientToken);
         }
+    }
+
+    const tokenAction = async () => {
+        if (!tokenValid) {
+            return;
+        }
+
+        if (editID) {
+            await updateToken();
+            return;
+        }
+
+        await addToken();
     }
 
     const handleEnter = (
