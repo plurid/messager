@@ -61,7 +61,7 @@
         "@plurid/plurid-data": "^0.0.0-5",
         "@plurid/plurid-data-structures": "^0.0.0-2",
         "@plurid/plurid-engine": "^0.0.0-7",
-        "@plurid/plurid-functions": "^0.0.0-12",
+        "@plurid/plurid-functions": "^0.0.0-13",
         "@plurid/plurid-functions-react": "^0.0.0-4",
         "@plurid/plurid-icons-react": "^0.0.0-1",
         "@plurid/plurid-pubsub": "^0.0.0-5",
