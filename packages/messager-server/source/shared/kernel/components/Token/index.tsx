@@ -283,6 +283,9 @@ const Token: React.FC<TokenProperties> = (
                                     setTokenOrigins(updatedOrigins);
                                 }}
                                 theme={theme}
+                                style={{
+                                    marginTop: '1rem',
+                                }}
                             />
                         </>
                     )}
@@ -330,6 +333,9 @@ const Token: React.FC<TokenProperties> = (
                                     setTokenIPs(updatedIPs);
                                 }}
                                 theme={theme}
+                                style={{
+                                    marginTop: '1rem',
+                                }}
                             />
                         </>
                     )}
