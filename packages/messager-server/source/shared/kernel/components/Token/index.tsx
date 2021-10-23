@@ -7,6 +7,15 @@
     import {
         Theme,
     } from '@plurid/plurid-themes';
+
+    import {
+        network,
+        uuid,
+    } from '@plurid/plurid-functions';
+
+    import {
+        notifications,
+    } from '@plurid/plurid-ui-state-react';
     // #endregion libraries
 
 
@@ -67,6 +76,7 @@ export interface TokenProperties {
 
         // #region methods
         cancel?: () => void;
+        addNotification?: typeof notifications.actions.addNotification;
         // #endregion methods
     // #endregion optional
 }
@@ -92,6 +102,7 @@ const Token: React.FC<TokenProperties> = (
 
             // #region methods
             cancel,
+            addNotification,
             // #endregion methods
         // #endregion optional
     } = properties;
@@ -283,6 +294,17 @@ const Token: React.FC<TokenProperties> = (
                                 atKeyDown={handleEnter}
                                 textline={{
                                     enterAtClick: () => {
+                                        const isIP = network.isIP(tokenIP);
+                                        if (!isIP) {
+                                            if (addNotification) {
+                                                addNotification({
+                                                    id: uuid.generate(),
+                                                    text: `'${tokenIP}' does not look like an IP`,
+                                                    timeout: 4_000,
+                                                });
+                                            }
+                                        }
+
                                         setTokenIPs(values => [
                                             ...values,
                                             tokenIP,

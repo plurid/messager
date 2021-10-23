@@ -16,6 +16,10 @@
         PluridIconExternalLink,
         PluridIconExit,
     } from '@plurid/plurid-icons-react';
+
+    import {
+        notifications,
+    } from '@plurid/plurid-ui-state-react';
     // #endregion libraries
 
 
@@ -136,11 +140,12 @@ export const renderGeneralView = (
     ) => dispatch(
         actions.data.addEntity(payload),
     );
-    // const dispatchViewSetEditID = (
-    //     payload: any,
-    // ) => dispatch (
-    //     actions.view.setEditID(payload),
-    // );
+
+    const dispatchAddNotification = (
+        payload: any,
+    ) => dispatch(
+        notifications.actions.addNotification(payload),
+    );
 
 
     switch (stateIndexGeneralView) {
@@ -270,6 +275,7 @@ export const renderGeneralView = (
                         setGeneralView('general');
                     }}
                     cancel={() => setGeneralView('general')}
+                    addNotification={dispatchAddNotification}
                 />
             );
         case 'generate-project':
