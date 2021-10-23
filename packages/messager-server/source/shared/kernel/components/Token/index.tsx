@@ -254,7 +254,6 @@ const Token: React.FC<TokenProperties> = (
                                 text={tokenOrigin}
                                 theme={theme}
                                 atChange={(event) => setTokenOrigin(event.target.value)}
-                                atKeyDown={handleEnter}
                                 textline={{
                                     enterAtClick: () => {
                                         const isOrigin = network.isOrigin(tokenOrigin);
@@ -302,7 +301,6 @@ const Token: React.FC<TokenProperties> = (
                                 text={tokenIP}
                                 theme={theme}
                                 atChange={(event) => setTokenIP(event.target.value)}
-                                atKeyDown={handleEnter}
                                 textline={{
                                     enterAtClick: () => {
                                         const isIP = network.isIP(tokenIP);
@@ -350,7 +348,6 @@ const Token: React.FC<TokenProperties> = (
                                 text={tokenKey}
                                 theme={theme}
                                 atChange={(event) => setTokenKey(event.target.value)}
-                                atKeyDown={handleEnter}
                             />
                         </>
                     )}
