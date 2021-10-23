@@ -20,6 +20,8 @@ export const StyledToken = styled.div<IStyledToken>`
     place-content: center;
     text-align: center;
     min-height: 700px;
+    width: 350px;
+    margin: 0 auto;
 `;
 
 
