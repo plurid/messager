@@ -22,30 +22,13 @@ export type AppState = ReturnType<typeof reducers>;
 const store = (
     preloadedState: any,
 ) => {
-    // const localState = localStorage.loadState();
-
-    // const persistedState = {
-    //     themes: localState?.themes,
-    // };
-
     const _store = createStore(
         reducers,
         preloadedState,
-        // persistedState || preloadedState,
         applyMiddleware(
             thunk,
         ),
     );
-
-    // _store.subscribe(
-    //     () => {
-    //         const localState = localStorage.loadState();
-    //         localStorage.saveState({
-    //             ...localState,
-    //             themes: _store.getState().themes,
-    //         });
-    //     },
-    // );
 
     return _store;
 }

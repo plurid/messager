@@ -30,30 +30,13 @@ const store = (
         thunk,
     ];
 
-    // const localState = localStorage.loadState();
-
-    // const persistedState = {
-    //     themes: localState?.themes,
-    // };
-
     const _store = createStore(
         reducers,
         preloadedState,
-        // persistedState || preloadedState,
         composeWithDevTools(
             applyMiddleware(...middleware),
         ),
     );
-
-    // _store.subscribe(
-    //     () => {
-    //         const localState = localStorage.loadState();
-    //         localStorage.saveState({
-    //             ...localState,
-    //             themes: _store.getState().themes,
-    //         });
-    //     },
-    // );
 
     return _store;
 }

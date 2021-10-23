@@ -1,11 +1,7 @@
 // #region imports
     // #region libraries
     import {
-        plurid,
-    } from '@plurid/plurid-themes';
-
-    import {
-        themes,
+        notifications,
     } from '@plurid/plurid-ui-state-react';
     // #endregion libraries
 // #endregion imports
@@ -13,14 +9,13 @@
 
 
 // #region module
-const initialState: themes.Types.State = {
-    general: plurid,
-    interaction: plurid,
+const selectors = {
+    ...notifications.selectors,
 };
 // #endregion module
 
 
 
 // #region exports
-export default initialState;
+export default selectors;
 // #endregion exports

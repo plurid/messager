@@ -3,6 +3,7 @@
     import styled from 'styled-components';
 
     import {
+        pluridal,
         universal,
     } from '@plurid/plurid-ui-components-react';
     // #endregion libraries
@@ -11,6 +12,13 @@
 
 
 // #region module
+const {
+    notifications: {
+        Notifications,
+    },
+} = pluridal;
+
+
 const {
     buttons: {
         PureButton: PluridPureButton,
@@ -34,23 +42,6 @@ const {
     },
 } = universal;
 
-export {
-    PluridPureButton,
-    PluridLinkButton,
-    PluridRefreshButton,
-
-    PluridTextline,
-    PluridDropdown,
-    PluridInputLine,
-    PluridInputSwitch,
-    PluridInputBox,
-    PluridEntityPillGroup,
-
-    PluridSpinner,
-
-    PluridCopyableLine,
-    PluridTextItem,
-};
 
 
 export const StyledH1 = styled.h1`
@@ -76,3 +67,28 @@ export const StyledPluridLinkButton = styled(PluridLinkButton)`
     margin: 30px auto;
 `;
 // #endregion module
+
+
+
+// #region exports
+export {
+    Notifications,
+
+
+    PluridPureButton,
+    PluridLinkButton,
+    PluridRefreshButton,
+
+    PluridTextline,
+    PluridDropdown,
+    PluridInputLine,
+    PluridInputSwitch,
+    PluridInputBox,
+    PluridEntityPillGroup,
+
+    PluridSpinner,
+
+    PluridCopyableLine,
+    PluridTextItem,
+};
+// #endregion exports
