@@ -73,10 +73,14 @@ export interface TokenProperties {
 
     // #region optional
         // #region values
+        editID?: string;
         // #endregion values
 
         // #region methods
         cancel?: () => void;
+        getByID?: (
+            id: string,
+        ) => Promise<ClientToken | undefined>;
         addNotification?: typeof notifications.actions.addNotification;
         // #endregion methods
     // #endregion optional
@@ -99,10 +103,12 @@ const Token: React.FC<TokenProperties> = (
 
         // #region optional
             // #region values
+            editID,
             // #endregion values
 
             // #region methods
             cancel,
+            getByID,
             addNotification,
             // #endregion methods
         // #endregion optional
@@ -228,6 +234,9 @@ const Token: React.FC<TokenProperties> = (
 
 
     // #region effects
+    /**
+     * Check valid token.
+     */
     useEffect(() => {
         const isInvalid = () => {
             setTokenValid(false);
@@ -267,6 +276,50 @@ const Token: React.FC<TokenProperties> = (
         tokenIPs,
         tokenUseKey,
         tokenKey,
+    ]);
+
+    /**
+     * Handle edit mode
+     */
+    useEffect(() => {
+        const getToken = async (
+            editID: string,
+        ) => {
+            if (!getByID) {
+                return;
+            }
+
+            const token: ClientToken | undefined = await getByID(
+                editID,
+            );
+            if (!token) {
+                return;
+            }
+
+            const {
+                name,
+                useOrigins,
+                origins,
+                useIPs,
+                ips,
+                useKey,
+                key,
+            } = token;
+
+            setTokenName(name);
+            setTokenUseOrigins(useOrigins);
+            setTokenOrigins(origins);
+            setTokenUseIPs(useIPs);
+            setTokenIPs(ips);
+            setTokenUseKey(useKey);
+            setTokenKey(key);
+        }
+
+        if (editID) {
+            getToken(editID);
+        }
+    }, [
+        editID,
     ]);
     // #endregion effects
 
