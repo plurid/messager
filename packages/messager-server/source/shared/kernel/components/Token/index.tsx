@@ -31,6 +31,7 @@
 
         PluridInputLine,
         PluridInputSwitch,
+        PluridEntityPillGroup,
         PluridCopyableLine,
     } from '~kernel-services/styled';
     // #endregion external
@@ -253,6 +254,15 @@ const Token: React.FC<TokenProperties> = (
                                     },
                                 }}
                             />
+
+                            <PluridEntityPillGroup
+                                entities={tokenOrigins}
+                                remove={(id) => {
+                                    const updatedOrigins = tokenOrigins.filter(origin => origin !== id);
+                                    setTokenOrigins(updatedOrigins);
+                                }}
+                                theme={theme}
+                            />
                         </>
                     )}
 
@@ -280,6 +290,15 @@ const Token: React.FC<TokenProperties> = (
                                         setTokenIP('');
                                     },
                                 }}
+                            />
+
+                            <PluridEntityPillGroup
+                                entities={tokenIPs}
+                                remove={(id) => {
+                                    const updatedIPs = tokenIPs.filter(ip => ip !== id);
+                                    setTokenIPs(updatedIPs);
+                                }}
+                                theme={theme}
                             />
                         </>
                     )}

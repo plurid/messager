@@ -23,6 +23,7 @@ const {
         InputLine: PluridInputLine,
         InputSwitch: PluridInputSwitch,
         InputBox: PluridInputBox,
+        EntityPillGroup: PluridEntityPillGroup,
     },
     markers: {
         Spinner: PluridSpinner,
@@ -43,6 +44,7 @@ export {
     PluridInputLine,
     PluridInputSwitch,
     PluridInputBox,
+    PluridEntityPillGroup,
 
     PluridSpinner,
 
