@@ -2,6 +2,7 @@
     // #region libraries
     import React, {
         useState,
+        useEffect,
     } from 'react';
 
     import {
@@ -155,6 +156,11 @@ const Token: React.FC<TokenProperties> = (
     ] = useState('');
 
     const [
+        tokenValid,
+        setTokenValid,
+    ] = useState(false);
+
+    const [
         clientToken,
         setClientToken,
     ] = useState<ClientToken | null>();
@@ -163,7 +169,7 @@ const Token: React.FC<TokenProperties> = (
 
     // #region handlers
     const addToken = async () => {
-        if (!tokenName) {
+        if (!tokenValid) {
             return;
         }
 
@@ -219,6 +225,50 @@ const Token: React.FC<TokenProperties> = (
         }
     }
     // #endregion handlers
+
+
+    // #region effects
+    useEffect(() => {
+        const isInvalid = () => {
+            setTokenValid(false);
+        }
+
+        if (!tokenName) {
+            isInvalid();
+            return;
+        }
+
+        if (tokenUseOrigins && tokenOrigins.length === 0) {
+            isInvalid();
+            return;
+        }
+
+        if (tokenUseIPs && tokenIPs.length === 0) {
+            isInvalid();
+            return;
+        }
+
+        if (tokenUseIPs && tokenIPs.length === 0) {
+            isInvalid();
+            return;
+        }
+
+        if (tokenUseKey && !tokenKey) {
+            isInvalid();
+            return;
+        }
+
+        setTokenValid(true);
+    }, [
+        tokenName,
+        tokenUseOrigins,
+        tokenOrigins,
+        tokenUseIPs,
+        tokenIPs,
+        tokenUseKey,
+        tokenKey,
+    ]);
+    // #endregion effects
 
 
     // #region render
@@ -362,7 +412,7 @@ const Token: React.FC<TokenProperties> = (
                         text="Generate Token"
                         atClick={() => addToken()}
                         level={2}
-                        disabled={!tokenName}
+                        disabled={!tokenValid}
                     />
 
                     {cancel && (
