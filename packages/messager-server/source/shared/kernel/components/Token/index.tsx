@@ -178,6 +178,7 @@ const Token: React.FC<TokenProperties> = (
     const updateToken = async () => {
         const token: ClientToken | undefined = await addEntityMutation(
             {
+                tokenID: editID,
                 name: tokenName,
                 useOrigins: tokenUseOrigins,
                 origins: tokenOrigins,
