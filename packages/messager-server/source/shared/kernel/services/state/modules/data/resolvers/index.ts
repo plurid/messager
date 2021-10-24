@@ -297,9 +297,9 @@ export const removeEntities = (
 
     return {
         ...newState,
-        records: {
+        records: [
             ...records,
-        },
+        ],
     };
 }
 
