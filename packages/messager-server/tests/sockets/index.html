@@ -12,21 +12,43 @@
         );
 
         socket.addEventListener('open', (event) => {
-            const subscribe = {
-                type: 'subscribe',
-                topic: 'some:topic',
-            };
-            socket.send(JSON.stringify(subscribe));
+            // json
+            // const subscribe = {
+            //     type: 'subscribe',
+            //     topic: 'some:topic',
+            // };
+            // socket.send(JSON.stringify(subscribe));
+
+            // deon
+            socket.send(`
+                {
+                    type subscribe
+                    topic some:topic
+                }
+            `);
 
             setTimeout(() => {
-                const publish = {
-                    type: 'publish',
-                    topic: 'some:topic',
-                    data: {
-                        some: 'data',
-                    },
-                };
-                socket.send(JSON.stringify(publish));
+                // json
+
+                // const publish = {
+                //     type: 'publish',
+                //     topic: 'some:topic',
+                //     data: {
+                //         some: 'data',
+                //     },
+                // };
+                // socket.send(JSON.stringify(publish));
+
+                // deon
+                socket.send(`
+                    {
+                        type publish
+                        topic some:topic
+                        data {
+                            some data
+                        }
+                    }
+                `);
             }, 3000);
         });
 
