@@ -192,7 +192,7 @@ const Token: React.FC<TokenProperties> = (
         );
 
         if (token) {
-            setClientToken(token);
+            action(token);
         }
     }
 
