@@ -305,7 +305,14 @@ const update: DatabaseUpdate = async (
                 {
                     id,
                 },
-                value,
+                {
+                    $set: {
+                        ...value,
+                    },
+                },
+                {
+                    upsert: true,
+                },
             );
         } else {
             const updateFilter: any = {};
