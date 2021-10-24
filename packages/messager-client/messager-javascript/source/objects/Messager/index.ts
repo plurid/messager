@@ -7,10 +7,6 @@
     import fetch from 'cross-fetch';
 
     import {
-        data,
-    } from '@plurid/plurid-functions';
-
-    import {
         DeonPure,
         DEON_MEDIA_TYPE,
     } from '@plurid/deon';
@@ -109,7 +105,7 @@ class Messager {
             this.connection.onmessage = (
                 event,
             ) => {
-                const message = data.parse(event.data);
+                const message = this.deon.parseSynchronous(event.data);
 
                 this.handleMessage(
                     message,
@@ -131,7 +127,7 @@ class Messager {
             });
 
             this.connection.addEventListener('message', (event) => {
-                const message = data.parse(event.data.toString());
+                const message = this.deon.parseSynchronous(event.data.toString());
 
                 this.handleMessage(
                     message,
