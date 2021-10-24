@@ -285,8 +285,21 @@ export const removeEntities = (
         ...state,
     };
 
+    let records = [
+        ...state.records,
+    ];
+
+    switch (type) {
+        case 'records':
+            records = records.filter(record => !ids.includes(record.id));
+            break;
+    }
+
     return {
         ...newState,
+        records: {
+            ...records,
+        },
     };
 }
 
