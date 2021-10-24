@@ -27,7 +27,7 @@ describe('Messager', () => {
 
         messager.subscribe<Data>('some.topic', (data) => {
             // do things with data
-            console.log(data);
+            // console.log(data);
 
             value = data.value;
         });
