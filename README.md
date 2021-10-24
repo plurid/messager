@@ -40,11 +40,7 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 + [About](#about)
 + [Client](#client)
-    + [Support](support)
-    + [Configuration](configuration)
 + [Server](#server)
-    + [Building](building)
-    + [Testing](testing)
 + [Packages](#packages)
 + [Codeophon](#codeophon)
 
@@ -68,70 +64,7 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 ## Server
 
-### Building
-
-```
-docker build \
-    -t messager-server \
-    -f ./configurations/production.dockerfile \
-    --build-arg PORT=56965 \
-    --build-arg MESSAGER_ENDPOINT_GRAPHQL=/ \
-    --build-arg MESSAGER_DATABASE_TYPE=mongo \
-    --build-arg MESSAGER_LOG_LEVEL=0 \
-    --build-arg MESSAGER_QUIET=false \
-    --build-arg MESSAGER_CUSTOM_LOGIC_USAGE=false \
-    --build-arg MESSAGER_PRIVATE_USAGE=true \
-    --build-arg MESSAGER_PRIVATE_OWNER_IDENTONYM=identonym \
-    --build-arg MESSAGER_PRIVATE_OWNER_KEY=key \
-    --build-arg MESSAGER_PRIVATE_TOKEN=secret-token \
-    --build-arg MESSAGER_MONGO_USERNAME=admin \
-    --build-arg MESSAGER_MONGO_PASSWORD=1234 \
-    --build-arg MESSAGER_MONGO_ADDRESS=localhost:56966 \
-    --build-arg MESSAGER_MONGO_CONNECTION_STRING= \
-    --build-arg MESSAGER_TEST_MODE=true \
-    --build-arg MESSAGER_OPTIMIZATION_BATCH_WRITE_SIZE=1000 \
-    --build-arg MESSAGER_OPTIMIZATION_BATCH_WRITE_TIME=2000 \
-    .
-```
-
-Run the container with `--network="host"` if running the database on the same host.
-
-```
-docker run \
-    --network="host" \
-    -d messager-server
-```
-
-Or run on a custom port (`8855`)
-
-```
-docker run \
-    -d -p 8855:56965 \
-    messager-server
-```
-
-
-### Testing
-
-The `messager server` can use MongoDB as a database. For testing purposes, mongo can run in a docker container.
-
-```
-docker pull mongo
-```
-
-```
-docker run -d --name mongo-messager \
-    -p 56966:27017 -e MONGO_INITDB_ROOT_USERNAME=admin \
-    -e MONGO_INITDB_ROOT_PASSWORD=1234 mongo
-```
-
-Connect to the mongo instance with
-
-```
-mongodb://admin:1234@localhost:56966/?authSource=admin
-```
-
-to verify the connection.
+The `messager` server allows the client to connect over `web sockets` and `server sent events`.
 
 
 
