@@ -108,7 +108,7 @@ const setupWebsockets = (
             websocketConnection.on('message', (message) => {
                 webSocketsMessager.emit('received', {
                     socketID,
-                    message: deon.parse(message.toString()),
+                    message: deon.parseSynchronous(message.toString()),
                 });
             });
         }

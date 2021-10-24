@@ -10,9 +10,15 @@
     import cors from 'cors';
 
     import {
+        raw as rawParser,
         json as jsonParser,
     } from 'body-parser';
     import cookieParser from 'cookie-parser';
+
+    import {
+        DeonPure,
+        DEON_MEDIA_TYPE,
+    } from '@plurid/deon';
     // #endregion libraries
 
 
@@ -46,6 +52,7 @@ const setupMiddleware = async (
             },
         }),
         cookieParser(),
+
         /** Attach logic */
         (request, _, next) => {
             if (logic) {
@@ -56,6 +63,23 @@ const setupMiddleware = async (
 
             next();
         },
+
+        /** Deon parsing */
+        rawParser({
+            type: DEON_MEDIA_TYPE,
+            limit: '100mb',
+        }),
+        (request, _, next) => {
+            if (request.header('content-type') === DEON_MEDIA_TYPE) {
+                const deon = new DeonPure();
+                const body = request.body.toString();
+                const result = deon.parseSynchronous(body);
+                request.body = result;
+            }
+
+            next();
+        },
+
         jsonParser({
             limit: '100mb',
         }),
