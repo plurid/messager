@@ -300,6 +300,24 @@ const update: DatabaseUpdate = async (
 
         const collection = database.collection(entity);
 
+        if (field === '*') {
+            await collection.updateOne(
+                {
+                    id,
+                },
+                value,
+            );
+        } else {
+            const updateFilter: any = {};
+            updateFilter[field] = value;
+            await collection.updateOne(
+                {
+                    id,
+                },
+                updateFilter,
+            );
+        }
+
         return true;
     } catch (error) {
         return false;

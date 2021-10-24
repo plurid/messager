@@ -74,6 +74,13 @@ const updateToken = async (
         key: input.key || token.key,
     };
 
+    await database.update(
+        'tokens',
+        token.id,
+        '*',
+        updatedToken,
+    );
+
     return updatedToken;
 }
 
