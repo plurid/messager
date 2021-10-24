@@ -11,6 +11,8 @@ export interface MessagerKinds {
     EVENT: MessagerKindEvent;
 }
 
+export type MessagerLogger = (message: string, error?: any) => void;
+
 
 export interface MessagerOptions {
     /**
@@ -60,6 +62,11 @@ export interface MessagerOptions {
      * default: `500`
      */
     socketSendWait: number;
+
+    /**
+     * Logger for errors.
+     */
+    logger: MessagerLogger | undefined;
 }
 
 

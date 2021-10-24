@@ -75,6 +75,7 @@ class Messager {
             key: options?.key || undefined,
             socketSendRetries: options?.socketSendRetries || MESSAGER_DEFAULTS.SOCKET_SEND_RETRIES,
             socketSendWait: options?.socketSendWait || MESSAGER_DEFAULTS.SOCKET_SEND_WAIT,
+            logger: options?.logger || undefined,
         };
 
         return resolvedOptions;
@@ -151,6 +152,8 @@ class Messager {
                 return;
             }
         } catch (error) {
+            this.logError('messager createConnection · something went wrong', error);
+
             return;
         }
     }
@@ -187,7 +190,7 @@ class Messager {
                 }
             }
         } catch (error) {
-            // misshaped message data
+            this.logError('messager handleMessage · misshaped message data', error);
             return;
         }
     }
@@ -281,6 +284,17 @@ class Messager {
         }
     }
 
+    private logError(
+        message: string,
+        error: any,
+    ) {
+        if (this.options.logger) {
+            this.options.logger(message, error);
+        } else {
+            console.log(message, error);
+        }
+    }
+
 
 
     public identity() {
@@ -336,7 +350,7 @@ class Messager {
                 return;
             }
         } catch (error) {
-            // something went wrong
+            this.logError('messager publish · something went wrong', error);
             return;
         }
     }
@@ -396,7 +410,7 @@ class Messager {
                 return;
             }
         } catch (error) {
-            // something went wrong
+            this.logError('messager subscribe · something went wrong', error);
             return;
         }
     }
@@ -436,6 +450,8 @@ class Messager {
 
             return response.status === NETWORK.SUCCESS;
         } catch (error) {
+            this.logError('messager notify · something went wrong', error);
+
             return false;
         }
     }
@@ -456,7 +472,7 @@ class Messager {
                 return;
             }
         } catch (error) {
-            // connection misconfigured
+            this.logError('messager close · connection misconfigured', error);
             return;
         }
     }
