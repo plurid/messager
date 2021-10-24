@@ -9,23 +9,23 @@ import './App.css';
 
 
 
-const messager = new Messager(
-    'localhost:56865',
-    '__TEST_MODE__',
-    'socket',
-    {
-        secure: false,
-    },
-);
-
 // const messager = new Messager(
 //     'localhost:56865',
 //     '__TEST_MODE__',
-//     'event',
+//     'socket',
 //     {
 //         secure: false,
 //     },
 // );
+
+const messager = new Messager(
+    'localhost:56865',
+    '__TEST_MODE__',
+    'event',
+    {
+        secure: false,
+    },
+);
 
 
 
