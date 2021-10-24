@@ -73,4 +73,12 @@ export interface MessagerOwner {
 export interface OwnerToken {
     token: string;
 }
+
+
+
+export interface AuthenticationMarkers {
+    ip: string | undefined;
+    origin: string | undefined;
+    key: string | undefined;
+}
 // #endregion module

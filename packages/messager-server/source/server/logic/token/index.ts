@@ -1,6 +1,11 @@
 // #region imports
     // #region external
     import {
+        AuthenticationMarkers,
+        Token,
+    } from '~server/data/interfaces';
+
+    import {
         TEST_MODE,
         TEST_MODE_TOKEN,
         PRIVATE_OWNER_IDENTONYM,
@@ -16,7 +21,7 @@
 // #region module
 export const getMessagerIDWithToken = async (
     token: string | undefined | null,
-    authenticationMarkers?: any,
+    authenticationMarkers?: AuthenticationMarkers,
 ): Promise<string | undefined> => {
     if (TEST_MODE) {
         if (token !== TEST_MODE_TOKEN) {
@@ -38,12 +43,43 @@ export const getMessagerIDWithToken = async (
     }
 
 
-    const tokenData = await database.get(
+    const tokenData: Token | undefined = await database.get(
         'tokens',
         token,
     );
     if (!tokenData) {
         return;
+    }
+
+
+    if (tokenData.useIPs) {
+        if (!authenticationMarkers?.ip) {
+            return;
+        }
+
+        if (!tokenData.ips.includes(authenticationMarkers.ip)) {
+            return;
+        }
+    }
+
+    if (tokenData.useOrigins) {
+        if (!authenticationMarkers?.origin) {
+            return;
+        }
+
+        if (!tokenData.origins.includes(authenticationMarkers.origin)) {
+            return;
+        }
+    }
+
+    if (tokenData.useKey) {
+        if (!authenticationMarkers?.key) {
+            return;
+        }
+
+        if (authenticationMarkers.key !== tokenData.key) {
+            return;
+        }
     }
 
 

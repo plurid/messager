@@ -8,6 +8,13 @@
         Request,
     } from 'express';
     // #endregion libraries
+
+
+    // #region external
+    import {
+        AuthenticationMarkers,
+    } from '~server/data/interfaces';
+    // #endregion external
 // #endregion imports
 
 
@@ -20,7 +27,7 @@ export const getAuthenticationMarkers = (
     const origin = request.headers['origin'];
     const key = request.headers['messager-key'];
 
-    const authenticationMarkers = {
+    const authenticationMarkers: AuthenticationMarkers = {
         ip,
         origin,
         key: typeof key === 'string' ? key : undefined,
