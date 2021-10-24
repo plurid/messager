@@ -10,6 +10,10 @@
 
 
     import {
+        DeonPure,
+    } from '@plurid/deon';
+
+    import {
         uuid,
     } from '@plurid/plurid-functions';
     // #endregion libraries
@@ -24,6 +28,8 @@
 
 // #region module
 class WebSocketsMessager extends EventEmitter {
+    private deon = new DeonPure();
+
     private sockets: Record<string, WebSocket | undefined> = {};
     private subscribers: Record<string, string[] | undefined> = {};
     private ownings: Record<string, string> = {};
@@ -82,10 +88,12 @@ class WebSocketsMessager extends EventEmitter {
                         },
                     });
 
-                    socket.send(JSON.stringify({
+                    const socketData = this.deon.stringify({
                         topic,
                         data: message.data,
-                    }));
+                    });
+
+                    socket.send(socketData);
                 }
             }
         }

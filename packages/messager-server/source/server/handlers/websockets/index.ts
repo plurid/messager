@@ -14,8 +14,12 @@
 
     import WebSocket from 'ws';
 
+
     import {
-        data,
+        DeonPure,
+    } from '@plurid/deon';
+
+    import {
         uuid,
     } from '@plurid/plurid-functions';
     // #endregion libraries
@@ -88,10 +92,14 @@ const setupWebsockets = (
                 websocketConnection,
             );
 
-            websocketConnection.send(JSON.stringify({
-                type: 'id',
-                data: socketID,
-            }));
+            const deon = new DeonPure();
+
+            websocketConnection.send(
+                deon.stringify({
+                    type: 'id',
+                    data: socketID,
+                }),
+            );
 
             websocketConnection.on('close', () => {
                 webSocketsMessager.deregister(socketID);
@@ -100,7 +108,7 @@ const setupWebsockets = (
             websocketConnection.on('message', (message) => {
                 webSocketsMessager.emit('received', {
                     socketID,
-                    message: data.parse(message.toString()),
+                    message: deon.parse(message.toString()),
                 });
             });
         }

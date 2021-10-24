@@ -6,6 +6,10 @@
 
 
     import {
+        DeonPure,
+    } from '@plurid/deon';
+
+    import {
         uuid,
     } from '@plurid/plurid-functions';
     // #endregion libraries
@@ -37,6 +41,8 @@ export const writeServerSendEvent = (
 
 
 class ServerEventsMessager {
+    private deon = new DeonPure();
+
     private response;
     private topics: string[] = [];
     private ownedBy: string;
@@ -71,9 +77,7 @@ class ServerEventsMessager {
             data: any,
         },
     ) {
-        const eventData = typeof data !== 'string'
-            ? JSON.stringify(data)
-            : data;
+        const eventData = this.deon.stringify(data);
 
         recordsBatcher.push({
             id: uuid.multiple(3),
