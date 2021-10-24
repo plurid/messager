@@ -17,7 +17,6 @@ export interface IStyledToken {
 
 export const StyledToken = styled.div<IStyledToken>`
     display: grid;
-    place-content: center;
     text-align: center;
     min-height: 700px;
     width: 350px;
