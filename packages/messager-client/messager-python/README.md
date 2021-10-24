@@ -25,6 +25,7 @@
 `messager` is intended to be:
 
 + centralized, single messaging space for multi-project/multi-package software systems;
++ handle publish/subscribe, notify across multiple users, tokens, domains.
 
 `messager` has clients for:
 
@@ -55,7 +56,6 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 
 
-
 ## Client
 
 ### Support
@@ -64,33 +64,6 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 + [`NodeJS`][messager-client-javascript]
 + [`Python`][messager-client-python]
-
-
-### Configuration
-
-The following environment variables can be set
-
-```
-// messager server endpoint
-MESSAGER_ENDPOINT = string
-// messager server token
-MESSAGER_TOKEN = string
-
-// project name
-MESSAGER_PROJECT = string
-// space name
-MESSAGER_SPACE = string
-
-
-// calling details
-MESSAGER_CALL_CONTEXT = true | false
-MESSAGER_REPOSITORY_PROVIDER = string
-MESSAGER_REPOSITORY_NAME = string
-MESSAGER_REPOSITORY_COMMIT = string
-MESSAGER_REPOSITORY_BRANCH = string
-MESSAGER_REPOSITORY_BASEPATH = string
-```
-
 
 
 ## Server
