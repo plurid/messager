@@ -165,6 +165,20 @@ export const OBLITERATE_RECORDS = gql`
 `;
 
 
+export const OBLITERATE_ALL_RECORDS = gql`
+    mutation ObliterateAllRecords {
+        obliterateAllRecords {
+            status
+            error {
+                type
+                path
+                message
+            }
+        }
+    }
+`;
+
+
 export const LOGIN = gql`
     mutation Login($input: InputLogin!) {
         login(input: $input) {
