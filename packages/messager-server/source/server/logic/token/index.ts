@@ -43,10 +43,15 @@ export const getMessagerIDWithToken = async (
     }
 
 
-    const tokenData: Token | undefined = await database.get(
+    const query: Token[] | undefined = await database.query(
         'tokens',
+        'value',
         token,
     );
+    if (!query) {
+        return;
+    }
+    const tokenData = query[0];
     if (!tokenData) {
         return;
     }
