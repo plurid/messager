@@ -10,7 +10,10 @@
         data,
     } from '@plurid/plurid-functions';
 
-    // import Deon from '@plurid/deon';
+    import {
+        DeonPure,
+        DEON_MEDIA_TYPE,
+    } from '@plurid/deon';
     // #endregion libraries
 
 
@@ -36,7 +39,7 @@
 
 // #region module
 class Messager {
-    // private deon = new Deon();
+    private deon = new DeonPure();
 
     private messagerID: undefined | string;
     private connection: undefined | EventSource | WebSocket;
@@ -121,7 +124,7 @@ class Messager {
             const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
             this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
 
-            const headers = this.messagerKeyHeaders();
+            const headers = this.requestHeaders();
 
             this.connection = new WebSocket(this.endpoint, {
                 headers,
@@ -187,14 +190,15 @@ class Messager {
             return;
         }
 
-        const headers = this.messagerKeyHeaders();
+        const headers = this.requestHeaders();
 
         const response = await fetch(endpoint, {
             method: NETWORK.POST_METHOD,
-            body: JSON.stringify({
-                ...data,
-            }),
-            headers,
+            body: this.deon.stringify(data),
+            headers: {
+                ...headers,
+                'Content-Type': DEON_MEDIA_TYPE,
+            },
         });
 
         return response;
@@ -238,7 +242,7 @@ class Messager {
         return endpoint;
     }
 
-    private messagerKeyHeaders() {
+    private requestHeaders() {
         const headers = {};
         if (this.options.key) {
             headers[NETWORK.MESSAGER_KEY_HEADER] = this.options.key;
@@ -289,8 +293,7 @@ class Messager {
 
 
             if (this.kind === MESSAGER_KIND.SOCKET) {
-                // const message = this.deon.stringify(publish);
-                const message = JSON.stringify(publish);
+                const message = this.deon.stringify(publish);
 
                 this.socketSend(message);
 
@@ -344,8 +347,7 @@ class Messager {
 
 
             if (this.kind === MESSAGER_KIND.SOCKET) {
-                // const message = this.deon.stringify(subscribe);
-                const message = JSON.stringify(subscribe);
+                const message = this.deon.stringify(subscribe);
 
                 this.socketSend(message);
 
