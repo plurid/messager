@@ -52,6 +52,7 @@
     import {
         StyledToken,
         StyledTokenValue,
+        StyledTokenAdded,
     } from './styled';
     // #endregion internal
 // #endregion imports
@@ -509,7 +510,7 @@ const Token: React.FC<TokenProperties> = (
     }
 
     return (
-        <StyledToken
+        <StyledTokenAdded
             theme={theme}
         >
             <StyledH1>
@@ -549,7 +550,7 @@ const Token: React.FC<TokenProperties> = (
                 }}
                 level={2}
             />
-        </StyledToken>
+        </StyledTokenAdded>
     );
     // #endregion render
 }

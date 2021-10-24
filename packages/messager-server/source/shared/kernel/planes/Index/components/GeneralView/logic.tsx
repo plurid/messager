@@ -6,10 +6,10 @@
     import { ThunkDispatch } from 'redux-thunk';
 
     import {
-        PluridIconStatistics,
+        // PluridIconStatistics,
         PluridIconLocked,
-        PluridIconApps,
-        PluridIconFrame,
+        // PluridIconApps,
+        // PluridIconFrame,
         PluridIconInfo,
         PluridIconArrowRight,
         PluridIconDocuments,
@@ -136,14 +136,18 @@ export const renderGeneralView = (
     const stateViewOwnerID = selectors.view.getViewOwnerID(state);
     const stateViewUsageType = selectors.view.getViewUsageType(state);
 
-    const dispatchAddEntity = (
-        payload: any,
+    const dispatchAddEntity: typeof actions.data.addEntity = (
+        payload,
     ) => dispatch(
         actions.data.addEntity(payload),
     );
-
-    const dispatchAddNotification = (
-        payload: any,
+    const dispatchViewSetEditID: typeof actions.view.setEditID = (
+        payload,
+    ) => dispatch(
+        actions.view.setEditID(payload),
+    );
+    const dispatchAddNotification: typeof notifications.actions.addNotification = (
+        payload,
     ) => dispatch(
         notifications.actions.addNotification(payload),
     );
@@ -277,7 +281,16 @@ export const renderGeneralView = (
 
                         setGeneralView('general');
                     }}
-                    cancel={() => setGeneralView('general')}
+                    cancel={() => {
+                        if (stateIndexEditTokenID) {
+                            dispatchViewSetEditID({
+                                type: 'token',
+                                value: '',
+                            });
+                        }
+
+                        setGeneralView('general');
+                    }}
                     getByID={(id) => findEntityByID('token', id)}
                     addNotification={dispatchAddNotification}
                 />

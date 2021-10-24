@@ -24,6 +24,19 @@ export const StyledToken = styled.div<IStyledToken>`
 `;
 
 
+export interface IStyledTokenAdded {
+    theme: Theme;
+}
+
+export const StyledTokenAdded = styled.div<IStyledTokenAdded>`
+    display: grid;
+    place-content: center;
+    text-align: center;
+    min-height: 700px;
+    margin: 0 auto;
+`;
+
+
 export const StyledTokenValue = styled.div`
     font-size: 1.1rem;
     line-height: 2;
