@@ -16,6 +16,8 @@ export const MESSAGER_DEFAULTS = {
     SECURE: true,
     SOCKET_SEND_RETRIES: 100,
     SOCKET_SEND_WAIT: 500,
+    QUEUE_RETRIES: 10,
+    QUEUE_DELAY: 500,
 };
 
 

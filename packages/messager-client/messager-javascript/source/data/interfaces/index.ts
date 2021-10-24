@@ -11,7 +11,11 @@ export interface MessagerKinds {
     EVENT: MessagerKindEvent;
 }
 
-export type MessagerLogger = (message: string, error?: any) => void;
+
+export type MessagerLogger = (
+    message: string,
+    error?: any,
+) => void;
 
 
 export interface MessagerOptions {
@@ -67,6 +71,19 @@ export interface MessagerOptions {
      * Logger for errors.
      */
     logger: MessagerLogger | undefined;
+
+    /**
+     * Number of attempts to resolve the queue before the connection is resolved.
+     *
+     * Default: `10`
+     */
+    queueRetries: number;
+    /**
+     * Number of milliseconds to wait in between queue resolution.
+     *
+     * Default: `500`
+     */
+    queueDelay: number;
 }
 
 

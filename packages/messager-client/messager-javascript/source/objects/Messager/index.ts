@@ -4,10 +4,15 @@
 
     import fetch from 'cross-fetch';
 
+
     import {
         DeonPure,
         DEON_MEDIA_TYPE,
     } from '@plurid/deon';
+
+    import {
+        time,
+    } from '@plurid/plurid-functions';
     // #endregion libraries
 
 
@@ -77,6 +82,8 @@ class Messager {
             socketSendRetries: options?.socketSendRetries || MESSAGER_DEFAULTS.SOCKET_SEND_RETRIES,
             socketSendWait: options?.socketSendWait || MESSAGER_DEFAULTS.SOCKET_SEND_WAIT,
             logger: options?.logger || undefined,
+            queueRetries: options?.queueDelay || MESSAGER_DEFAULTS.QUEUE_RETRIES,
+            queueDelay: options?.queueDelay || MESSAGER_DEFAULTS.QUEUE_DELAY,
         };
 
         return resolvedOptions;
@@ -118,6 +125,12 @@ class Messager {
 
                 this.connection.onopen = () => {
                     this.resolveQueue();
+                }
+
+                this.connection.onerror = (error) => {
+                    this.logError('messager event connection · something went wrong', error);
+
+                    this.close();
                 }
 
                 return;
@@ -268,8 +281,25 @@ class Messager {
         return headers;
     }
 
-    private resolveQueue() {
+    private async resolveQueue() {
         if (this.queue.length === 0) {
+            return;
+        }
+
+        let queueRetries = 0;
+
+        while (!this.connectionResolved()) {
+            await time.delay(this.options.queueDelay);
+            queueRetries += 1;
+
+            if (queueRetries > this.options.queueRetries) {
+                break;
+            }
+        }
+
+        if (!this.connectionResolved()) {
+            this.logError('messager queue · could not handle queue');
+
             return;
         }
 
@@ -282,12 +312,20 @@ class Messager {
                     this.publish(item.topic, item.data);
                     break;
             }
+
+            await time.delay(this.options.queueDelay);
         }
+
+        this.queue = [];
     }
 
     private connectionResolved() {
         try {
             if (!this.connection) {
+                return false;
+            }
+
+            if (!this.messagerID) {
                 return false;
             }
 
@@ -309,7 +347,7 @@ class Messager {
 
     private logError<E = any>(
         message: string,
-        error: E,
+        error?: E,
     ) {
         if (this.options.logger) {
             this.options.logger(message, error);
