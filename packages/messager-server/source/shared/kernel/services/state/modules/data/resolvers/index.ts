@@ -1,9 +1,16 @@
 // #region imports
-    // #region internal
+    // #region libraries
+    import {
+        arrays,
+    } from '@plurid/plurid-functions';
+    // #endregion libraries
+
+
+    // #region external
     import * as Types from '../types';
 
     import initialState from '../initial';
-    // #endregion internal
+    // #endregion external
 // #endregion imports
 
 
@@ -38,36 +45,44 @@ export const addEntity = (
 
     switch (type) {
         case 'token':
-            tokens = [
-                ...tokens,
-                {
-                    ...data,
-                },
-            ];
+            tokens = arrays.unique(
+                [
+                    ...tokens,
+                    {
+                        ...data,
+                    },
+                ],
+            );
             break;
         case 'project':
-            projects = [
-                ...projects,
-                {
-                    ...data,
-                },
-            ];
+            projects = arrays.unique(
+                [
+                    ...projects,
+                    {
+                        ...data,
+                    },
+                ],
+            );
             break;
         case 'space':
-            spaces = [
-                ...spaces,
-                {
-                    ...data,
-                },
-            ];
+            spaces = arrays.unique(
+                [
+                    ...spaces,
+                    {
+                        ...data,
+                    },
+                ],
+            );
             break;
         case 'record':
-            records = [
-                ...records,
-                {
-                    ...data,
-                },
-            ];
+            records = arrays.unique(
+                [
+                    ...records,
+                    {
+                        ...data,
+                    },
+                ],
+            );
             break;
     }
 
