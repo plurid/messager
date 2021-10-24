@@ -21,6 +21,7 @@
     import {
         MessagerOptions,
         MessagerKind,
+        MessagerQueueItem,
         MessagerMessage,
         MessagerPublish,
         MessagerSubscribe,
@@ -45,7 +46,7 @@ class Messager {
     private kind: MessagerKind;
 
     private subscribers: Record<string, MessagerSubscribeAction[] | undefined> = {};
-    private queue: any[] = [];
+    private queue: MessagerQueueItem[] = [];
 
 
     constructor(
@@ -284,9 +285,31 @@ class Messager {
         }
     }
 
-    private logError(
+    private connectionResolved() {
+        try {
+            if (!this.connection) {
+                return false;
+            }
+
+            if (this.kind === MESSAGER_KIND.EVENT) {
+                return (this.connection as EventSource).readyState === NETWORK.EVENT_READY;
+            }
+
+            if (this.kind === MESSAGER_KIND.SOCKET) {
+                return (this.connection as WebSocket).readyState === NETWORK.SOCKET_READY;
+            }
+
+            return true;
+        } catch (error) {
+            this.logError('messager connectionResolved · connection misconfigured', error);
+
+            return false;
+        }
+    }
+
+    private logError<E = any>(
         message: string,
-        error: any,
+        error: E,
     ) {
         if (this.options.logger) {
             this.options.logger(message, error);
@@ -294,7 +317,6 @@ class Messager {
             console.log(message, error);
         }
     }
-
 
 
     public identity() {
@@ -313,7 +335,7 @@ class Messager {
         data: D,
     ) {
         try {
-            if (!this.connection) {
+            if (!this.connectionResolved()) {
                 this.queue.push({
                     type: 'publish',
                     topic,
@@ -368,7 +390,7 @@ class Messager {
         action: MessagerSubscribeAction<D>,
     ) {
         try {
-            if (!this.connection) {
+            if (!this.connectionResolved()) {
                 this.queue.push({
                     type: 'subscribe',
                     topic,
@@ -427,7 +449,7 @@ class Messager {
         data: D,
     ) {
         try {
-            if (!this.connection) {
+            if (!this.connectionResolved()) {
                 // no connection error
                 return false;
             }
@@ -458,7 +480,7 @@ class Messager {
 
     public close() {
         try {
-            if (!this.connection) {
+            if (!this.connectionResolved()) {
                 return;
             }
 
@@ -473,6 +495,7 @@ class Messager {
             }
         } catch (error) {
             this.logError('messager close · connection misconfigured', error);
+
             return;
         }
     }

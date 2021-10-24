@@ -32,6 +32,7 @@ export const NETWORK = {
     SOCKET_PROTOCOL: 'ws://',
     SECURE_SOCKET_PROTOCOL: 'wss://',
 
+    EVENT_READY: 1,
     SOCKET_READY: 1,
 
     SUCCESS: 200,

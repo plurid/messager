@@ -103,4 +103,22 @@ export interface MessagerMessage<D = any> {
     topic?: string;
     data: D;
 }
+
+
+
+export interface MessagerQueuePublish {
+    type: 'publish';
+    topic: string;
+    data: any;
+}
+
+export interface MessagerQueueSubscribe {
+    type: 'subscribe';
+    topic: string;
+    action: MessagerSubscribeAction<any>;
+}
+
+export type MessagerQueueItem =
+    | MessagerQueuePublish
+    | MessagerQueueSubscribe;
 // #endregion module
