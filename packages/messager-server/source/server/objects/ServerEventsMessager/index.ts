@@ -29,10 +29,10 @@ export const writeServerSendEvent = (
     data: string,
 ) => {
     try {
-        const eventData = data.replace(/\n/g, '\\n');
+        const eventString = data.replace(/\n/g, '\\n');
 
         response.write('id: ' + sseID + '\n', 'utf-8');
-        response.write('data: ' + eventData + '\n\n', 'utf-8');
+        response.write('data: ' + eventString + '\n\n', 'utf-8');
 
         // FORCED send data by flushing
         (response as any).flush();
