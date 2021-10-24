@@ -1,8 +1,6 @@
 // #region imports
     // #region libraries
-    import {
-        WebSocket,
-    } from 'ws';
+    import WebSocket from 'isomorphic-ws';
 
     import fetch from 'cross-fetch';
 
@@ -47,6 +45,7 @@ class Messager {
     private kind: MessagerKind;
 
     private subscribers: Record<string, MessagerSubscribeAction[] | undefined> = {};
+    private queue: any[] = [];
 
 
     constructor(
@@ -82,58 +81,76 @@ class Messager {
     }
 
     private createConnection() {
-        if (this.connection) {
-            return;
-        }
-
-        if (this.kind === MESSAGER_KIND.EVENT) {
-            if (typeof window === 'undefined') {
-                // not running in browser
+        try {
+            if (this.connection) {
                 return;
             }
 
-            const protocol = this.options.secure ? NETWORK.SECURE_HTTP_PROTOCOL : NETWORK.HTTP_PROTOCOL;
-            this.endpoint = this.generateEndpoint(protocol, this.options.eventPath);
+            if (this.kind === MESSAGER_KIND.EVENT) {
+                if (typeof window === 'undefined') {
+                    // not running in browser
+                    return;
+                }
 
-            this.connection = new EventSource(
-                this.endpoint,
-                {
-                    withCredentials: true,
-                },
-            );
+                const protocol = this.options.secure ? NETWORK.SECURE_HTTP_PROTOCOL : NETWORK.HTTP_PROTOCOL;
+                this.endpoint = this.generateEndpoint(protocol, this.options.eventPath);
 
-            this.connection.onmessage = (
-                event,
-            ) => {
-                const message = this.deon.parseSynchronous(event.data);
-
-                this.handleMessage(
-                    message,
+                this.connection = new EventSource(
+                    this.endpoint,
+                    {
+                        withCredentials: true,
+                    },
                 );
+
+                this.connection.onmessage = (
+                    event,
+                ) => {
+                    const data = event.data.split('\\n').join('\n');
+
+                    const message = this.deon.parseSynchronous(data);
+
+                    this.handleMessage(
+                        message,
+                    );
+                }
+
+                this.connection.onopen = () => {
+                    this.resolveQueue();
+                }
+
+                return;
             }
 
-            return;
-        }
 
+            if (this.kind === MESSAGER_KIND.SOCKET) {
+                const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
+                this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
 
-        if (this.kind === MESSAGER_KIND.SOCKET) {
-            const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
-            this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
+                // const headers = this.requestHeaders();
 
-            const headers = this.requestHeaders();
-
-            this.connection = new WebSocket(this.endpoint, {
-                headers,
-            });
-
-            this.connection.addEventListener('message', (event) => {
-                const message = this.deon.parseSynchronous(event.data.toString());
-
-                this.handleMessage(
-                    message,
+                this.connection = new WebSocket(
+                    this.endpoint,
+                    // BUG
+                    // {
+                    //     headers,
+                    // },
                 );
-            });
 
+                this.connection.addEventListener('message', (event) => {
+                    const message = this.deon.parseSynchronous(event.data.toString());
+
+                    this.handleMessage(
+                        message,
+                    );
+                });
+
+                this.connection.onopen = () => {
+                    this.resolveQueue();
+                }
+
+                return;
+            }
+        } catch (error) {
             return;
         }
     }
@@ -247,6 +264,23 @@ class Messager {
         return headers;
     }
 
+    private resolveQueue() {
+        if (this.queue.length === 0) {
+            return;
+        }
+
+        for (const item of this.queue) {
+            switch (item.type) {
+                case 'subscribe':
+                    this.subscribe(item.topic, item.action);
+                    break;
+                case 'publish':
+                    this.publish(item.topic, item.data);
+                    break;
+            }
+        }
+    }
+
 
 
     public identity() {
@@ -266,6 +300,12 @@ class Messager {
     ) {
         try {
             if (!this.connection) {
+                this.queue.push({
+                    type: 'publish',
+                    topic,
+                    data,
+                });
+
                 // no connection error
                 return;
             }
@@ -315,6 +355,12 @@ class Messager {
     ) {
         try {
             if (!this.connection) {
+                this.queue.push({
+                    type: 'subscribe',
+                    topic,
+                    action,
+                });
+
                 // no connection error
                 return;
             }
