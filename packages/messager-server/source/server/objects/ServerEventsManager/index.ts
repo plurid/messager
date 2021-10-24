@@ -38,6 +38,10 @@ class ServerEventsManager {
         const eventsMessager = new ServerEventsMessager(ownerID, response);
         (this.messagers[ownerID] as EventsMessagers)[messagerID] = eventsMessager;
 
+        eventsMessager.on('close', () => {
+            delete (this.messagers[ownerID] as EventsMessagers)[messagerID];
+        });
+
         return eventsMessager;
     }
 

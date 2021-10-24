@@ -1,6 +1,10 @@
 // #region imports
     // #region libraries
     import {
+        EventEmitter,
+    } from 'events';
+
+    import {
         Response,
     } from 'express';
 
@@ -42,7 +46,7 @@ export const writeServerSendEvent = (
 }
 
 
-class ServerEventsMessager {
+class ServerEventsMessager extends EventEmitter {
     private deon = new DeonPure();
 
     private response;
@@ -54,6 +58,8 @@ class ServerEventsMessager {
         ownerID: string,
         response: Response,
     ) {
+        super();
+
         this.ownedBy = ownerID;
         this.response = response;
 
@@ -67,6 +73,8 @@ class ServerEventsMessager {
         this.response.on('close', () => {
             // client dropped connection
             this.response.end();
+
+            this.emit('close');
         });
     }
 
