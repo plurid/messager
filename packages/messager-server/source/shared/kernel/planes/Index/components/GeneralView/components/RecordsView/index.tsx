@@ -48,6 +48,7 @@
     import {
         OBLITERATE_RECORD,
         OBLITERATE_RECORDS,
+        OBLITERATE_ALL_RECORDS,
     } from '~kernel-services/graphql/mutate';
 
     import {
@@ -357,7 +358,7 @@ const RecordsView: React.FC<RecordsViewProperties> = (
             });
 
             await client.mutate({
-                mutation: OBLITERATE_RECORDS,
+                mutation: OBLITERATE_ALL_RECORDS,
             });
 
             getAnalytics();
