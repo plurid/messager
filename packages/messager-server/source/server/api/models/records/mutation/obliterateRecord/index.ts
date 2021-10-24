@@ -5,9 +5,9 @@
         InputValueString,
     } from '~server/data/interfaces';
 
-    // import {
-    //     deregisterRecord,
-    // } from '~server/logic/operators/records';
+    import {
+        deregisterRecord,
+    } from '~server/logic/operators/records';
 
     import {
         generateMethodLogs,
@@ -74,6 +74,11 @@ const obliterateRecord = async (
                 };
             }
 
+            await deregisterRecord(
+                value,
+                privateOwnerIdentonym,
+            );
+
             logger.log(
                 obliterateRecordLogs.infoSuccessPrivateUsage,
                 logLevels.info,
@@ -100,6 +105,11 @@ const obliterateRecord = async (
                 logLevels.info,
             );
 
+            await deregisterRecord(
+                value,
+                '',
+            );
+
             return {
                 status: true,
             };
@@ -111,6 +121,11 @@ const obliterateRecord = async (
         logger.log(
             obliterateRecordLogs.infoSuccess,
             logLevels.info,
+        );
+
+        await deregisterRecord(
+            value,
+            '',
         );
 
         return {

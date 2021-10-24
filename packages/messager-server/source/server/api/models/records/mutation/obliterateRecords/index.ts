@@ -2,12 +2,11 @@
     // #region external
     import {
         Context,
-        InputValueString,
     } from '~server/data/interfaces';
 
-    // import {
-    //     deregisterRecord,
-    // } from '~server/logic/operators/records';
+    import {
+        deregisterRecords,
+    } from '~server/logic/operators/records';
 
     import {
         generateMethodLogs,
@@ -22,7 +21,7 @@ export const obliterateRecordsLogs = generateMethodLogs('obliterateRecords');
 
 
 const obliterateRecords = async (
-    input: InputValueString,
+    input: any,
     context: Context,
 ) => {
     // #region context unpack
@@ -51,7 +50,7 @@ const obliterateRecords = async (
     try {
         // #region input unpack
         const {
-            value,
+            ids,
         } = input;
         // #endregion input unpack
 
@@ -73,6 +72,11 @@ const obliterateRecords = async (
                     status: false,
                 };
             }
+
+            await deregisterRecords(
+                ids,
+                privateOwnerIdentonym,
+            );
 
             logger.log(
                 obliterateRecordsLogs.infoSuccessPrivateUsage,
@@ -100,6 +104,11 @@ const obliterateRecords = async (
                 logLevels.info,
             );
 
+            await deregisterRecords(
+                ids,
+                '',
+            );
+
             return {
                 status: true,
             };
@@ -111,6 +120,11 @@ const obliterateRecords = async (
         logger.log(
             obliterateRecordsLogs.infoSuccess,
             logLevels.info,
+        );
+
+        await deregisterRecords(
+            ids,
+            '',
         );
 
         return {

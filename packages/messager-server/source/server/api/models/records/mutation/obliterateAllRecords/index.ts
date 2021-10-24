@@ -5,6 +5,10 @@
     } from '~server/data/interfaces';
 
     import {
+        deregisterAllRecords,
+    } from '~server/logic/operators/records';
+
+    import {
         generateMethodLogs,
     } from '~server/utilities';
     // #endregion external
@@ -61,6 +65,7 @@ const obliterateAllRecords = async (
                 };
             }
 
+            await deregisterAllRecords(privateOwnerIdentonym);
 
             logger.log(
                 obliterateAllRecordsLogs.infoSuccessPrivateUsage,
@@ -89,6 +94,8 @@ const obliterateAllRecords = async (
                 logLevels.info,
             );
 
+            await deregisterAllRecords('');
+
             return {
                 status: true,
             };
@@ -97,11 +104,12 @@ const obliterateAllRecords = async (
 
 
         // #region public usage
-
         logger.log(
             obliterateAllRecordsLogs.infoSuccess,
             logLevels.info,
         );
+
+        await deregisterAllRecords('');
 
         return {
             status: true,
