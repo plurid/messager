@@ -121,10 +121,7 @@ class Messager {
             const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
             this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
 
-            const headers = {};
-            if (this.options.key) {
-                headers['Messager-Key'] = this.options.key;
-            }
+            const headers = this.messagerKeyHeaders();
 
             this.connection = new WebSocket(this.endpoint, {
                 headers,
@@ -190,11 +187,14 @@ class Messager {
             return;
         }
 
+        const headers = this.messagerKeyHeaders();
+
         const response = await fetch(endpoint, {
-            method: 'POST',
+            method: NETWORK.POST_METHOD,
             body: JSON.stringify({
                 ...data,
             }),
+            headers,
         });
 
         return response;
@@ -236,6 +236,15 @@ class Messager {
         const endpoint = protocol + this.host + path + `?token=${this.token || ''}`;
 
         return endpoint;
+    }
+
+    private messagerKeyHeaders() {
+        const headers = {};
+        if (this.options.key) {
+            headers[NETWORK.MESSAGER_KEY_HEADER] = this.options.key;
+        }
+
+        return headers;
     }
 
 

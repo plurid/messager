@@ -35,5 +35,9 @@ export const NETWORK = {
     SOCKET_READY: 1,
 
     SUCCESS: 200,
+
+    MESSAGER_KEY_HEADER: 'Messager-Key',
+
+    POST_METHOD: 'POST',
 };
 // #endregion exports
