@@ -52,6 +52,7 @@
     "devDependencies": {
         "@plurid/deon": "^0.0.0-4",
         "@plurid/plurid-functions": "0.0.0-16",
+        "@plurid/runner": "^0.0.0-9",
         "@rollup/plugin-commonjs": "^21.0.1",
         "@rollup/plugin-node-resolve": "^13.0.6",
         "@types/jest": "^27.0.2",
