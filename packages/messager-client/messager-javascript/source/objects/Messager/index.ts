@@ -402,6 +402,11 @@ class Messager {
     }
 
 
+    /**
+     * Get the messager's `id`.
+     *
+     * @returns
+     */
     public identity() {
         return this.messagerID;
     }
@@ -566,6 +571,11 @@ class Messager {
         }
     }
 
+    /**
+     * Close the connection.
+     *
+     * @returns
+     */
     public close() {
         try {
             if (!this.connectionResolved()) {
