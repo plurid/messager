@@ -83,13 +83,15 @@ export interface MessagerOptions {
     /**
      * Log internal state messages errors.
      *
-     * If a `logger` function is passed, it is considered `true`.
+     * If a `logger` options function is passed, it is considered `true`.
      *
      * Default: `false`
      */
     log: boolean;
     /**
      * Logger for internal state messages and errors.
+     *
+     * For the default to run, the `log` option must be `true`.
      *
      * Default: `console.log`
      */
