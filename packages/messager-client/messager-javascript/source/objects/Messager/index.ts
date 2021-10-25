@@ -232,6 +232,10 @@ class Messager {
             },
         });
 
+        if (response.status !== NETWORK.SUCCESS) {
+            this.logError('messager eventSend · could not send');
+        }
+
         return response;
     }
 
@@ -252,15 +256,12 @@ class Messager {
                 sent = true;
                 break;
             } else {
-                await new Promise((resolve) => {
-                    setTimeout(
-                        () => {
-                            resolve(true);
-                        },
-                        this.options.socketSendWait,
-                    );
-                });
+                await time.delay(this.options.socketSendWait);
             }
+        }
+
+        if (!sent) {
+            this.logError('messager socketSend · could not send');
         }
     }
 
