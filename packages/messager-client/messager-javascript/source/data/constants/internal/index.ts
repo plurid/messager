@@ -20,7 +20,7 @@ export const NETWORK = {
     EVENT_READY: 1,
     SOCKET_READY: 1,
 
-    SUCCESS: 200,
+    HTTP_SUCCESS: 200,
 
     MESSAGER_KEY_HEADER: 'Messager-Key',
     CONTENT_TYPE_HEADER: 'Content-Type',

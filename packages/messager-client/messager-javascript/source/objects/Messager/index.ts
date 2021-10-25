@@ -261,7 +261,7 @@ class Messager {
             },
         });
 
-        if (response.status !== NETWORK.SUCCESS) {
+        if (response.status !== NETWORK.HTTP_SUCCESS) {
             this.logError('eventSend · could not send');
         }
 
@@ -551,7 +551,7 @@ class Messager {
                 return false;
             }
 
-            return response.status === NETWORK.SUCCESS;
+            return response.status === NETWORK.HTTP_SUCCESS;
         } catch (error) {
             this.logError(`notify · ${ERROR_MESSAGE.WRONG}`, error);
 
