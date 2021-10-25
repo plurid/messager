@@ -413,7 +413,7 @@ class Messager {
 
     /**
      * Subscribe to a certain `topic`, and run the `action`
-     * when the topic is updated.
+     * when messagers publish to the topic.
      *
      * @param topic
      * @param action
@@ -472,7 +472,7 @@ class Messager {
     }
 
     /**
-     * Publish the `data` under a certain `topic`.
+     * Publish the `data` to a certain `topic`.
      *
      * @param topic
      * @param data
