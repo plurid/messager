@@ -11,14 +11,8 @@
             "~data/*": [
                 "./source/data/*"
             ],
-            "~functions/*": [
-                "./source/functions/*"
-            ],
             "~objects/*": [
                 "./source/objects/*"
-            ],
-            "~services/*": [
-                "./source/services/*"
             ]
         },
 
