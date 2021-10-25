@@ -278,9 +278,6 @@ const RecordsView: React.FC<RecordsViewProperties> = (
             return;
         }
 
-        const {
-        } = parsedFilter;
-
         const filteredRecords = stateRecords.filter(stateRecord => {
             return true;
         });
