@@ -56,7 +56,7 @@
 /** ENVIRONMENT */
 const watchMode = process.env.PLURID_WATCH_MODE === 'true';
 const isProduction = process.env.ENV_MODE === 'production';
-const buildDirectory = process.env.PLURID_BUILD_DIRECTORY || 'build';
+const buildDirectory = __dirname;
 
 const applicationRoot = APPLICATION_ROOT;
 const openAtStart = watchMode
