@@ -90,6 +90,8 @@ export interface MessagerOptions {
     log: boolean;
     /**
      * Logger for internal state messages and errors.
+     *
+     * Default: `console.log`
      */
     logger: MessagerLogger | undefined;
 }
