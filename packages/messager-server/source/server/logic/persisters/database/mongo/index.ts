@@ -32,6 +32,7 @@
         MONGO_PASSWORD,
         MONGO_ADDRESS,
         MONGO_CONNECTION_STRING,
+        MONGO_DATABASE,
     } from '~server/data/constants';
     // #endregion external
 // #endregion imports
@@ -42,8 +43,6 @@
 let connection: MongoClient | undefined;
 
 const mongoNoConnectionError = 'Messager Error :: No mongo connection.';
-
-const DATABASE = 'messager';
 
 
 const createConnection = async () => {
@@ -77,7 +76,7 @@ const get: DatabaseGet = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -101,7 +100,7 @@ const getAll: DatabaseGetAll = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -124,7 +123,7 @@ const query: DatabaseQuery = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -188,7 +187,7 @@ const size: DatabaseSize = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -218,7 +217,7 @@ const aggregate: DatabaseAggregate = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -244,7 +243,7 @@ const store: DatabaseStore = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -269,7 +268,7 @@ const storeBatch: DatabaseStoreBatch = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -296,7 +295,7 @@ const update: DatabaseUpdate = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -342,7 +341,7 @@ const obliterate: DatabaseObliterate = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
@@ -371,7 +370,7 @@ const obliterateAll: DatabaseObliterateAll = async (
     }
 
     try {
-        const database = connection.db(DATABASE);
+        const database = connection.db(MONGO_DATABASE);
 
         const collection = database.collection(entity);
 
