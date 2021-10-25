@@ -29,7 +29,7 @@ export const NETWORK = {
 };
 
 
-const baseTypes: {
+const baseMessagerTypes: {
     NOTIFY: 'notify';
     PUBLISH: 'publish';
     SUBSCRIBE: 'subscribe';
@@ -42,11 +42,11 @@ const baseTypes: {
 
 export const MESSAGE_TYPE: MessagerMessageTypes = {
     ID: 'id',
-    ...baseTypes,
+    ...baseMessagerTypes,
 };
 
 export const QUEUE_TYPE: MessagerQueueTypes = {
-    ...baseTypes,
+    ...baseMessagerTypes,
 };
 
 
