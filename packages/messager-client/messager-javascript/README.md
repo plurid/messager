@@ -46,13 +46,13 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 ## About
 
+The `messager` client can be configured to use WebSockets, kind `socket`, or Server Sent Events, kind `event`. WebSockets can be used in browsers or in `NodeJS` environments; Server Sent Events can be used in browsers.
+
 Once configured with a `host`, the `messager` server, and `token`, the `messager` client can `publish`, `subscribe`, and/or `notify`.
 
 The `token` is generated from the `messager` server and can be restricted to certain origins, IPs, or use a certain key.
 
 The subscribe/publish topics can be any string; customarily, they respect a `<domain>.<details>.<specification>:<id>` shape.
-
-The `messager` client can be configured to use WebSockets, kind `socket`, or Server Sent Events, kind `event`. WebSockets can be used in browsers or in `NodeJS` environments; Server Sent Events can be used in browsers.
 
 
 ``` typescript
