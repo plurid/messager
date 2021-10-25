@@ -242,6 +242,13 @@ class Messager {
             !endpoint
             || !this.messagerID
         ) {
+            if (!endpoint) {
+                this.logError('eventSend · no endpoint');
+            }
+            if (this.messagerID) {
+                this.logError('eventSend · no messagerID');
+            }
+
             return;
         }
 
