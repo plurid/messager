@@ -39,8 +39,6 @@
 
 // #region module
 class Messager {
-    private deon = new DeonPure();
-
     private messagerID: undefined | string;
     private connection: undefined | EventSource | WebSocket;
     private endpoint: undefined | string;
@@ -114,9 +112,10 @@ class Messager {
                 this.connection.onmessage = (
                     event,
                 ) => {
+                    const deon = new DeonPure();
                     const data = event.data.split('\\n').join('\n');
 
-                    const message = this.deon.parseSynchronous(data);
+                    const message = deon.parseSynchronous(data);
 
                     this.handleMessage(
                         message,
@@ -152,7 +151,8 @@ class Messager {
                 );
 
                 this.connection.addEventListener('message', (event) => {
-                    const message = this.deon.parseSynchronous(event.data.toString());
+                    const deon = new DeonPure();
+                    const message = deon.parseSynchronous(event.data.toString());
 
                     this.handleMessage(
                         message,
@@ -221,10 +221,11 @@ class Messager {
         }
 
         const headers = this.requestHeaders();
+        const deon = new DeonPure();
 
         const response = await fetch(endpoint, {
             method: NETWORK.POST_METHOD,
-            body: this.deon.stringify(data),
+            body: deon.stringify(data),
             headers: {
                 ...headers,
                 'Content-Type': DEON_MEDIA_TYPE,
@@ -403,7 +404,8 @@ class Messager {
 
 
             if (this.kind === MESSAGER_KIND.SOCKET) {
-                const message = this.deon.stringify(publish);
+                const deon = new DeonPure();
+                const message = deon.stringify(publish);
 
                 this.socketSend(message);
 
@@ -463,7 +465,8 @@ class Messager {
 
 
             if (this.kind === MESSAGER_KIND.SOCKET) {
-                const message = this.deon.stringify(subscribe);
+                const deon = new DeonPure();
+                const message = deon.stringify(subscribe);
 
                 this.socketSend(message);
 
