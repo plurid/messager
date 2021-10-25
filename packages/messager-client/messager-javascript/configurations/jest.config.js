@@ -5,6 +5,7 @@ module.exports = {
     },
     testEnvironment: 'node',
     testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$',
+    testTimeout: 10000,
     moduleFileExtensions: [
         'ts',
         'tsx',
