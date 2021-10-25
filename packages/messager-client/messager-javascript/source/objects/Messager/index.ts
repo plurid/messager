@@ -183,8 +183,6 @@ class Messager {
 
                 return;
             }
-
-            this.logError(`createConnection · kind is unhandled`);
         } catch (error) {
             this.logError(`createConnection · ${ERROR_MESSAGE.WRONG}`, error);
 
