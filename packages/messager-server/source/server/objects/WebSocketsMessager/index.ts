@@ -28,8 +28,6 @@
 
 // #region module
 class WebSocketsMessager extends EventEmitter {
-    private deon = new DeonPure();
-
     private sockets: Record<string, WebSocket | undefined> = {};
     private subscribers: Record<string, string[] | undefined> = {};
     private ownings: Record<string, string> = {};
@@ -88,7 +86,8 @@ class WebSocketsMessager extends EventEmitter {
                         },
                     });
 
-                    const socketData = this.deon.stringify({
+                    const deon = new DeonPure();
+                    const socketData = deon.stringify({
                         topic,
                         data: message.data,
                     });
