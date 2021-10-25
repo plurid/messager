@@ -46,7 +46,11 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 ## About
 
-`messager` acts as a central messaging service. Once configured with a `host` and `token`, the `messager` client can `publish`, `subscribe`, or `notify`.
+Once configured with a `host`, the `messager` server, and `token`, the `messager` client can `publish`, `subscribe`, and/or `notify`.
+
+The `token` is generated from the `messager` server and can be restricted to certain origins, IPs, or use a certain key.
+
+The subscribe/publish topics can be any string; customarily, they respect a `<domain>.<details>.<specification>:<id>` shape.
 
 
 ``` typescript
