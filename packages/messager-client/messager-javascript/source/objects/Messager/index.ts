@@ -336,7 +336,7 @@ class Messager {
         }
 
         if (!this.connectionResolved()) {
-            this.logError('queue · could not handle queue');
+            this.logError('queue · could not resolve connection');
 
             return;
         }
