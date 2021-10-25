@@ -118,11 +118,10 @@ class Messager {
                 this.connection.onmessage = (
                     event,
                 ) => {
-                    const deon = new DeonPure();
-
                     // De-escape new lines.
                     const data = event.data.split('\\n').join('\n');
 
+                    const deon = new DeonPure();
                     const message = typer(deon.parseSynchronous(data));
 
                     this.handleMessage(
@@ -164,8 +163,10 @@ class Messager {
                 }
 
                 this.connection.addEventListener('message', (event) => {
+                    const data = event.data.toString();
+
                     const deon = new DeonPure();
-                    const message = typer(deon.parseSynchronous(event.data.toString()));
+                    const message = typer(deon.parseSynchronous(data));
 
                     this.handleMessage(
                         message,
