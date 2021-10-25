@@ -7,10 +7,9 @@
 
 
 // #region module
-describe('Messager', () => {
+xdescribe('Messager', () => {
     it('works', (done) => {
         const messager = new Messager(
-            // 'messager.plurid.cloud',
             'localhost:56865',
             '__TEST_MODE__',
             'socket',
@@ -45,6 +44,6 @@ describe('Messager', () => {
             expect(value).toBeTruthy();
             done();
         }, 2000);
-    })
+    });
 });
 // #endregion module
