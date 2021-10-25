@@ -34,6 +34,7 @@
     "scripts": {
         "test": "jest -c ./configurations/jest.config.js --coverage ./source",
         "start": "rollup -c ./scripts/rollup.config.ts -w",
+        "runner": "runner tests",
         "build.removeTests": "rm -rf `find ./distribution/ -type d -name __tests__`",
         "build.types": "ttsc --emitDeclarationOnly",
         "build.development": "rollup -c ./scripts/rollup.config.ts",
