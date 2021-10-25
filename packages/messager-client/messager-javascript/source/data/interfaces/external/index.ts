@@ -22,28 +22,28 @@ export interface MessagerOptions {
     /**
      * Path for web sockets.
      *
-     * default: `'/socket'`
+     * Default: `'/socket'`
      */
     socketPath: string;
 
     /**
      * Path for server sent events.
      *
-     * default: `'/event'`
+     * Default: `'/event'`
      */
     eventPath: string;
 
     /**
      * Path for direct notification.
      *
-     * default: `'/notify'`
+     * Default: `'/notify'`
      */
     notifyPath: string;
 
     /**
      * Use secure protocols.
      *
-     * default: `true`
+     * Default: `true`
      */
     secure: boolean;
 
@@ -57,20 +57,15 @@ export interface MessagerOptions {
     /**
      * Number of retries for the socket to be ready.
      *
-     * default: `100`
+     * Default: `100`
      */
     socketSendRetries: number;
     /**
      * Time to wait for the socket to be ready (in ms).
      *
-     * default: `500`
+     * Default: `500`
      */
     socketSendWait: number;
-
-    /**
-     * Logger for errors.
-     */
-    logger: MessagerLogger | undefined;
 
     /**
      * Number of attempts to resolve the queue before the connection is resolved.
@@ -84,6 +79,19 @@ export interface MessagerOptions {
      * Default: `500`
      */
     queueDelay: number;
+
+    /**
+     * Log internal state messages errors.
+     *
+     * If a `logger` function is passed, it is considered `true`.
+     *
+     * Default: `false`
+     */
+    log: boolean;
+    /**
+     * Logger for internal state messages and errors.
+     */
+    logger: MessagerLogger | undefined;
 }
 
 

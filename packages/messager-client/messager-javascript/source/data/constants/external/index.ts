@@ -18,6 +18,7 @@ export const MESSAGER_DEFAULTS = {
     SOCKET_SEND_WAIT: 500,
     QUEUE_RETRIES: 100,
     QUEUE_DELAY: 500,
+    LOG: false,
 };
 
 

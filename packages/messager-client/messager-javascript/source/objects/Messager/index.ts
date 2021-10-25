@@ -82,9 +82,10 @@ class Messager {
             key: options?.key || undefined,
             socketSendRetries: options?.socketSendRetries || MESSAGER_DEFAULTS.SOCKET_SEND_RETRIES,
             socketSendWait: options?.socketSendWait || MESSAGER_DEFAULTS.SOCKET_SEND_WAIT,
-            logger: options?.logger || undefined,
             queueRetries: options?.queueDelay || MESSAGER_DEFAULTS.QUEUE_RETRIES,
             queueDelay: options?.queueDelay || MESSAGER_DEFAULTS.QUEUE_DELAY,
+            log: options?.log ?? MESSAGER_DEFAULTS.LOG,
+            logger: options?.logger || undefined,
         };
 
         return resolvedOptions;
@@ -182,6 +183,8 @@ class Messager {
 
                 return;
             }
+
+            this.logError(`createConnection · kind is unhandled`);
         } catch (error) {
             this.logError(`createConnection · ${ERROR_MESSAGE.WRONG}`, error);
 
@@ -385,7 +388,9 @@ class Messager {
         if (this.options.logger) {
             this.options.logger(messageText, error);
         } else {
-            console.log(messageText, error);
+            if (this.options.log) {
+                console.log(messageText, error);
+            }
         }
     }
 
