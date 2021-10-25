@@ -23,6 +23,7 @@
         NETWORK,
         QUEUE_TYPE,
         MESSAGE_TYPE,
+        ERROR_MESSAGE,
     } from '~data/constants';
 
     import {
@@ -131,7 +132,7 @@ class Messager {
                 }
 
                 this.connection.onerror = (error) => {
-                    this.logError('event connection · something went wrong', error);
+                    this.logError(`event connection · ${ERROR_MESSAGE.WRONG}`, error);
 
                     this.close();
                 }
@@ -144,15 +145,20 @@ class Messager {
                 const protocol = this.options.secure ? NETWORK.SECURE_SOCKET_PROTOCOL : NETWORK.SOCKET_PROTOCOL;
                 this.endpoint = this.generateEndpoint(protocol, this.options.socketPath);
 
-                // const headers = this.requestHeaders();
-
-                this.connection = new WebSocket(
-                    this.endpoint,
-                    // BUG
-                    // {
-                    //     headers,
-                    // },
-                );
+                if (typeof window === undefined) {
+                    const headers = this.requestHeaders();
+                    this.connection = new WebSocket(
+                        this.endpoint,
+                        {
+                            headers,
+                        },
+                    );
+                } else {
+                    // Browser web sockets have no custom headers.
+                    this.connection = new WebSocket(
+                        this.endpoint,
+                    );
+                }
 
                 this.connection.addEventListener('message', (event) => {
                     const deon = new DeonPure();
@@ -167,10 +173,16 @@ class Messager {
                     this.resolveQueue();
                 }
 
+                this.connection.onerror = (error) => {
+                    this.logError(`socket connection · ${ERROR_MESSAGE.WRONG}`, error);
+
+                    this.close();
+                }
+
                 return;
             }
         } catch (error) {
-            this.logError('createConnection · something went wrong', error);
+            this.logError(`createConnection · ${ERROR_MESSAGE.WRONG}`, error);
 
             return;
         }
@@ -436,7 +448,7 @@ class Messager {
                 return;
             }
         } catch (error) {
-            this.logError('subscribe · something went wrong', error);
+            this.logError(`subscribe · ${ERROR_MESSAGE.WRONG}`, error);
             return;
         }
     }
@@ -490,7 +502,7 @@ class Messager {
                 return;
             }
         } catch (error) {
-            this.logError('publish · something went wrong', error);
+            this.logError(`publish · ${ERROR_MESSAGE.WRONG}`, error);
             return;
         }
     }
@@ -535,7 +547,7 @@ class Messager {
 
             return response.status === NETWORK.SUCCESS;
         } catch (error) {
-            this.logError('notify · something went wrong', error);
+            this.logError(`notify · ${ERROR_MESSAGE.WRONG}`, error);
 
             return false;
         }

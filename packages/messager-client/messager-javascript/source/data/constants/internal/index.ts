@@ -48,4 +48,9 @@ export const MESSAGE_TYPE: MessagerMessageTypes = {
 export const QUEUE_TYPE: MessagerQueueTypes = {
     ...baseTypes,
 };
+
+
+export const ERROR_MESSAGE = {
+    WRONG: 'something went wrong',
+};
 // #endregion exports
