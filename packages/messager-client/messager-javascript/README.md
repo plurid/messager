@@ -29,7 +29,7 @@
 
 `messager` has clients for:
 
-+ [`NodeJS`][messager-client-javascript];
++ [`JavaScript`][messager-client-javascript];
 + [`Python`][messager-client-python].
 
 The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid/plurid) to explore information as a 3D structure.
@@ -51,6 +51,8 @@ Once configured with a `host`, the `messager` server, and `token`, the `messager
 The `token` is generated from the `messager` server and can be restricted to certain origins, IPs, or use a certain key.
 
 The subscribe/publish topics can be any string; customarily, they respect a `<domain>.<details>.<specification>:<id>` shape.
+
+The `messager` client can be configured to use WebSockets, kind `socket`, or Server Sent Events, kind `event`. WebSockets can be used in browsers or in `NodeJS` environments; Server Sent Events can be used in browsers.
 
 
 ``` typescript
@@ -110,7 +112,7 @@ messager.notify<Data>(
     <img src="https://img.shields.io/npm/v/@plurid/messager.svg?logo=npm&colorB=1380C3&style=for-the-badge" alt="Version">
 </a>
 
-[@plurid/messager-client-javascript][messager-client-javascript] • the `NodeJS` client
+[@plurid/messager-client-javascript][messager-client-javascript] • the `JavaScript` client
 
 [messager-client-javascript]: https://github.com/plurid/messager/tree/master/packages/messager-client/messager-javascript
 
