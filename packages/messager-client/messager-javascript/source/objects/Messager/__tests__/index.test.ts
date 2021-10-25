@@ -14,6 +14,7 @@ xdescribe('Messager', () => {
             '__TEST_MODE__',
             'socket',
             {
+                log: true,
                 secure: false,
             },
         );
@@ -26,7 +27,7 @@ xdescribe('Messager', () => {
 
         messager.subscribe<Data>('some.topic', (data) => {
             // do things with data
-            // console.log(data);
+            console.log(data);
 
             value = data.value;
         });
