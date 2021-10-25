@@ -245,7 +245,7 @@ class Messager {
             if (!endpoint) {
                 this.logError('eventSend · no endpoint');
             }
-            if (this.messagerID) {
+            if (!this.messagerID) {
                 this.logError('eventSend · no messagerID');
             }
 
