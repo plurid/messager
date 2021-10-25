@@ -75,7 +75,7 @@ export interface MessagerOptions {
     /**
      * Number of attempts to resolve the queue before the connection is resolved.
      *
-     * Default: `10`
+     * Default: `100`
      */
     queueRetries: number;
     /**
