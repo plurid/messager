@@ -22,9 +22,10 @@
 
 `messager` is a [service](https://messager.plurid.cloud) or self-hosted messaging queue.
 
-`messager` is intended to be:
+`messager` is intended to:
 
-+ centralized, single messaging space for multi-project/multi-package software systems;
++ be a centralized, single messaging space for multi-project software systems;
++ handle publish/subscribe, notify across multiple users, tokens, domains.
 
 `messager` has clients for:
 
@@ -38,12 +39,6 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 ### Contents
 
 + [About](#about)
-+ [Client](#client)
-    + [Support](support)
-    + [Configuration](configuration)
-+ [Server](#server)
-    + [Building](building)
-    + [Testing](testing)
 + [Packages](#packages)
 + [Codeophon](#codeophon)
 
@@ -53,9 +48,6 @@ The [`messager-server`][messager-server] uses [plurid](https://github.com/plurid
 
 `messager` acts as a central messaging service. Once configured with a `host` and `token`, the `messager` client can `publish`, `subscribe`, or `notify`.
 
-
-
-## Client
 
 ``` typescript
 import Messager from '@plurid/messager';

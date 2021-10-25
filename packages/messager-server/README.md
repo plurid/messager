@@ -22,9 +22,9 @@
 
 `messager` is a [service](https://messager.plurid.cloud) or self-hosted messaging queue.
 
-`messager` is intended to be:
+`messager` is intended to:
 
-+ centralized, single messaging space for multi-project/multi-package software systems;
++ be a centralized, single messaging space for multi-project software systems;
 + handle publish/subscribe, notify across multiple users, tokens, domains.
 
 `messager` has clients for:
