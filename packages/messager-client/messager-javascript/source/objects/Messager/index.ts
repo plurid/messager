@@ -8,6 +8,7 @@
     import {
         DeonPure,
         DEON_MEDIA_TYPE,
+        typer,
     } from '@plurid/deon';
 
     import {
@@ -122,7 +123,7 @@ class Messager {
                     // De-escape new lines.
                     const data = event.data.split('\\n').join('\n');
 
-                    const message = deon.parseSynchronous(data);
+                    const message = typer(deon.parseSynchronous(data));
 
                     this.handleMessage(
                         message,
@@ -164,7 +165,7 @@ class Messager {
 
                 this.connection.addEventListener('message', (event) => {
                     const deon = new DeonPure();
-                    const message = deon.parseSynchronous(event.data.toString());
+                    const message = typer(deon.parseSynchronous(event.data.toString()));
 
                     this.handleMessage(
                         message,
