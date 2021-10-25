@@ -98,7 +98,8 @@ class Messager {
 
             if (this.kind === MESSAGER_KIND.EVENT) {
                 if (typeof window === 'undefined') {
-                    // not running in browser
+                    // Does not run in browser.
+                    this.logError('createConnection · event messagers can operate only in browsers');
                     return;
                 }
 
