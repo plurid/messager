@@ -115,6 +115,8 @@ class Messager {
                     event,
                 ) => {
                     const deon = new DeonPure();
+
+                    // De-escape new lines.
                     const data = event.data.split('\\n').join('\n');
 
                     const message = deon.parseSynchronous(data);
