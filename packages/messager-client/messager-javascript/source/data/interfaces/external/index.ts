@@ -85,4 +85,9 @@ export interface MessagerOptions {
      */
     queueDelay: number;
 }
+
+
+export type MessagerSubscribeAction<D = any> = (
+    data: D,
+) => void | Promise<void>;
 // #endregion module

@@ -21,6 +21,8 @@
         MESSAGER_DEFAULTS,
         MESSAGER_KIND,
         NETWORK,
+        QUEUE_TYPE,
+        MESSAGE_TYPE,
     } from '~data/constants';
 
     import {
@@ -176,7 +178,12 @@ class Messager {
         message: MessagerMessage,
     ) {
         try {
-            if (message.type === 'id') {
+            if (message.type === MESSAGE_TYPE.ID) {
+                if (typeof message.data !== 'string') {
+                    this.logError('messager handleMessage · misshaped id data');
+                    return;
+                }
+
                 this.messagerID = message.data;
                 return;
             }
@@ -199,7 +206,7 @@ class Messager {
                 try {
                     handler(data);
                 } catch(error) {
-                    // handler error
+                    this.logError('messager handleMessage · handler error', error);
                     continue;
                 }
             }
@@ -220,15 +227,19 @@ class Messager {
             return;
         }
 
-        const headers = this.requestHeaders();
         const deon = new DeonPure();
+
+        const headers = this.requestHeaders();
+        const fetchHeaders: Record<string, string> = {
+            ...headers,
+        };
+        fetchHeaders[NETWORK.CONTENT_TYPE_HEADER] = DEON_MEDIA_TYPE;
 
         const response = await fetch(endpoint, {
             method: NETWORK.POST_METHOD,
             body: deon.stringify(data),
             headers: {
-                ...headers,
-                'Content-Type': DEON_MEDIA_TYPE,
+                ...fetchHeaders,
             },
         });
 
@@ -275,7 +286,7 @@ class Messager {
     }
 
     private requestHeaders() {
-        const headers = {};
+        const headers: Record<string, string> = {};
         if (this.options.key) {
             headers[NETWORK.MESSAGER_KEY_HEADER] = this.options.key;
         }
@@ -307,11 +318,14 @@ class Messager {
 
         for (const item of this.queue) {
             switch (item.type) {
-                case 'subscribe':
+                case QUEUE_TYPE.SUBSCRIBE:
                     this.subscribe(item.topic, item.action);
                     break;
-                case 'publish':
+                case QUEUE_TYPE.PUBLISH:
                     this.publish(item.topic, item.data);
+                    break;
+                case QUEUE_TYPE.NOTIFY:
+                    this.notify(item.target, item.data);
                     break;
             }
 
@@ -364,6 +378,66 @@ class Messager {
     }
 
     /**
+     * Subscribe to a certain `topic`, and run the `action`
+     * when the topic is updated.
+     *
+     * @param topic
+     * @param action
+     * @returns
+     */
+    public async subscribe<D = any>(
+        topic: string,
+        action: MessagerSubscribeAction<D>,
+    ) {
+        try {
+            if (!this.connectionResolved()) {
+                this.queue.push({
+                    type: QUEUE_TYPE.SUBSCRIBE,
+                    topic,
+                    action,
+                });
+
+                return;
+            }
+
+
+            if (!this.subscribers[topic]) {
+                this.subscribers[topic] = [];
+            }
+
+            (this.subscribers[topic] as MessagerSubscribeAction[]).push(action);
+
+            const subscribe: MessagerSubscribe = {
+                type: MESSAGE_TYPE.SUBSCRIBE,
+                topic,
+            };
+
+
+            if (this.kind === MESSAGER_KIND.EVENT) {
+                this.eventSend({
+                    messagerID: this.messagerID,
+                    ...subscribe,
+                });
+
+                return;
+            }
+
+
+            if (this.kind === MESSAGER_KIND.SOCKET) {
+                const deon = new DeonPure();
+                const message = deon.stringify(subscribe);
+
+                this.socketSend(message);
+
+                return;
+            }
+        } catch (error) {
+            this.logError('messager subscribe · something went wrong', error);
+            return;
+        }
+    }
+
+    /**
      * Publish the `data` under a certain `topic`.
      *
      * @param topic
@@ -377,18 +451,17 @@ class Messager {
         try {
             if (!this.connectionResolved()) {
                 this.queue.push({
-                    type: 'publish',
+                    type: QUEUE_TYPE.PUBLISH,
                     topic,
                     data,
                 });
 
-                // no connection error
                 return;
             }
 
 
             const publish: MessagerPublish<D> = {
-                type: 'publish',
+                type: MESSAGE_TYPE.PUBLISH,
                 topic,
                 data,
             };
@@ -419,67 +492,6 @@ class Messager {
     }
 
     /**
-     * Subscribe to a certain `topic`, and run the `action`
-     * when the topic is updated.
-     *
-     * @param topic
-     * @param action
-     * @returns
-     */
-    public async subscribe<D = any>(
-        topic: string,
-        action: MessagerSubscribeAction<D>,
-    ) {
-        try {
-            if (!this.connectionResolved()) {
-                this.queue.push({
-                    type: 'subscribe',
-                    topic,
-                    action,
-                });
-
-                // no connection error
-                return;
-            }
-
-
-            if (!this.subscribers[topic]) {
-                this.subscribers[topic] = [];
-            }
-
-            (this.subscribers[topic] as MessagerSubscribeAction[]).push(action);
-
-            const subscribe: MessagerSubscribe = {
-                type: 'subscribe',
-                topic,
-            };
-
-
-            if (this.kind === MESSAGER_KIND.EVENT) {
-                this.eventSend({
-                    messagerID: this.messagerID,
-                    ...subscribe,
-                });
-
-                return;
-            }
-
-
-            if (this.kind === MESSAGER_KIND.SOCKET) {
-                const deon = new DeonPure();
-                const message = deon.stringify(subscribe);
-
-                this.socketSend(message);
-
-                return;
-            }
-        } catch (error) {
-            this.logError('messager subscribe · something went wrong', error);
-            return;
-        }
-    }
-
-    /**
      * Send a `data` notification to a certain `target`.
      *
      * @param target
@@ -492,7 +504,12 @@ class Messager {
     ) {
         try {
             if (!this.connectionResolved()) {
-                // no connection error
+                this.queue.push({
+                    type: QUEUE_TYPE.NOTIFY,
+                    target,
+                    data,
+                });
+
                 return false;
             }
 

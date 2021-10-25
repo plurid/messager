@@ -1,7 +1,22 @@
+// #region imports
+    // #region external
+    import {
+        MessagerSubscribeAction,
+    } from '../external';
+    // #endregion external
+// #endregion imports
+
+
+
 // #region module
 export type MessagerAction =
     | MessagerPublish
     | MessagerSubscribe;
+
+export interface MessagerSubscribe {
+    type: 'subscribe';
+    topic: string;
+}
 
 export interface MessagerPublish<D = any> {
     type: 'publish';
@@ -9,16 +24,14 @@ export interface MessagerPublish<D = any> {
     data: D;
 }
 
-export interface MessagerSubscribe {
-    type: 'subscribe';
-    topic: string;
+
+
+export interface MessagerMessageTypes {
+    ID: 'id';
+    SUBSCRIBE: 'subscribe';
+    PUBLISH: 'publish';
+    NOTIFY: 'notify';
 }
-
-export type MessagerSubscribeAction<D = any> = (
-    data: D,
-) => void | Promise<void>;
-
-
 
 export type MessagerMessageType =
     | 'id'
@@ -34,10 +47,10 @@ export interface MessagerMessage<D = any> {
 
 
 
-export interface MessagerQueuePublish {
-    type: 'publish';
-    topic: string;
-    data: any;
+export interface MessagerQueueTypes {
+    SUBSCRIBE: 'subscribe';
+    PUBLISH: 'publish';
+    NOTIFY: 'notify';
 }
 
 export interface MessagerQueueSubscribe {
@@ -46,7 +59,20 @@ export interface MessagerQueueSubscribe {
     action: MessagerSubscribeAction<any>;
 }
 
+export interface MessagerQueuePublish {
+    type: 'publish';
+    topic: string;
+    data: any;
+}
+
+export interface MessagerQueueNotify {
+    type: 'notify';
+    target: string;
+    data: any;
+}
+
 export type MessagerQueueItem =
+    | MessagerQueueSubscribe
     | MessagerQueuePublish
-    | MessagerQueueSubscribe;
+    | MessagerQueueNotify;
 // #endregion module
