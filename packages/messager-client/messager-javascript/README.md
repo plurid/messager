@@ -66,6 +66,15 @@ const messager = new Messager(
     'token',
     'socket', // default 'event'
 );
+// // or connecting to local messager server on 'localhost:56865'
+// const messager = new Messager(
+//     'localhost:56865',
+//     '__TEST_MODE__',
+//     'event',
+//     {
+//         secure: false,
+//     },
+// );
 
 
 interface Data {
@@ -83,7 +92,7 @@ messager.publish<Data>(
 );
 
 messager.notify<Data>(
-    'targetID',
+    'id-of-another-messager',
     { value: true },
 );
 ```
