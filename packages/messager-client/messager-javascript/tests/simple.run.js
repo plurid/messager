@@ -5,7 +5,7 @@ const Messager = require('../distribution').default;
 
 
 runner(
-    (
+    async (
         check,
     ) => {
         const messager = new Messager(
@@ -18,17 +18,20 @@ runner(
             },
         );
 
+        await new Promise((resolve) => {
+            messager.subscribe('some.topic', (data) => {
+                // console.log(data);
+                check('works', data.value, true);
 
-        messager.subscribe('some.topic', (data) => {
-            // console.log(data);
-            check('works', data.value, true);
+                messager.close();
 
-            messager.close();
+                resolve(true);
+            });
+
+            messager.publish(
+                'some.topic',
+                { value: true },
+            );
         });
-
-        messager.publish(
-            'some.topic',
-            { value: true },
-        );
     },
 );
