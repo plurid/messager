@@ -33,10 +33,12 @@ const baseMessagerTypes: {
     NOTIFY: 'notify';
     PUBLISH: 'publish';
     SUBSCRIBE: 'subscribe';
+    UNSUBSCRIBE: 'unsubscribe';
 } = {
     NOTIFY: 'notify',
     PUBLISH: 'publish',
     SUBSCRIBE: 'subscribe',
+    UNSUBSCRIBE: 'unsubscribe',
 };
 
 

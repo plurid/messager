@@ -18,6 +18,11 @@ export interface MessagerSubscribe {
     topic: string;
 }
 
+export interface MessagerUnsubscribe {
+    type: 'unsubscribe';
+    topic: string;
+}
+
 export interface MessagerPublish<D = any> {
     type: 'publish';
     topic: string;
@@ -29,6 +34,7 @@ export interface MessagerPublish<D = any> {
 export interface MessagerMessageTypes {
     ID: 'id';
     SUBSCRIBE: 'subscribe';
+    UNSUBSCRIBE: 'unsubscribe';
     PUBLISH: 'publish';
     NOTIFY: 'notify';
 }
@@ -49,6 +55,7 @@ export interface MessagerMessage<D = any> {
 
 export interface MessagerQueueTypes {
     SUBSCRIBE: 'subscribe';
+    UNSUBSCRIBE: 'unsubscribe';
     PUBLISH: 'publish';
     NOTIFY: 'notify';
 }
@@ -57,6 +64,11 @@ export interface MessagerQueueSubscribe {
     type: 'subscribe';
     topic: string;
     action: MessagerSubscribeAction<any>;
+}
+
+export interface MessagerQueueUnsubscribe {
+    type: 'unsubscribe';
+    topic: string;
 }
 
 export interface MessagerQueuePublish {
@@ -73,6 +85,7 @@ export interface MessagerQueueNotify {
 
 export type MessagerQueueItem =
     | MessagerQueueSubscribe
+    | MessagerQueueUnsubscribe
     | MessagerQueuePublish
     | MessagerQueueNotify;
 // #endregion module

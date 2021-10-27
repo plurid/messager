@@ -35,6 +35,7 @@
         MessagerPublish,
         MessagerSubscribe,
         MessagerSubscribeAction,
+        MessagerUnsubscribe,
     } from '~data/interfaces';
     // #endregion external
 // #endregion imports
@@ -346,6 +347,9 @@ class Messager {
                 case QUEUE_TYPE.SUBSCRIBE:
                     this.subscribe(item.topic, item.action);
                     break;
+                case QUEUE_TYPE.UNSUBSCRIBE:
+                    this.unsubscribe(item.topic);
+                    break;
                 case QUEUE_TYPE.PUBLISH:
                     this.publish(item.topic, item.data);
                     break;
@@ -448,7 +452,7 @@ class Messager {
 
 
             if (this.kind === MESSAGER_KIND.EVENT) {
-                this.eventSend({
+                await this.eventSend({
                     messagerID: this.messagerID,
                     ...subscribe,
                 });
@@ -461,12 +465,63 @@ class Messager {
                 const deon = new DeonPure();
                 const message = deon.stringify(subscribe);
 
-                this.socketSend(message);
+                await this.socketSend(message);
 
                 return;
             }
         } catch (error) {
             this.logError(`subscribe · ${ERROR_MESSAGE.WRONG}`, error);
+            return;
+        }
+    }
+
+
+    /**
+     * Unsubscribe from a certain `topic`.
+     *
+     * @param topic
+     */
+    public async unsubscribe(
+        topic: string,
+    ) {
+        try {
+            if (!this.connectionResolved()) {
+                this.queue.push({
+                    type: QUEUE_TYPE.UNSUBSCRIBE,
+                    topic,
+                });
+
+                return;
+            }
+
+            delete this.subscribers[topic];
+
+            const unsubscribe: MessagerUnsubscribe = {
+                type: MESSAGE_TYPE.UNSUBSCRIBE,
+                topic,
+            };
+
+
+            if (this.kind === MESSAGER_KIND.EVENT) {
+                await this.eventSend({
+                    messagerID: this.messagerID,
+                    ...unsubscribe,
+                });
+
+                return;
+            }
+
+
+            if (this.kind === MESSAGER_KIND.SOCKET) {
+                const deon = new DeonPure();
+                const message = deon.stringify(unsubscribe);
+
+                await this.socketSend(message);
+
+                return;
+            }
+        } catch (error) {
+            this.logError(`unsubscribe · ${ERROR_MESSAGE.WRONG}`, error);
             return;
         }
     }
@@ -502,7 +557,7 @@ class Messager {
 
 
             if (this.kind === MESSAGER_KIND.EVENT) {
-                this.eventSend({
+                await this.eventSend({
                     messagerID: this.messagerID,
                     ...publish,
                 });
@@ -515,7 +570,7 @@ class Messager {
                 const deon = new DeonPure();
                 const message = deon.stringify(publish);
 
-                this.socketSend(message);
+                await this.socketSend(message);
 
                 return;
             }
