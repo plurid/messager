@@ -475,7 +475,6 @@ class Messager {
         }
     }
 
-
     /**
      * Unsubscribe from a certain `topic`.
      *
@@ -493,6 +492,7 @@ class Messager {
 
                 return;
             }
+
 
             delete this.subscribers[topic];
 
