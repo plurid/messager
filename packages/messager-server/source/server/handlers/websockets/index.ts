@@ -107,10 +107,11 @@ const setupWebsockets = (
 
             websocketConnection.on('message', (message) => {
                 const deon = new DeonPure();
+                const messageData = deon.parseSynchronous(message.toString());
 
                 webSocketsMessager.emit('received', {
                     socketID,
-                    message: deon.parseSynchronous(message.toString()),
+                    message: messageData,
                 });
             });
         }
