@@ -102,6 +102,10 @@ const handlePost = async (
                 serverEventsMessager.subscribe(topic);
                 break;
             }
+            case 'unsubscribe': {
+                serverEventsMessager.unsubscribe(topic);
+                break;
+            }
             case 'publish': {
                 const serverEventsMessagers = serverEventsManager.getAll(ownerID);
                 if (!serverEventsMessagers) {

@@ -58,6 +58,23 @@ class WebSocketsMessager extends EventEmitter {
         this.subscribers[topic]?.push(socketID);
     }
 
+    private unsubscribe(
+        data: any,
+    ) {
+        const {
+            socketID,
+            message,
+        } = data;
+
+        const {
+            topic,
+        } = message;
+
+        if (this.subscribers[topic]) {
+            this.subscribers[topic] = this.subscribers[topic]?.filter(topicSocketID => topicSocketID !== socketID);
+        }
+    }
+
     private publish(
         data: any,
     ) {
@@ -112,6 +129,9 @@ class WebSocketsMessager extends EventEmitter {
                 switch (type) {
                     case 'subscribe':
                         this.subscribe(data);
+                        break;
+                    case 'unsubscribe':
+                        this.unsubscribe(data);
                         break;
                     case 'publish':
                         this.publish(data);
