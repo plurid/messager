@@ -20,6 +20,12 @@
 
 
     // #region external
+    import {
+        SocketPublish,
+        SocketSubscribe,
+        SocketUnsubscribe,
+    } from '~server/data/interfaces';
+
     import recordsBatcher from '~server/services/recordsBatcher';
     // #endregion external
 // #endregion imports
@@ -41,7 +47,7 @@ class WebSocketsMessager extends EventEmitter {
 
 
     private subscribe(
-        data: any,
+        data: SocketSubscribe,
     ) {
         const {
             socketID,
@@ -59,7 +65,7 @@ class WebSocketsMessager extends EventEmitter {
     }
 
     private unsubscribe(
-        data: any,
+        data: SocketUnsubscribe,
     ) {
         const {
             socketID,
@@ -76,7 +82,7 @@ class WebSocketsMessager extends EventEmitter {
     }
 
     private publish(
-        data: any,
+        data: SocketPublish,
     ) {
         const {
             message,
