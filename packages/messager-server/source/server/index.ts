@@ -45,6 +45,7 @@
     import setupHandlers from './handlers';
     import setupWebsockets from './handlers/websockets';
     import messagerMiddleware from './handlers/middleware';
+    import installMessager from './handlers/standalone';
 
     import * as Models from './api/models';
     // #endregion internal
@@ -181,6 +182,7 @@ export * from './data/interfaces';
 
 export {
     messagerMiddleware,
+    installMessager,
 
     messagerSetup,
     Models,
