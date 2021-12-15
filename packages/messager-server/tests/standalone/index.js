@@ -1,16 +1,19 @@
 const express = require('express');
 
 const {
-    messagerMiddleware,
+    installMessager,
 } = require('../../build/index');
 
 
 
-const app = express();
+const main = async () => {
+    const app = express();
 
-messagerMiddleware(app);
+    await installMessager(app);
 
+    app.listen(56866, () => {
+        console.log('Custom server running Messager started at http://localhost:56866');
+    });
+}
 
-app.listen(56866, () => {
-    console.log('Custom server running Messager started at http://localhost:56866');
-});
+main();
