@@ -9,6 +9,9 @@
 
 
 // #region module
+export const MESSAGE_SIZE = process.env.MESSAGER_MESSAGE_SIZE || '50mb';
+
+
 export const DATABASE_TYPE = (process.env.MESSAGER_DATABASE_TYPE as DatabaseType | undefined)
     || 'mongo';
 

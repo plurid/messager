@@ -29,6 +29,7 @@
     } from '~server/data/interfaces';
 
     import {
+        MESSAGE_SIZE,
         HEALTH_CHECK_ENDPOINT,
 
         Headers,
@@ -67,9 +68,9 @@ const setupMiddleware = async (
         /** Deon parsing */
         rawParser({
             type: DEON_MEDIA_TYPE,
-            limit: '100mb',
+            limit: MESSAGE_SIZE,
         }),
-        (request, _, next) => {
+        (request, _response, next) => {
             if (request.header('content-type') === DEON_MEDIA_TYPE) {
                 const deon = new DeonPure();
                 const body = request.body.toString();
@@ -81,21 +82,23 @@ const setupMiddleware = async (
         },
 
         jsonParser({
-            limit: '100mb',
+            limit: MESSAGE_SIZE,
         }),
     );
 
-    instance.use((error: any, _: Request, response: Response, next: NextFunction) => {
-        if (error) {
-            response.status(400).end();
-        } else {
-            next();
-        }
-    });
+    instance.use(
+        (error: any, _request: Request, response: Response, next: NextFunction) => {
+            if (error) {
+                response.status(400).end();
+            } else {
+                next();
+            }
+        },
+    );
 
     instance.post(
         HEALTH_CHECK_ENDPOINT,
-        (request, response, next) => {
+        (_request, response, _next) => {
             response.setHeader(
                 Headers.ContentType,
                 ContentTypes.json,
