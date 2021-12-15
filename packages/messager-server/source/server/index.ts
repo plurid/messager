@@ -44,6 +44,7 @@
 
     import setupHandlers from './handlers';
     import setupWebsockets from './handlers/websockets';
+    import messagerMiddleware from './handlers/middleware';
 
     import * as Models from './api/models';
     // #endregion internal
@@ -179,6 +180,8 @@ if (require.main === module) {
 export * from './data/interfaces';
 
 export {
+    messagerMiddleware,
+
     messagerSetup,
     Models,
 };
