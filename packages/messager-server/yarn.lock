@@ -771,10 +771,10 @@
   resolved "https://registry.yarnpkg.com/@plurid/plurid-themes/-/plurid-themes-0.0.0-1.tgz#a6f6e81d0f3784710a5934bc1b84ba9b91784ae2"
   integrity sha512-iOzdlhTASbhD4VOBajjRz7MUP+TXTxsXT1K6Z2+L3aIN37MSmjlTPFe9mO9UMTuU5C1zmc7FV3latDneJPuIqg==
 
-"@plurid/plurid-ui-components-react@^0.0.0-8":
-  version "0.0.0-8"
-  resolved "https://registry.yarnpkg.com/@plurid/plurid-ui-components-react/-/plurid-ui-components-react-0.0.0-8.tgz#617d3d0ba44dc36ffd9fce13e8c0e8cab8f3ac6c"
-  integrity sha512-frQz08IHUGh1iInHax/6JduXzwTeWymeQWxnPO5CYqY3dbGVt9N/pkq8SERmq5eXt0+5l79SuMo+lMB2CF+Xfw==
+"@plurid/plurid-ui-components-react@^0.0.0-9":
+  version "0.0.0-9"
+  resolved "https://registry.yarnpkg.com/@plurid/plurid-ui-components-react/-/plurid-ui-components-react-0.0.0-9.tgz#9686f12a46e694a9e0d8ff288040f380775f1fe5"
+  integrity sha512-khrdGdUBRnQCXnOW8u7v8Uwfbkya2N0XU3i2k4khgjh+tqobg+3e3BtQPi+XnLelY63U+IlxPHi7TebsivTR+Q==
 
 "@plurid/plurid-ui-state-react@^0.0.0-2":
   version "0.0.0-2"
@@ -1197,10 +1197,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.60.tgz#35f3d6213daed95da7f0f73e75bcc6980e90597b"
   integrity sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==
 
-"@types/node@^16.11.12":
-  version "16.11.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.12.tgz#ac7fb693ac587ee182c3780c26eb65546a1a3c10"
-  integrity sha512-+2Iggwg7PxoO5Kyhvsq9VarmPbIelXP070HMImEpbtGCoyWNINQj4wzjbQCXzdHTRXnqufutJb5KAURZANNBAw==
+"@types/node@^16.11.13":
+  version "16.11.13"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.11.13.tgz#6b71641b81a98c6a538d89892440c06f147edddc"
+  integrity sha512-eUXZzHLHoZqj1frtUetNkUetYoJ6X55UmrVnFD4DMhVeAmwLjniZhtBmsRiemQh4uq4G3vUra/Ws/hs9vEvL3Q==
 
 "@types/nodemailer@^6.4.4":
   version "6.4.4"
