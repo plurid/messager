@@ -1,6 +1,6 @@
 {
     "name": "@plurid/messager-server",
-    "version": "0.0.0-3",
+    "version": "0.0.0-4",
     "description": "Cloud Service for Centralized Message Queuing Server",
     "keywords": [
         "messager",
@@ -39,6 +39,7 @@
         "watch": "node scripts watch",
         "clean": "node scripts clean",
         "clean.tests": "find ./build -type d -name '*__tests__' -exec rm -rf {} +",
+        "clean.types": "find ./build/client -type f -name '*.d.ts' -exec rm -rf {} +",
         "lint": "node scripts lint",
         "test": "node scripts test",
         "containerize.production": "node scripts containerize.production",
@@ -50,8 +51,8 @@
         "build.server.production": "node scripts build.server.production",
         "build.local": "node scripts build.local",
         "build.development": "node scripts build.development",
-        "build.production": "node scripts build.production",
-        "prepublishOnly": "yarn build.production && yarn clean.tests"
+        "build.production": "node scripts build.production && yarn clean.tests && yarn clean.types",
+        "prepublishOnly": "yarn build.production"
     },
     "dependencies": {
         "@apollo/client": "^3.5.6",
