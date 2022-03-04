@@ -93,5 +93,5 @@ const handlePost = async (
 // #region exports
 export default {
     handlePost,
-};
+} as any;
 // #endregion exports
