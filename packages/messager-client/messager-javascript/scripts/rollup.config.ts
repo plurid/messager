@@ -31,6 +31,7 @@ export default {
     ],
     external: [
         '@plurid/deon',
+        '@plurid/deon/distribution/pure',
         '@plurid/plurid-functions',
         'cross-fetch',
         'isomorphic-ws',
