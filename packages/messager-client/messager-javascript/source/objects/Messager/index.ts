@@ -7,12 +7,9 @@
 
     import {
         DeonPure,
-    } from '@plurid/deon/distribution/pure';
-
-    import {
         DEON_MEDIA_TYPE,
         typer,
-    } from '@plurid/deon';
+    } from '@plurid/deon/distribution/pure';
 
     import {
         time,
