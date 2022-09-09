@@ -51,7 +51,7 @@
         "ws": ">=8.2"
     },
     "devDependencies": {
-        "@plurid/deon": "^0.0.0-9",
+        "@plurid/deon": "^0.0.0-10",
         "@plurid/plurid-functions": "0.0.0-30",
         "@plurid/runner": "^0.0.0-9",
         "@rollup/plugin-commonjs": "^22.0.2",

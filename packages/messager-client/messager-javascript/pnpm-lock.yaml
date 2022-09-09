@@ -1,7 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@plurid/deon': ^0.0.0-9
+  '@plurid/deon': ^0.0.0-10
   '@plurid/plurid-functions': 0.0.0-30
   '@plurid/runner': ^0.0.0-9
   '@rollup/plugin-commonjs': ^22.0.2
@@ -30,7 +30,7 @@ specifiers:
   ws: ^8.8.1
 
 devDependencies:
-  '@plurid/deon': 0.0.0-9
+  '@plurid/deon': 0.0.0-10
   '@plurid/plurid-functions': 0.0.0-30
   '@plurid/runner': 0.0.0-9_typescript@4.8.3
   '@rollup/plugin-commonjs': 22.0.2_rollup@2.79.0
@@ -795,8 +795,8 @@ packages:
       fastq: 1.13.0
     dev: true
 
-  /@plurid/deon/0.0.0-9:
-    resolution: {integrity: sha512-5R1Olnb2Cqg+W5t7KxNQ5Te9sDamOZV/F/wfMTEG8K6Ir00penggxrCQlFB1pjQiwFj/fh3AqlSuH09HCQngTg==}
+  /@plurid/deon/0.0.0-10:
+    resolution: {integrity: sha512-LQJT0lbND8dV5MhkgVLulWhLGXISw205I49jFqOp0dvJtpOt4ib5lKgKN7cFXArl2KVIWNd0k/t7bWYfXpNqzQ==}
     engines: {node: '>=12', npm: '>=6'}
     hasBin: true
     dependencies:
