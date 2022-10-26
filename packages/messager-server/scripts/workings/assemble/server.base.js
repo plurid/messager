@@ -1,10 +1,10 @@
-const path = require('path');
+const path = require('node:path');
 
 const postcss = require('rollup-plugin-postcss');
 const url = require('@rollup/plugin-url');
 const json = require('@rollup/plugin-json');
 const typescript = require('rollup-plugin-typescript2');
-const external = require('rollup-plugin-peer-deps-external');
+const external = require('rollup-plugin-node-externals').default;
 const resolve = require('@rollup/plugin-node-resolve').default;
 const commonjs = require('@rollup/plugin-commonjs');
 const sourceMaps = require('rollup-plugin-sourcemaps');
@@ -19,6 +19,11 @@ const {
     isProduction,
 } = require ('./shared');
 
+const {
+    resolvedESModules: esModules,
+    resolvedExternals: externals,
+} = require('../logic');
+
 
 
 const input = 'source/server/index.ts';
@@ -28,6 +33,7 @@ const output = [
         file: `./${BUILD_DIRECTORY}/index.js`,
         format: 'cjs',
         exports: 'named',
+        interop: 'auto',
     },
 ];
 
@@ -62,7 +68,7 @@ const plugins = {
         ],
     }),
     external: () => external({
-        includeDependencies: true,
+        exclude: esModules,
     }),
     resolve: () => resolve({
         preferBuiltins: true,
@@ -77,8 +83,10 @@ const plugins = {
 };
 
 
+
 module.exports = {
     input,
     output,
+    external: externals,
     plugins,
 };

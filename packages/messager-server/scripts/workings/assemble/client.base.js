@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('node:path');
 
 const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
@@ -18,8 +18,8 @@ const {
 
 
 /** CONSTANTS */
-const entryIndex = path.resolve(__dirname, '../../source/client/index.tsx');
-const outputPath = path.resolve(__dirname, `../../${BUILD_DIRECTORY}/client`);
+const entryIndex = path.resolve(__dirname, '../../../source/client/index.tsx');
+const outputPath = path.resolve(__dirname, `../../../${BUILD_DIRECTORY}/client`);
 
 const styledComponentsTransformer = createStyledComponentsTransformer({
     ssr: true,
@@ -31,7 +31,7 @@ const styledComponentsTransformer = createStyledComponentsTransformer({
 const copyPlugin = new CopyPlugin({
     patterns: [
         {
-            from: path.resolve(__dirname, '../../source/public'),
+            from: path.resolve(__dirname, '../../../source/public'),
             to: './',
         },
     ],
@@ -53,9 +53,7 @@ const compressionPluginGzip = new CompressionPlugin({
 
 const processEnvironmentPlugin = new webpack.DefinePlugin({
     'process.env.ENV_MODE': JSON.stringify(process.env.ENV_MODE),
-    'process.env.SC_DISABLE_SPEEDY': true, /** HACK: styled components not rendering in production */
-
-    'process.env.MESSAGER_ENDPOINT_GRAPHQL': JSON.stringify(process.env.MESSAGER_ENDPOINT_GRAPHQL),
+    'process.env.SC_DISABLE_SPEEDY': JSON.stringify(true), /** HACK: styled components not rendering in production */
 });
 
 
@@ -83,6 +81,7 @@ const fileRule = {
     type: 'asset/resource',
     generator: {
         filename: `${ASSETS_DIRECTORY}/[name][ext]`,
+        publicPath: '/',
     },
 };
 
@@ -94,7 +93,7 @@ const tsRule = {
         {
             loader: 'ts-loader',
             options: {
-                configFile: path.resolve(__dirname, '../../tsconfig.json'),
+                configFile: path.resolve(__dirname, '../../../tsconfig.json'),
                 getCustomTransformers: () => ({
                     before: [styledComponentsTransformer]
                 }),
@@ -128,13 +127,9 @@ const baseConfig = {
 
         plugins: [
             new TsconfigPathsPlugin({
-                configFile: path.resolve(__dirname, '../../tsconfig.json'),
+                configFile: path.resolve(__dirname, '../../../tsconfig.json'),
             }),
         ],
-
-        alias: {
-            crypto: false,
-        },
     },
 
     stats: {
