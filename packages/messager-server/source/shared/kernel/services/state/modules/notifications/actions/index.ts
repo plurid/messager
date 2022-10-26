@@ -9,7 +9,7 @@
 
 
 // #region module
-const actions = {
+const actions: typeof notifications.actions = {
     ...notifications.actions,
 };
 // #endregion module
