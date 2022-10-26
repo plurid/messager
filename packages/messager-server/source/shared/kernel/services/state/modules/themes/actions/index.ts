@@ -9,7 +9,7 @@
 
 
 // #region module
-const actions = {
+const actions: typeof themes.actions = {
     ...themes.actions,
 };
 // #endregion module
