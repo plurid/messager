@@ -120,6 +120,7 @@ const options: PluridServerPartialOptions = {
         EVENT_PATH,
         SOCKET_PATH,
     ],
+    hostname: 'localhost:56865',
 };
 
 const template: PluridServerTemplateConfiguration = {
