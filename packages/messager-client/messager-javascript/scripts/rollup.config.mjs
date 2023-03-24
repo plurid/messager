@@ -3,12 +3,13 @@
     import ttypescript from 'ttypescript';
     import resolve from '@rollup/plugin-node-resolve';
     import commonjs from '@rollup/plugin-commonjs';
-    import typescript from 'rollup-plugin-typescript2';
-    import { terser } from 'rollup-plugin-terser';
+    import typescript from '@rollup/plugin-typescript';
+    import terser from '@rollup/plugin-terser';
     // #endregion libraries
 
+
     // #region external
-    import pkg from '../package.json';
+    import pkg from '../package.json' assert { type: 'json' };
     // #endregion external
 // #endregion imports
 
