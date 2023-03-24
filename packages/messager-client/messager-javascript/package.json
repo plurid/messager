@@ -1,6 +1,6 @@
 {
     "name": "@plurid/messager",
-    "version": "0.0.0-3",
+    "version": "0.0.0-4",
     "description": "Cloud Service Client for Centralized Message Queuing",
     "keywords": [
         "messager",
@@ -22,8 +22,8 @@
         "access": "public"
     },
     "engines": {
-        "node": ">=12",
-        "npm": ">=6"
+        "node": ">=18",
+        "npm": ">=8"
     },
     "main": "distribution/index.js",
     "module": "distribution/index.es.js",
