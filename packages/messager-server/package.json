@@ -70,6 +70,7 @@
         "@plurid/plurid-themes": "^0.0.0-2",
         "@plurid/plurid-ui-components-react": "^0.0.0-22",
         "@plurid/plurid-ui-state-react": "^0.0.0-10",
+        "@reduxjs/toolkit": "^1.9.3",
         "@rollup/plugin-terser": "^0.4.0",
         "apollo-server-express": "^3.11.1",
         "body-parser": "^1.20.2",
