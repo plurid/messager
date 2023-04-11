@@ -72,7 +72,7 @@ export const generalSelectorsIcons = {
     // projects: PluridIconApps,
     // spaces: PluridIconFrame,
     records: PluridIconInfo,
-};
+} as const;
 
 
 export const renderSelectedView = (
@@ -146,10 +146,11 @@ export const renderGeneralView = (
     ) => dispatch(
         actions.view.setEditID(payload),
     );
-    const dispatchAddNotification: typeof notifications.actions.addNotification = (
-        payload,
+    // const dispatchAddNotification: typeof notifications.actions.add = (
+    const dispatchAddNotification: any = (
+        payload: any,
     ) => dispatch(
-        notifications.actions.addNotification(payload),
+        notifications.actions.add(payload),
     );
 
 
@@ -197,7 +198,7 @@ export const renderGeneralView = (
 
                         <ul>
                             {generalSelectors.map(selector => {
-                                const Icon = generalSelectorsIcons[selector];
+                                const Icon = (generalSelectorsIcons as any)[selector];
 
                                 return (
                                     <StyledGeneralSelectorItem

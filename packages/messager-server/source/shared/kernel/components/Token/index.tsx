@@ -83,7 +83,7 @@ export interface TokenProperties {
         getByID?: (
             id: string,
         ) => Promise<ClientToken | undefined>;
-        addNotification?: typeof notifications.actions.addNotification;
+        addNotification?: typeof notifications.actions.add;
         // #endregion methods
     // #endregion optional
 }

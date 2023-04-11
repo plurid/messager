@@ -241,7 +241,7 @@ const RecordsPieChart: React.FC<RecordsPieChartProperties> = (
                             return (
                                 <Cell
                                     key={`cell-${index}`}
-                                    fill={colors[entry.name]}
+                                    fill={(colors as any)[entry.name]}
                                 />
                             );
                         })
