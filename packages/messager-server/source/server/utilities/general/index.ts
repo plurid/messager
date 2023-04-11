@@ -19,12 +19,12 @@ export const compareValues = <T>(
             return 0;
         }
 
-        const varA = (typeof a[key] === 'string')
-            ? a[key].toUpperCase()
-            : a[key];
-        const varB = (typeof b[key] === 'string')
-            ? b[key].toUpperCase()
-            : b[key];
+        const varA = (typeof (a as any)[key] === 'string')
+            ? (a as any)[key].toUpperCase()
+            : (a as any)[key];
+        const varB = (typeof (b as any)[key] === 'string')
+            ? (b as any)[key].toUpperCase()
+            : (b as any)[key];
 
         let comparison = 0;
         if (varA > varB) {
@@ -47,7 +47,7 @@ export const removeDuplicates = <T>(
     key: string,
 ) => {
     return data.filter(
-        (obj, pos, arr) => arr.map(mapObj => mapObj[key]).indexOf(obj[key]) === pos
+        (obj, pos, arr) => arr.map(mapObj => (mapObj as any)[key]).indexOf((obj as any)[key]) === pos
     );
 }
 // #endregion module

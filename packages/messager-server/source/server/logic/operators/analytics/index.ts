@@ -40,7 +40,7 @@ const resolvePeriod = (
 const resolveLevel = (
     kind: string,
 ): number => {
-    return logLevels[kind] || logLevels.info;
+    return (logLevels as any)[kind] || logLevels.info;
 }
 
 const getRecordCount = async (

@@ -48,10 +48,11 @@
 
 // #region module
 export interface ShellOwnProperties {
+    children: React.ReactNode;
 }
 
 export interface ShellStateProperties {
-    stateNotifications: notifications.Types.Notification[];
+    stateNotifications: notifications.NotificationsState;
     stateGeneralTheme: Theme;
 }
 

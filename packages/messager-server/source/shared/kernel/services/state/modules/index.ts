@@ -1,7 +1,5 @@
 // #region imports
     // #region internal
-    import 'immer';
-
     import * as data from './data';
     import * as notifications from './notifications';
     import * as themes from './themes';
