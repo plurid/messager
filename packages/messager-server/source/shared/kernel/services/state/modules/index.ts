@@ -1,5 +1,7 @@
 // #region imports
     // #region internal
+    import 'immer';
+
     import * as data from './data';
     import * as notifications from './notifications';
     import * as themes from './themes';
@@ -9,11 +11,17 @@
 
 
 
-// #region exports
-export default {
+// #region module
+const modules = {
     data,
     notifications,
     themes,
     view,
 };
+// #endregion module
+
+
+
+// #region exports
+export default modules;
 // #endregion exports

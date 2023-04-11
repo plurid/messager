@@ -7,7 +7,12 @@
 
 
 // #region module
-const actions = {
+const actions: {
+    data: typeof modules.data.actions;
+    notifications: typeof modules.notifications.actions;
+    view: typeof modules.view.actions;
+    themes: typeof modules.themes.actions;
+} = {
     data: modules.data.actions,
     notifications: modules.notifications.actions,
     view: modules.view.actions,
