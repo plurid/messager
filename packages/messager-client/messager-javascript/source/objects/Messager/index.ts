@@ -539,6 +539,8 @@ class Messager {
     ) {
         try {
             if (!this.connectionResolved()) {
+                this.logError(`publish · ${ERROR_MESSAGE.WRONG}`, 'connectionResolved failed');
+
                 this.queue.push({
                     type: QUEUE_TYPE.PUBLISH,
                     topic,
