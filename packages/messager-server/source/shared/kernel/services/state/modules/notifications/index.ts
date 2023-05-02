@@ -1,10 +1,25 @@
 // #region imports
-    // #region internal
-    import actions from './actions';
-    import reducer from './reducer';
-    import selectors from './selectors';
-    // #endregion internal
+    // #region libraries
+    import {
+        notifications,
+    } from '@plurid/plurid-ui-state-react';
+    // #endregion libraries
 // #endregion imports
+
+
+
+// #region module
+const slice = notifications.factory();
+
+const {
+    actions,
+    reducer,
+} = slice;
+
+const {
+    selectors,
+} = notifications;
+// #endregion module
 
 
 
