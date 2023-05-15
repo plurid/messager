@@ -68,6 +68,9 @@ const watchMode = process.env.PLURID_WATCH_MODE === 'true';
 const isProduction = process.env.ENV_MODE === 'production';
 const buildDirectory = __dirname;
 
+const port = process.env.PORT || 56865;
+const hostname = process.env.MESSAGER_HOSTNAME || `localhost:${port}`;
+
 const applicationRoot = APPLICATION_ROOT;
 const openAtStart = watchMode
     ? false
@@ -120,7 +123,7 @@ const options: PluridServerPartialOptions = {
         EVENT_PATH,
         SOCKET_PATH,
     ],
-    hostname: 'localhost:56865',
+    hostname,
 };
 
 const template: PluridServerTemplateConfiguration = {
