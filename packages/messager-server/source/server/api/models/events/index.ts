@@ -78,7 +78,12 @@ const handlePost = async (
             token,
         } = request.query;
 
-        const ownerID = await getMessagerIDWithToken(token as string | undefined);
+        const authenticationMarkers = getAuthenticationMarkers(request);
+
+        const ownerID = await getMessagerIDWithToken(
+            token as string | undefined,
+            authenticationMarkers,
+        );
         if (!ownerID) {
             response.status(403).end();
             return;
