@@ -23,22 +23,29 @@ runner(
         const topic = 'some.topic';
 
         await delay(1000);
-        await new Promise((resolve) => {
-            // console.log('initialized');
 
-            messager.subscribe(topic, (data) => {
-                // console.log(data);
-                check('works', data.value, true);
-
-                messager.close();
-
-                resolve(true);
-            });
-
-            messager.publish(
-                topic,
-                { value: true },
-            );
+        console.log('subscribe');
+        messager.subscribe(topic, (data) => {
+            // console.log(data);
+            check('works', data.value, true);
         });
+        await delay(1000);
+
+        console.log('publish 1');
+        messager.publish(
+            topic,
+            { value: true },
+        );
+
+        await delay(10_000);
+
+        console.log('publish 2');
+        messager.publish(
+            topic,
+            { value: true },
+        );
+
+        await delay(1000);
+        messager.close();
     },
 );
