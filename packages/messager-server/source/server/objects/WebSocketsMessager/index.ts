@@ -39,9 +39,10 @@
 // #region module
 class WebSocketsMessager extends EventEmitter {
     private sockets: Record<string, WebSocket | undefined> = {};
-    private subscribers: Record<string, string[] | undefined> = {};
+    private status: Record<string, boolean> = {};
     private ownings: Record<string, string> = {};
     private intervals: Record<string, NodeJS.Timeout> = {};
+    private subscribers: Record<string, string[] | undefined> = {};
 
 
     constructor() {
@@ -100,28 +101,30 @@ class WebSocketsMessager extends EventEmitter {
         if (this.subscribers[topic]) {
             for (const socketID of this.subscribers[topic] as string[]) {
                 const socket = this.sockets[socketID];
-                if (socket) {
-                    const owner = this.ownings[socketID];
-
-                    recordsBatcher.push({
-                        id: uuid.multiple(3),
-                        ownedBy: owner,
-                        happenedAt: Date.now(),
-                        kind: 'socket',
-                        socketID,
-                        data: {
-                            ...message,
-                        },
-                    });
-
-                    const deon = new DeonPure();
-                    const socketData = deon.stringify({
-                        topic,
-                        data: message.data,
-                    });
-
-                    socket.send(socketData);
+                if (!socket || socket.readyState !== WebSocket.OPEN) {
+                    continue;
                 }
+
+                const owner = this.ownings[socketID];
+
+                recordsBatcher.push({
+                    id: uuid.multiple(3),
+                    ownedBy: owner,
+                    happenedAt: Date.now(),
+                    kind: 'socket',
+                    socketID,
+                    data: {
+                        ...message,
+                    },
+                });
+
+                const deon = new DeonPure();
+                const socketData = deon.stringify({
+                    topic,
+                    data: message.data,
+                });
+
+                socket.send(socketData);
             }
         }
     }
@@ -161,16 +164,28 @@ class WebSocketsMessager extends EventEmitter {
         socket: WebSocket,
     ) {
         this.sockets[socketID] = socket;
+        this.status[socketID] = true;
         this.ownings[socketID] = ownerID;
         this.intervals[socketID] = setInterval(() => {
-            socket.ping();
+            if (!this.sockets[socketID] || this.sockets[socketID]!.readyState !== WebSocket.OPEN) {
+                clearInterval(this.intervals[socketID]);
+                return;
+            }
+
+            this.status[socketID] = false;
+            this.sockets[socketID]!.ping();
         }, PING_INTERVAL);
+
+        this.sockets[socketID]!.on('pong', () => {
+            this.status[socketID] = true;
+        });
     }
 
     public deregister(
         socketID: string,
     ) {
         delete this.sockets[socketID];
+        delete this.status[socketID];
         delete this.ownings[socketID];
         clearInterval(this.intervals[socketID]);
     }
