@@ -1,6 +1,6 @@
 {
     "name": "@plurid/messager-server",
-    "version": "0.0.0-9",
+    "version": "0.0.0-10",
     "description": "Cloud Service for Centralized Message Queuing Server",
     "keywords": [
         "messager",
