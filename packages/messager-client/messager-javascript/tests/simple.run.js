@@ -4,6 +4,9 @@ const Messager = require('../distribution').default;
 
 
 
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+
 runner(
     async (
         check,
@@ -17,9 +20,13 @@ runner(
                 secure: false,
             },
         );
+        const topic = 'some.topic';
 
+        await delay(1000);
         await new Promise((resolve) => {
-            messager.subscribe('some.topic', (data) => {
+            // console.log('initialized');
+
+            messager.subscribe(topic, (data) => {
                 // console.log(data);
                 check('works', data.value, true);
 
@@ -29,7 +36,7 @@ runner(
             });
 
             messager.publish(
-                'some.topic',
+                topic,
                 { value: true },
             );
         });
