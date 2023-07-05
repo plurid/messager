@@ -26,6 +26,10 @@
         SocketUnsubscribe,
     } from '~server/data/interfaces';
 
+    import {
+        PING_INTERVAL,
+    } from '~server/data/constants';
+
     import recordsBatcher from '~server/services/recordsBatcher';
     // #endregion external
 // #endregion imports
@@ -37,6 +41,7 @@ class WebSocketsMessager extends EventEmitter {
     private sockets: Record<string, WebSocket | undefined> = {};
     private subscribers: Record<string, string[] | undefined> = {};
     private ownings: Record<string, string> = {};
+    private intervals: Record<string, NodeJS.Timeout> = {};
 
 
     constructor() {
@@ -156,14 +161,18 @@ class WebSocketsMessager extends EventEmitter {
         socket: WebSocket,
     ) {
         this.sockets[socketID] = socket;
-
         this.ownings[socketID] = ownerID;
+        this.intervals[socketID] = setInterval(() => {
+            socket.ping();
+        }, PING_INTERVAL);
     }
 
     public deregister(
         socketID: string,
     ) {
         delete this.sockets[socketID];
+        delete this.ownings[socketID];
+        clearInterval(this.intervals[socketID]);
     }
 }
 // #endregion module
