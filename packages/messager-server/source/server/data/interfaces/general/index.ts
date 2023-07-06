@@ -52,6 +52,7 @@ export interface Record {
     kind: string;
     sseID?: string;
     socketID?: string;
+    subscriberCount?: number;
     data: {
         type: string;
         topic?: string;

@@ -107,6 +107,7 @@ class WebSocketsMessager extends EventEmitter {
 
         const subscribers = this.subscribers[topic];
         if (!subscribers || subscribers.length === 0) {
+            this.record(0, message);
             return;
         }
 
@@ -125,12 +126,20 @@ class WebSocketsMessager extends EventEmitter {
             socket.send(socketData);
         }
 
+        this.record(subscribers.length, message);
+    }
+
+    private record(
+        subscriberCount: number,
+        message: any,
+    ) {
         recordsBatcher.push({
             id: uuid.multiple(3),
             ownedBy: this.owner,
             happenedAt: Date.now(),
             kind: 'socket',
             socketID: this.publisherSocket,
+            subscriberCount,
             data: {
                 ...message,
             },
