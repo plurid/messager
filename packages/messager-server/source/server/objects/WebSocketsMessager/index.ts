@@ -38,6 +38,9 @@
 
 // #region module
 class WebSocketsMessager extends EventEmitter {
+    private owner: string;
+    private publisherSocket: string = '';
+
     private sockets: Record<string, WebSocket | undefined> = {};
     private status: Record<string, boolean> = {};
     private ownings: Record<string, string> = {};
@@ -45,8 +48,12 @@ class WebSocketsMessager extends EventEmitter {
     private subscribers: Record<string, string[] | undefined> = {};
 
 
-    constructor() {
+    constructor(
+        owner: string,
+    ) {
         super();
+
+        this.owner = owner;
 
         this.setup();
     }
@@ -98,35 +105,36 @@ class WebSocketsMessager extends EventEmitter {
             topic,
         } = message;
 
-        if (this.subscribers[topic]) {
-            for (const socketID of this.subscribers[topic] as string[]) {
-                const socket = this.sockets[socketID];
-                if (!socket || socket.readyState !== WebSocket.OPEN) {
-                    continue;
-                }
-
-                const owner = this.ownings[socketID];
-
-                recordsBatcher.push({
-                    id: uuid.multiple(3),
-                    ownedBy: owner,
-                    happenedAt: Date.now(),
-                    kind: 'socket',
-                    socketID,
-                    data: {
-                        ...message,
-                    },
-                });
-
-                const deon = new DeonPure();
-                const socketData = deon.stringify({
-                    topic,
-                    data: message.data,
-                });
-
-                socket.send(socketData);
-            }
+        const subscribers = this.subscribers[topic];
+        if (!subscribers || subscribers.length === 0) {
+            return;
         }
+
+        for (const socketID of subscribers) {
+            const socket = this.sockets[socketID];
+            if (!socket || socket.readyState !== WebSocket.OPEN) {
+                continue;
+            }
+
+            const deon = new DeonPure();
+            const socketData = deon.stringify({
+                topic,
+                data: message.data,
+            });
+
+            socket.send(socketData);
+        }
+
+        recordsBatcher.push({
+            id: uuid.multiple(3),
+            ownedBy: this.owner,
+            happenedAt: Date.now(),
+            kind: 'socket',
+            socketID: this.publisherSocket,
+            data: {
+                ...message,
+            },
+        });
     }
 
     private setup() {
@@ -163,6 +171,7 @@ class WebSocketsMessager extends EventEmitter {
         ownerID: string,
         socket: WebSocket,
     ) {
+        this.publisherSocket = socketID;
         this.sockets[socketID] = socket;
         this.status[socketID] = true;
         this.ownings[socketID] = ownerID;

@@ -18,7 +18,7 @@ class WebSocketsManager {
             return this.messagers[id] as WebSocketsMessager;
         }
 
-        const webSocketsMessager = new WebSocketsMessager();
+        const webSocketsMessager = new WebSocketsMessager(id);
         this.messagers[id] = webSocketsMessager;
 
         return this.messagers[id] as WebSocketsMessager;
