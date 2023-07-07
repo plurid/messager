@@ -49,8 +49,8 @@
         "build.server.production": "node scripts build.server.production",
         "build.local": "node scripts build.local",
         "build.development": "node scripts build.development",
-        "build.production": "node scripts build.production && pnpm clean.tests && pnpm clean.types",
-        "prepublishOnly": "pnpm build.production && pnpm clean.tests"
+        "build.production": "node scripts build.production && npm run clean.tests && npm run clean.types",
+        "prepublishOnly": "npm run build.production && npm run clean.tests"
     },
     "dependencies": {
         "@apollo/client": "^3.7.16",
