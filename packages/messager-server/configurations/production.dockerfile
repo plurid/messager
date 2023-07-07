@@ -1,4 +1,4 @@
-FROM node:14-alpine AS builder
+FROM node:18.16.1-alpine AS builder
 
 
 WORKDIR /app
@@ -30,7 +30,7 @@ RUN yarn build.production
 
 
 
-FROM node:14-alpine
+FROM node:18.16.1-alpine
 
 
 ARG PORT=56965
