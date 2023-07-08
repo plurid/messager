@@ -51,6 +51,7 @@ const setupWebsockets = (
     const websocketServer = new WebSocket.Server({
         noServer: true,
         path: SOCKET_PATH,
+        perMessageDeflate: false,
     });
 
     server.on('upgrade', (request, socket, head) => {
